@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: spring-boot-unified-exception-handing
+  messages:
+    basename: i18n/messages
+    encoding: UTF-8
