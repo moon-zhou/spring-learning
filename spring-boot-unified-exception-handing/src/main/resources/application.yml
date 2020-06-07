@@ -7,7 +7,7 @@ spring:
 #      charset: UTF-8
 #      enabled: true
   messages:
-    basename: i18n/messages
+    basename: i18n/messages,i18n/error/errorinfo
     encoding: UTF-8
 
 #server:
