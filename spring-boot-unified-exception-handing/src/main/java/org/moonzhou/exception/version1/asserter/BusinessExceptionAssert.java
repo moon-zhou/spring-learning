@@ -1,7 +1,7 @@
-package org.moonzhou.exception.asserter;
+package org.moonzhou.exception.version1.asserter;
 
-import org.moonzhou.exception.customedexception.BaseException;
-import org.moonzhou.exception.customedexception.BusinessException;
+import org.moonzhou.exception.version1.customedexception.BaseException;
+import org.moonzhou.exception.version1.customedexception.BusinessException;
 
 import java.text.MessageFormat;
 

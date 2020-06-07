@@ -2,8 +2,8 @@ package org.moonzhou.exception.handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.moonzhou.constant.ErrorCodeEnum;
-import org.moonzhou.exception.customedexception.BaseException;
-import org.moonzhou.exception.customedexception.BusinessException;
+import org.moonzhou.exception.version1.customedexception.BaseException;
+import org.moonzhou.exception.version1.customedexception.BusinessException;
 import org.moonzhou.i18n.I18nService;
 import org.moonzhou.result.BaseResult;
 import org.springframework.beans.ConversionNotSupportedException;

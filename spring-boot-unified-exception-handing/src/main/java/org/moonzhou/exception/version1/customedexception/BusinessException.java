@@ -1,6 +1,6 @@
-package org.moonzhou.exception.customedexception;
+package org.moonzhou.exception.version1.customedexception;
 
-import org.moonzhou.exception.asserter.IResponseEnum;
+import org.moonzhou.exception.version1.asserter.IResponseEnum;
 
 /**
  * <p>业务异常</p>

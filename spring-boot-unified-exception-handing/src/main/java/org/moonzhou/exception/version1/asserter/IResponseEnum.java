@@ -1,4 +1,4 @@
-package org.moonzhou.exception.asserter;
+package org.moonzhou.exception.version1.asserter;
 
 public interface IResponseEnum {
     int getCode();

@@ -1,7 +1,7 @@
-package org.moonzhou.exception.asserter;
+package org.moonzhou.exception.version1.asserter;
 
 import org.apache.commons.lang3.StringUtils;
-import org.moonzhou.exception.customedexception.BaseException;
+import org.moonzhou.exception.version1.customedexception.BaseException;
 
 /**
  * @author moon-zhou <ayimin1989@163.com>

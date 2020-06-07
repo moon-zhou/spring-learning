@@ -2,7 +2,7 @@ package org.moonzhou.web;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.moonzhou.exception.asserter.ResponseEnum;
+import org.moonzhou.exception.version1.asserter.ResponseEnum;
 import org.moonzhou.i18n.I18nAnnotationService;
 import org.moonzhou.i18n.I18nService;
 import org.moonzhou.service.ITestService;

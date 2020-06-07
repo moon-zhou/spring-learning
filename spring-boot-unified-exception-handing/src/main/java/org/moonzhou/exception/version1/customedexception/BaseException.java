@@ -1,9 +1,9 @@
-package org.moonzhou.exception.customedexception;
+package org.moonzhou.exception.version1.customedexception;
 
 import cn.hutool.core.util.ArrayUtil;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.moonzhou.exception.asserter.IResponseEnum;
+import org.moonzhou.exception.version1.asserter.IResponseEnum;
 
 /**
  * @author moon-zhou <ayimin1989@163.com>
