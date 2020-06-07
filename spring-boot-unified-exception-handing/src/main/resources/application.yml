@@ -1,6 +1,15 @@
 spring:
   application:
     name: spring-boot-unified-exception-handing
+#  http:
+#    encoding:
+#      force: true
+#      charset: UTF-8
+#      enabled: true
   messages:
     basename: i18n/messages
     encoding: UTF-8
+
+#server:
+#  tomcat:
+#    uri-encoding: UTF-8

@@ -57,7 +57,7 @@ public class GlobalExceptionHandler {
      */
     public String getMessage(BaseException e) {
         String code = "response." + e.getResponseEnum().toString();
-        String message = i18nService.getMessage(code, e.getArgs());
+        String message = i18nService.getMessageDefault(code, e.getArgs());
 
         if (message == null || message.isEmpty()) {
             return e.getMessage();
@@ -93,26 +93,6 @@ public class GlobalExceptionHandler {
 
         return new BaseResult(e.getResponseEnum().getCode(), getMessage(e));
     }
-
-
-    /**
-     * 处理空指针异常，<b>且不论ExceptionHandler的顺序是啥，但凡是空指针，都进这个处理，不走Exception的</b>
-     *
-     * @param response
-     * @param ex
-     * @return
-     */
-    @ResponseBody
-    @ExceptionHandler(NullPointerException.class)
-    public BaseResult globalNPEHandle(HttpServletRequest request, HttpServletResponse response, NullPointerException ex) {
-
-        log.info("globalNPEHandle...");
-        log.info("错误代码：" + response.getStatus());
-        BaseResult result = new BaseResult(ErrorCodeEnum.SYSTEM_ERROR, "request error:" + response.getStatus(),
-                "globalNPEHandle:" + ex.getMessage());
-        return result;
-    }
-
 
     /**
      * Controller上一层相关异常
@@ -211,6 +191,24 @@ public class GlobalExceptionHandler {
     }
 
 
+    /**
+     * 处理空指针异常，<b>且不论ExceptionHandler的顺序是啥，但凡是空指针，都进这个处理，不走Exception的</b>
+     *
+     * @param response
+     * @param ex
+     * @return
+     */
+    @ResponseBody
+    @ExceptionHandler(NullPointerException.class)
+    public BaseResult globalNPEHandle(HttpServletRequest request, HttpServletResponse response, NullPointerException ex) {
+
+        log.info("globalNPEHandle...");
+        log.info("错误代码：" + response.getStatus());
+        log.error("NullPointerException: ", ex);
+        BaseResult result = new BaseResult(ErrorCodeEnum.SYSTEM_ERROR, "request error:" + response.getStatus(),
+                "globalNPEHandle:" + ex.getMessage());
+        return result;
+    }
 
     /**
      * 全局异常，刨除明确处理的异常，其他异常都走这里
