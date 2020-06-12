@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: spring-boot-request-param-mapping
+server:
+  port: 80
