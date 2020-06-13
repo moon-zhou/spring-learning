@@ -17,11 +17,11 @@ import java.util.Date;
  */
 @Slf4j
 @RestController
-@RequestMapping("/testParam")
-public class TestController {
+@RequestMapping("/testPathVariableParam")
+public class TestPathVariableController {
 
     /**
-     * http://localhost/testParam/index
+     * http://localhost/testPathVariableParam/index
      *
      * @return
      */
@@ -31,7 +31,7 @@ public class TestController {
     }
 
     /**
-     * http://localhost/testParam/testPathParam/moonzhou
+     * http://localhost/testPathVariableParam/testPathParam/moonzhou
      *
      * @param userName
      * @return
@@ -47,9 +47,9 @@ public class TestController {
     }
 
     /**
-     * http://localhost/testParam/testPathMultiParam/moonzhou/18
+     * http://localhost/testPathVariableParam/testPathMultiParam/moonzhou/18/1
      *
-     * 暂时无法映射boolean和data
+     * 暂时无法映射boolean和date
      *
      * @param userName
      * @return
@@ -67,4 +67,6 @@ public class TestController {
 
         return testDto;
     }
+
+
 }
