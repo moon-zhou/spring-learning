@@ -2,6 +2,7 @@ package org.moonzhou.web;
 
 import lombok.extern.slf4j.Slf4j;
 import org.moonzhou.dto.TestDto;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -9,6 +10,12 @@ import java.util.Date;
 /**
  * 测试参数映射<br>
  * TODO: https://juejin.im/post/5cbf11bd6fb9a0320c5ab128
+ *
+ * 1. 参数必须是restful格式，作为请求的一部分
+ * 2. 不显示映射名称时，直接使用注解修饰的形参进行映射
+ * 3. 不显示设置修饰的字段的必要性时，默认必传
+ * 4. Data类型需要DateTimeFormat
+ * 5. 正常映射boolean
  *
  * @author moon-zhou
  * @date 2020/6/12 17:44
@@ -49,21 +56,20 @@ public class TestPathVariableController {
     /**
      * http://localhost/testPathVariableParam/testPathMultiParam/moonzhou/18/1
      *
-     * 暂时无法映射boolean和date
-     *
      * @param userName
      * @return
      */
-    @RequestMapping("/testPathMultiParam/{userName}/{age}/{id}")
+    @RequestMapping("/testPathMultiParam/{userName}/{age}/{id}/{birthday}/{handSome}")
     public TestDto testPathMultiParam(@PathVariable(name = "userName") String userName, @PathVariable(name = "age") int age,
-                                      @PathVariable(name = "id") long id) {
+                                      @PathVariable(name = "id") long id, @PathVariable @DateTimeFormat(pattern="yyyy-MM-dd") Date birthday,
+                                      @PathVariable boolean handSome) {
 
         TestDto testDto = new TestDto();
         testDto.setUserName(userName);
         testDto.setAge(age);
         testDto.setId(id);
-//        testDto.setBirthday(birthday);
-        testDto.setHandSome(true);
+        testDto.setBirthday(birthday);
+        testDto.setHandSome(handSome);
 
         return testDto;
     }
