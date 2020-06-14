@@ -193,4 +193,24 @@ public class TestController {
         return testService.getTestMap();
     }
 
+    /**
+     * 抛异常：
+     * http://localhost:8080/test/testAssert03Exception/0
+     * <p>
+     * 正常请求：
+     * http://localhost:8080/test/testAssert03Exception/1
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping("testAssert03Exception/{id}")
+    Map<String, Object> testAssert03Exception(@PathVariable("id") String id) {
+
+        if (StringUtils.equals("0", id)) {
+            id = "";
+        }
+        org.moonzhou.exception.version3.AssertUtils.notBlank(id, ErrorCodeEnum.USER_ID_ILLEGAL);
+
+        return testService.getTestMap();
+    }
 }

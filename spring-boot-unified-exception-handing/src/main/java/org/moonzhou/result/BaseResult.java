@@ -43,4 +43,9 @@ public class BaseResult<T> {
         this.responseCode = String.valueOf(code);
         this.responseMessage = message;
     }
+
+    public BaseResult(String responseCode, String responseMessage) {
+        this.responseCode = responseCode;
+        this.responseMessage = responseMessage;
+    }
 }

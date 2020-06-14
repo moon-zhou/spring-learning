@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.moonzhou.constant.ErrorCodeEnum;
 import org.moonzhou.exception.version1.customedexception.BaseException;
 import org.moonzhou.exception.version1.customedexception.BusinessException;
+import org.moonzhou.exception.version2.AppException;
 import org.moonzhou.i18n.I18nService;
 import org.moonzhou.result.BaseResult;
 import org.springframework.beans.ConversionNotSupportedException;
@@ -58,6 +59,16 @@ public class GlobalExceptionHandler {
     public String getMessage(BaseException e) {
         String code = "response." + e.getResponseEnum().toString();
         String message = i18nService.getMessageDefault(code, e.getArgs());
+
+        if (message == null || message.isEmpty()) {
+            return e.getMessage();
+        }
+
+        return message;
+    }
+
+    public String getMessage(org.moonzhou.exception.version3.AppException e) {
+        String message = i18nService.getMessageDefault(e.getCode());
 
         if (message == null || message.isEmpty()) {
             return e.getMessage();
@@ -188,6 +199,33 @@ public class GlobalExceptionHandler {
 
 //        return new BaseResult(ArgumentResponseEnum.VALID_ERROR.getCode(), msg.substring(2));
         return new BaseResult(ErrorCodeEnum.SYSTEM_ERROR, msg.substring(2));
+    }
+
+    /**
+     * 业务异常：第二个版本
+     *
+     * @param e 异常
+     * @return 异常结果
+     */
+    @ExceptionHandler(value = AppException.class)
+    @ResponseBody
+    public BaseResult handleAppException(AppException e) {
+        log.error(e.getMessage(), e);
+
+        return new BaseResult(ErrorCodeEnum.SYSTEM_ERROR, e.getMessage() + "版本二异常");
+    }
+
+    /**
+     * 业务异常：第三个版本
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(value = org.moonzhou.exception.version3.AppException.class)
+    @ResponseBody
+    public BaseResult handleAppException(org.moonzhou.exception.version3.AppException e) {
+        log.error(e.getMessage(), e);
+
+        return new BaseResult(e.getCode(), getMessage(e) + "版本三异常");
     }
 
 
