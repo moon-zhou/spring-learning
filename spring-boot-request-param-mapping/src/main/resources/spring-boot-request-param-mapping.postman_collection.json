@@ -1,0 +1,690 @@
+{
+	"info": {
+		"_postman_id": "5ce0d915-49b4-4cf5-93aa-e833427c6dee",
+		"name": "spring-boot-request-param-mapping",
+		"description": "springboot里测试controller参数获取方式",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "PathVariableDemo",
+			"item": [
+				{
+					"name": "testIndex",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/testPathVariableParam/index",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"testPathVariableParam",
+								"index"
+							]
+						},
+						"description": "test base method"
+					},
+					"response": []
+				},
+				{
+					"name": "testSignalParam",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/testPathVariableParam/testPathParam/moonzhou",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"testPathVariableParam",
+								"testPathParam",
+								"moonzhou"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "testMultiParam",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/testPathVariableParam/testPathMultiParam/moonzhou/18/1/2020-01-01/true",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"testPathVariableParam",
+								"testPathMultiParam",
+								"moonzhou",
+								"18",
+								"1",
+								"2020-01-01",
+								"true"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "test annotation PathVariable",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "cb94cabe-96b2-42e8-a6c6-34cad80e5e17",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "e537428b-0cff-481d-b843-de8901ea1f6c",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "RequestParamDemo",
+			"item": [
+				{
+					"name": "testIndex",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/testRequestParamParam/index",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"testRequestParamParam",
+								"index"
+							]
+						},
+						"description": "basic method"
+					},
+					"response": []
+				},
+				{
+					"name": "testSignalParam",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/testRequestParamParam/testSignalParam?userName=moonzhou",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"testRequestParamParam",
+								"testSignalParam"
+							],
+							"query": [
+								{
+									"key": "userName",
+									"value": "moonzhou"
+								}
+							]
+						},
+						"description": "单个参数映射，映射字段名称一致"
+					},
+					"response": []
+				},
+				{
+					"name": "testSignalParamInbody",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "userName",
+									"value": "hou",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost/testRequestParamParam/testSignalParam",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"testRequestParamParam",
+								"testSignalParam"
+							]
+						},
+						"description": "单个参数映射，映射字段名称一致，body里传参"
+					},
+					"response": []
+				},
+				{
+					"name": "testSignalParamInheader",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "userName",
+								"value": "moonzhou",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "http://localhost/testRequestParamParam/testSignalParam",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"testRequestParamParam",
+								"testSignalParam"
+							]
+						},
+						"description": "单个参数映射，映射字段名称一致，header里传参"
+					},
+					"response": []
+				},
+				{
+					"name": "testSignalDiffMappingParam",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/testRequestParamParam/testSignalDiffMappingParam?name=moonzhou",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"testRequestParamParam",
+								"testSignalDiffMappingParam"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "moonzhou"
+								}
+							]
+						},
+						"description": "测试映射名称与最参数终形参不一致的情况"
+					},
+					"response": []
+				},
+				{
+					"name": "testSignalDefaultParam",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/testRequestParamParam/testSignalDefaultParam?userName=moonzhou",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"testRequestParamParam",
+								"testSignalDefaultParam"
+							],
+							"query": [
+								{
+									"key": "userName",
+									"value": "moonzhou"
+								}
+							]
+						},
+						"description": "测试注解RequestParam缺省映射名称时的处理情况"
+					},
+					"response": []
+				},
+				{
+					"name": "testMultiParam",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/testRequestParamParam/testMultiParam?userName=moonzhou&age=18&handSome=true&id=1&birthday=2020-01-01 ",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"testRequestParamParam",
+								"testMultiParam"
+							],
+							"query": [
+								{
+									"key": "userName",
+									"value": "moonzhou"
+								},
+								{
+									"key": "age",
+									"value": "18"
+								},
+								{
+									"key": "handSome",
+									"value": "true"
+								},
+								{
+									"key": "id",
+									"value": "1"
+								},
+								{
+									"key": "birthday",
+									"value": "2020-01-01 "
+								}
+							]
+						},
+						"description": "测试多参数映射"
+					},
+					"response": []
+				},
+				{
+					"name": "testDtoParam",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "userName",
+									"value": "moonzhou",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "age",
+									"value": "20",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "handSome",
+									"value": "true",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "birthday",
+									"value": "2020-02-02",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost/testRequestParamParam/testDtoParam?userName=moonzhou&age=20&handSome=true&id=1&birthday=2020-02-02",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"testRequestParamParam",
+								"testDtoParam"
+							],
+							"query": [
+								{
+									"key": "userName",
+									"value": "moonzhou"
+								},
+								{
+									"key": "age",
+									"value": "20"
+								},
+								{
+									"key": "handSome",
+									"value": "true"
+								},
+								{
+									"key": "id",
+									"value": "1"
+								},
+								{
+									"key": "birthday",
+									"value": "2020-02-02"
+								}
+							]
+						},
+						"description": "测试多参数映射"
+					},
+					"response": []
+				}
+			],
+			"description": "test annotation RequestParam",
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "RequestBodyDemo",
+			"item": [
+				{
+					"name": "testIndex",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/testRequestBodyParam/index",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"testRequestBodyParam",
+								"index"
+							]
+						},
+						"description": "test basic method"
+					},
+					"response": []
+				},
+				{
+					"name": "testDtoParam",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\": \"moonzhou\",\r\n    \"age\": 20,\r\n    \"handSome\": true,\r\n    \"id\": 1,\r\n    \"birthday\": \"2020-06-15\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost/testRequestBodyParam/testDtoParam",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"testRequestBodyParam",
+								"testDtoParam"
+							]
+						},
+						"description": "测试对象参数映射"
+					},
+					"response": []
+				},
+				{
+					"name": "testMapParam",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\": \"moonzhou\",\r\n    \"age\": 20,\r\n    \"handSome\": true,\r\n    \"id\": 1,\r\n    \"birthday\": \"2020-06-14\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost/testRequestBodyParam/testMapParam",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"testRequestBodyParam",
+								"testMapParam"
+							]
+						},
+						"description": "使用map数据类型接收传递的参数"
+					},
+					"response": []
+				}
+			],
+			"description": "RequestBody注解获取参数方式",
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "NoAnnotationDemo",
+			"item": [
+				{
+					"name": "testIndex",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/testNoAnnotationParam/index",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"testNoAnnotationParam",
+								"index"
+							]
+						},
+						"description": "basic method"
+					},
+					"response": []
+				},
+				{
+					"name": "testDtoParam",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\": \"moonzhou-formdata\",\r\n    \"age\": 20,\r\n    \"handSome\": false,\r\n    \"id\": 2,\r\n    \"birthday\": \"2020-01-31\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost/testNoAnnotationParam/testDtoParam",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"testNoAnnotationParam",
+								"testDtoParam"
+							],
+							"query": [
+								{
+									"key": "userName",
+									"value": "moonzhou-param",
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "age",
+									"value": "19",
+									"disabled": true
+								},
+								{
+									"key": "handSome",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "birthday",
+									"value": "2020-08-08",
+									"disabled": true
+								}
+							]
+						},
+						"description": "无注解方式dto映射"
+					},
+					"response": []
+				},
+				{
+					"name": "testMapParam",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/testNoAnnotationParam/testMapParam?userName=moonzhou-param&id=1&age=11&handSome=true&birthday=2020-6-14",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"testNoAnnotationParam",
+								"testMapParam"
+							],
+							"query": [
+								{
+									"key": "userName",
+									"value": "moonzhou-param"
+								},
+								{
+									"key": "id",
+									"value": "1"
+								},
+								{
+									"key": "age",
+									"value": "11"
+								},
+								{
+									"key": "handSome",
+									"value": "true"
+								},
+								{
+									"key": "birthday",
+									"value": "2020-6-14"
+								}
+							]
+						},
+						"description": "测试map接收参数"
+					},
+					"response": []
+				},
+				{
+					"name": "testOriginalParam",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "userName",
+									"value": "moonzhou-param",
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "age",
+									"value": "11",
+									"disabled": true
+								},
+								{
+									"key": "handSome",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "birthday",
+									"value": "2020-6-14",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost/testNoAnnotationParam/testOriginalParam",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"testNoAnnotationParam",
+								"testOriginalParam"
+							],
+							"query": [
+								{
+									"key": "userName",
+									"value": "moonzhou-param",
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "age",
+									"value": "11",
+									"disabled": true
+								},
+								{
+									"key": "handSome",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "birthday",
+									"value": "2020-6-14",
+									"disabled": true
+								}
+							]
+						},
+						"description": "原始方式获取参数"
+					},
+					"response": []
+				}
+			],
+			"description": "无注解方式获取参数",
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
