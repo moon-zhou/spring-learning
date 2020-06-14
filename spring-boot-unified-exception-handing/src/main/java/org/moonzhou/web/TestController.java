@@ -2,7 +2,9 @@ package org.moonzhou.web;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.moonzhou.constant.ErrorCodeEnum;
 import org.moonzhou.exception.version1.asserter.ResponseEnum;
+import org.moonzhou.exception.version2.AssertUtils;
 import org.moonzhou.i18n.I18nAnnotationService;
 import org.moonzhou.i18n.I18nService;
 import org.moonzhou.service.ITestService;
@@ -164,9 +166,31 @@ public class TestController {
 
         if (StringUtils.equals("0", id)) {
             id = "";
-            ResponseEnum.PARAM_NOT_NULL.assertNotBlank(id);
         }
+        ResponseEnum.PARAM_NOT_NULL.assertNotBlank(id);
 
         return testService.getTestMap();
     }
+
+    /**
+     * 抛异常：
+     * http://localhost:8080/test/testAssert02Exception/0
+     * <p>
+     * 正常请求：
+     * http://localhost:8080/test/testAssert02Exception/1
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping("testAssert02Exception/{id}")
+    Map<String, Object> testAssert02Exception(@PathVariable("id") String id) {
+
+        if (StringUtils.equals("0", id)) {
+            id = "";
+        }
+        AssertUtils.hasLength(id, ErrorCodeEnum.USER_ID_ILLEGAL);
+
+        return testService.getTestMap();
+    }
+
 }

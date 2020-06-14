@@ -11,6 +11,10 @@ public enum ErrorCodeEnum {
     SUCCESS("0000", "SUCCESS", "common success"),
     SYSTEM_ERROR("9999", "system error", "系统异常"),
 
+    PARAM_ERROR("9998", "param error", "参数不合法"),
+
+    USER_ID_ILLEGAL("7400", "user id illegal", "用户id非法"),
+
     ;
     private String responseCode;
 
