@@ -1,7 +1,10 @@
 package org.moonzhou.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -16,6 +19,8 @@ import java.util.Date;
  */
 @Setter
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class TestDto {
 
     private String userName;
@@ -26,5 +31,6 @@ public class TestDto {
 
     private Long id;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
 }
