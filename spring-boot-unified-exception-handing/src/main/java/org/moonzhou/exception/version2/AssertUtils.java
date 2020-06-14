@@ -11,6 +11,8 @@ import java.util.Map;
 /**
  * 断言工具类，用于基本的判断，依赖spring的org.springframework.util.Assert
  *
+ * 断言方法和提示消息进行解耦，使用组合方式
+ *
  * @author moon-zhou <ayimin1989@163.com>
  * @version V1.0.0
  * @description
