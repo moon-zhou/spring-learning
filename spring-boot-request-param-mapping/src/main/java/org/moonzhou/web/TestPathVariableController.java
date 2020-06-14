@@ -9,7 +9,6 @@ import java.util.Date;
 
 /**
  * 测试参数映射<br>
- * TODO: https://juejin.im/post/5cbf11bd6fb9a0320c5ab128
  *
  * 1. 参数必须是restful格式，作为请求的一部分
  * 2. 不显示映射名称时，直接使用注解修饰的形参进行映射
