@@ -47,7 +47,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         registry.addInterceptor(localeChangeInterceptor());
     }
 
-    @Override
+    /*@Override
     public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
 
 
@@ -104,7 +104,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         } catch (IOException ex) {
             log.error(ex.getMessage());
         }
-    }
+    }*/
 
 
 }
