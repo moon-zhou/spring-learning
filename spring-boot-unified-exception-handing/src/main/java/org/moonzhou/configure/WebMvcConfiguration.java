@@ -47,6 +47,64 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         registry.addInterceptor(localeChangeInterceptor());
     }
 
+    @Override
+    public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
+
+
+        exceptionResolvers.add((request, response, handler, e) -> {
+
+            BaseResult baseResult = new BaseResult(ErrorCodeEnum.SYSTEM_ERROR, null);
+
+            if (e instanceof AppException) {
+                log.error("configureHandlerExceptionResolvers version2 AppException.", e);
+                baseResult = new BaseResult(ErrorCodeEnum.SYSTEM_ERROR, e.getMessage() + "configureHandlerExceptionResolvers 版本二异常");
+
+            } else if (e instanceof org.moonzhou.exception.version3.AppException) {
+                log.error("configureHandlerExceptionResolvers version3 AppException.", e);
+                baseResult = new BaseResult(ErrorCodeEnum.SYSTEM_ERROR, e.getMessage() + "configureHandlerExceptionResolvers 版本三异常");
+
+            } else if (e instanceof NullPointerException) {
+                log.error("configureHandlerExceptionResolvers NullPointerException.", e);
+                baseResult = new BaseResult(ErrorCodeEnum.SYSTEM_ERROR, "request error:" + response.getStatus(),
+                        "globalNPEHandle: configureHandlerExceptionResolvers" + e.getMessage());
+            } else {
+                log.error("configureHandlerExceptionResolvers otherException.", e);
+
+                String message;
+                if (handler instanceof HandlerMethod) {
+                    HandlerMethod handlerMethod = (HandlerMethod) handler;
+                    message = String.format("接口 [%s] 出现异常，方法：%s.%s，异常摘要：%s",
+                            request.getRequestURI(),
+                            handlerMethod.getBean().getClass().getName(),
+                            handlerMethod.getMethod().getName(),
+                            e.getMessage());
+                } else {
+                    message = e.getMessage();
+                }
+
+                baseResult = new BaseResult(ErrorCodeEnum.SYSTEM_ERROR, "request error:" + response.getStatus(),
+                        "globalExceptionHandle: configureHandlerExceptionResolvers" + message);
+            }
+
+            responseResult(response, baseResult);
+
+            return new ModelAndView();
+        });
+
+
+    }
+
+    // 处理响应数据格式
+    private void responseResult(HttpServletResponse response, BaseResult result) {
+        response.setCharacterEncoding("UTF-8");
+        response.setHeader("Content-type", "application/json;charset=UTF-8");
+        response.setStatus(200);
+        try {
+            response.getWriter().write(JSON.toJSONString(result));
+        } catch (IOException ex) {
+            log.error(ex.getMessage());
+        }
+    }
 
 
 }
