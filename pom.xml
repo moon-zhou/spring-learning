@@ -12,6 +12,7 @@
         <module>spring-boot-unified-exception-handing</module>
         <module>spring-boot-testing</module>
         <module>spring-boot-request-param-mapping</module>
+        <module>spring-boot-logback</module>
     </modules>
 
     <packaging>pom</packaging>
