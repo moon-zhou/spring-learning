@@ -29,10 +29,28 @@ public class SpringBootLogBackTestController {
 
     /**
      * 测试请求：http://localhost/springbootLogBackTest/index
+     *
      * @return
      */
     @RequestMapping("index")
     String index() {
         return "Hello World!";
+    }
+
+    /**
+     * 测试日志级别：http://localhost/springbootLogBackTest/logLevel
+     * 需要放开application.yml里相关的配置
+     * @return
+     */
+    @RequestMapping("logLevel")
+    String logLevel() {
+
+        log.trace("this is trace log...");
+        log.debug("this is debug log...");
+        log.info("this is info log...");
+        log.warn("this is warn log...");
+        log.error("this is error log...");
+
+        return "logLevelTest";
     }
 }
