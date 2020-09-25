@@ -13,6 +13,7 @@
         <module>spring-boot-testing</module>
         <module>spring-boot-request-param-mapping</module>
         <module>spring-boot-logback</module>
+        <module>spring-boot-web-threadlocal</module>
     </modules>
 
     <packaging>pom</packaging>

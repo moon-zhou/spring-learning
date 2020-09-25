@@ -1,5 +1,5 @@
 spring:
   application:
-    name: spring-boot-request-param-mapping
+    name: spring-boot-web-threadlocal
 server:
   port: 8080

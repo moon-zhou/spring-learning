@@ -12,6 +12,7 @@
 1. MDC自定义参数
 2. 分层打印
 3. 数据脱敏
+1. 审计日志
 
 #### 使用springboot配置
 1. 配置日志级别
@@ -44,3 +45,6 @@
     * FileAppender(输出到文件)
     * RollingFileAppender(先将日志输出到指定文件，满足一定条件后将日志记录到其他文件中)
     
+#### appender
+appender是定义日志输出的策略
+1. ConsoleAppender
