@@ -21,13 +21,13 @@
 
 #### springboot里Filter的实现
 1. 手动
-    ```java
+    ```
     过滤器实现类：org.moonzhou.filter.auto.AuthFilter
     手动配置类：org/moonzhou/WebThreadLocalApplication.java:15
     ```
 
 2. 自动
-    ```java
+    ```
     过滤器实现类：org.moonzhou.filter.manual.LogFilter
     手动配置类：org.moonzhou.config.FilterConfig
     ```
