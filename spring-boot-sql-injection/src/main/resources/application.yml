@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: spring-boot-sql-injection
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/moon?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=GMT%2B8
+    username: root
+    password: root
+server:
+  port: 8080
+
+logging:
+  level:
+    org.springframework.jdbc.core.JdbcTemplate: DEBUG
