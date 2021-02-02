@@ -34,3 +34,6 @@ out
 gen
 
 */target/
+
+*.ipr
+*.iws
