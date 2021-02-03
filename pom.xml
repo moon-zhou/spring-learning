@@ -29,6 +29,9 @@
 
         <!-- springboot sql注入 -->
         <module>spring-boot-sql-injection</module>
+
+        <!-- spring ioc 示例 -->
+        <module>spring-ioc</module>
     </modules>
     <developers>
         <developer>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <bean id="book" class="org.moonzhou.spring.ioc.bean.Book"/>
+    <!--<bean id="book2" class="org.moonzhou.spring.ioc.bean.Book"/>-->
+
+    <bean id="user" class="org.moonzhou.spring.ioc.bean.User"/>
+
+    <bean id="device" class="org.moonzhou.spring.ioc.bean.Device">
+        <constructor-arg index="0" value="1"/>
+        <constructor-arg index="1" value="100"/>
+        <constructor-arg index="2" value="g"/>
+        <constructor-arg index="3" value="xiaomi"/>
+    </bean>
+</beans>
