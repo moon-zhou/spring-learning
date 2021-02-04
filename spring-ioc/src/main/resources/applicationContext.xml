@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
@@ -15,4 +16,18 @@
         <constructor-arg index="2" value="g"/>
         <constructor-arg index="3" value="xiaomi"/>
     </bean>
+
+    <bean id="car" class="org.moonzhou.spring.ioc.bean.Car">
+        <constructor-arg name="id" value="2"/>
+        <constructor-arg name="name" value="特斯拉"/>
+        <constructor-arg name="price" value="1000000.111"/>
+    </bean>
+
+    <bean id="blog" class="org.moonzhou.spring.ioc.bean.Blog">
+        <property name="id" value="3"/>
+        <property name="name" value="spring ioc 笔记"/>
+        <property name="size" value="30.01"/>
+    </bean>
+
+    <bean id="blog2" class="org.moonzhou.spring.ioc.bean.Blog" p:id="4" p:name="spring ioc 笔记" p:size="30.02" />
 </beans>
