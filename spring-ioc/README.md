@@ -28,6 +28,7 @@
 1. 外部`Bean`的注入：自己写的 Bean 一般不会使用这两种方式注入，但是，如果需要引入外部 jar，外部 jar 的类的初始化，有可能需要使用这两种方式。
     * 静态工厂
     * 实例工厂
+1. 复杂属性的注入：对象/数组/Map/Properties
 
 #### 测试
 1. 使用JUnit测试
@@ -45,6 +46,12 @@
 1. 外部`Bean`的注入
     * `org.moonzhou.spring.ioc.util.OkHttpUtils`
     * `org.moonzhou.spring.ioc.util.OkHttpUtils2`
+1. 复杂属性的注入
+    * `org.moonzhou.spring.ioc.bean.UserComplex`
+    * `org.moonzhou.spring.ioc.bean.UserComplex2`
+    * `org.moonzhou.spring.ioc.bean.UserComplex3`
+    * `org.moonzhou.spring.ioc.bean.UserComplex4`
+    * `org.moonzhou.spring.ioc.bean.UserComplex5`
 
 #### 参考
 1. [Spring 学习，看这一篇万余字干货就够了（上）](https://zhuanlan.zhihu.com/p/99183015)

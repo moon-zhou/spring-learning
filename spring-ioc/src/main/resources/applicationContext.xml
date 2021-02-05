@@ -37,4 +37,112 @@
     <!-- 实例工厂 -->
     <bean class="org.moonzhou.spring.ioc.util.OkHttpUtils2" id="okHttpUtils2"/>
     <bean class="okhttp3.OkHttpClient" factory-bean="okHttpUtils2" factory-method="getInstance" id="okHttpClient2"></bean>
+
+    <!-- 复杂属性注入 -->
+    <bean id="cat" class="org.moonzhou.spring.ioc.bean.Cat">
+        <property name="name" value="小白" />
+        <property name="color" value="黑色" />
+    </bean>
+    <bean id="cat2" class="org.moonzhou.spring.ioc.bean.Cat">
+        <property name="name" value="小黑" />
+        <property name="color" value="白色" />
+    </bean>
+    <bean id="userComplex" class="org.moonzhou.spring.ioc.bean.UserComplex">
+        <property name="cat" ref="cat"/>
+    </bean>
+
+    <bean id="userComplex2" class="org.moonzhou.spring.ioc.bean.UserComplex2">
+        <property name="cat" ref="cat"/>
+        <property name="favorites">
+            <array>
+                <value>足球</value>
+                <value>篮球</value>
+                <value>乒乓球</value>
+            </array>
+        </property>
+    </bean>
+
+    <bean id="userComplex3" class="org.moonzhou.spring.ioc.bean.UserComplex3">
+        <property name="cat" ref="cat"/>
+        <property name="favorites">
+            <array>
+                <value>足球</value>
+                <value>篮球</value>
+                <value>乒乓球</value>
+            </array>
+        </property>
+        <property name="cats">
+            <list>
+                <ref bean="cat"/>
+                <ref bean="cat2"/>
+                <bean class="org.moonzhou.spring.ioc.bean.Cat" id="cat3">
+                    <property name="name" value="小花"/>
+                    <property name="color" value="花色"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="userComplex4" class="org.moonzhou.spring.ioc.bean.UserComplex4">
+        <property name="cat" ref="cat"/>
+        <property name="favorites">
+            <array>
+                <value>足球</value>
+                <value>篮球</value>
+                <value>乒乓球</value>
+            </array>
+        </property>
+        <property name="cats">
+            <list>
+                <ref bean="cat"/>
+                <ref bean="cat2"/>
+                <bean class="org.moonzhou.spring.ioc.bean.Cat" id="cat3">
+                    <property name="name" value="小花"/>
+                    <property name="color" value="花色"/>
+                </bean>
+            </list>
+        </property>
+
+        <property name="map">
+            <map>
+                <entry key="age" value="18"/>
+                <entry key="name" value="moonzhou"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="userComplex5" class="org.moonzhou.spring.ioc.bean.UserComplex5">
+        <property name="cat" ref="cat"/>
+        <property name="favorites">
+            <array>
+                <value>足球</value>
+                <value>篮球</value>
+                <value>乒乓球</value>
+            </array>
+        </property>
+        <property name="cats">
+            <list>
+                <ref bean="cat"/>
+                <ref bean="cat2"/>
+                <bean class="org.moonzhou.spring.ioc.bean.Cat" id="cat3">
+                    <property name="name" value="小花"/>
+                    <property name="color" value="花色"/>
+                </bean>
+            </list>
+        </property>
+
+        <property name="map">
+            <map>
+                <entry key="age" value="18"/>
+                <entry key="name" value="moonzhou"/>
+            </map>
+        </property>
+
+        <property name="info">
+            <props>
+                <prop key="age">19</prop>
+                <prop key="name">moonzhou</prop>
+            </props>
+        </property>
+    </bean>
 </beans>
