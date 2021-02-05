@@ -20,11 +20,14 @@
         org.moonzhou.spring.ioc.bean.Device.Device(java.lang.Integer, java.math.BigDecimal, java.lang.String, java.lang.String)
         ```
     * `constructor-arg`使用`name`方式初始化：如果有多个构造方法，则会根据给出参数个数以及参数类型，自动匹配到对应的构造方法上，进而初始化一个对象。
-1. set方法注入:
+1. `set`方法注入:
     * 使用`property & name` + `set`方法，实现实例对象的初始化。
         > 凡是涉及到反射注入值的，属性名统统都不是 Bean 中定义的属性名，而是通过 Java 中的内省机制分析出来的属性名，简单说，就是根据 get/set 方法分析出来的属性名。
     * 使用`p`标签
         > 注意该标签需要加上xml的namespace：xmlns:p="http://www.springframework.org/schema/p"
+1. 外部`Bean`的注入：自己写的 Bean 一般不会使用这两种方式注入，但是，如果需要引入外部 jar，外部 jar 的类的初始化，有可能需要使用这两种方式。
+    * 静态工厂
+    * 实例工厂
 
 #### 测试
 1. 使用JUnit测试
@@ -39,6 +42,9 @@
 1. 有参构造函数初始化-(constructor-arg & index)：`org.moonzhou.spring.ioc.bean.Device`
 1. 有参构造函数初始化-(constructor-arg & name)：`org.moonzhou.spring.ioc.bean.Car`
 1. set方法初始化：`org.moonzhou.spring.ioc.bean.Blog`
+1. 外部`Bean`的注入
+    * `org.moonzhou.spring.ioc.util.OkHttpUtils`
+    * `org.moonzhou.spring.ioc.util.OkHttpUtils2`
 
 #### 参考
 1. [Spring 学习，看这一篇万余字干货就够了（上）](https://zhuanlan.zhihu.com/p/99183015)
