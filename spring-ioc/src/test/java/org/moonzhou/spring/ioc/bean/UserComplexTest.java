@@ -1,9 +1,8 @@
 package org.moonzhou.spring.ioc.bean;
 
 import org.junit.Test;
+import org.moonzhou.spring.ioc.xml.bean.*;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import static org.junit.Assert.*;
 
 public class UserComplexTest {
 

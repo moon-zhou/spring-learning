@@ -9,21 +9,26 @@
  * <author>      <time>      <version>    <desc>
  * 修改人姓名    修改时间    版本号       描述
  */
-package org.moonzhou.spring.ioc.bean;
+package org.moonzhou.spring.ioc.xml.bean;
 
 import java.util.List;
+import java.util.Map;
 
 /**
- * 功能描述: 复杂属性注入-数组<br>
+ * 功能描述: 复杂属性注入-map<br>
  *
  * @author moon-zhou
  * @see [相关类/方法]（可选）
  * @since [产品/模块版本] （可选）
  */
-public class UserComplex2 {
+public class UserComplex4 {
     private Cat cat;
 
     private List<String> favorites;
+
+    private List<Cat> cats;
+
+    private Map<String,Object> map;
 
     public void setCat(Cat cat) {
         this.cat = cat;
@@ -33,11 +38,21 @@ public class UserComplex2 {
         this.favorites = favorites;
     }
 
+    public void setCats(List<Cat> cats) {
+        this.cats = cats;
+    }
+
+    public void setMap(Map<String, Object> map) {
+        this.map = map;
+    }
+
     @Override
     public String toString() {
-        return "UserComplex2{" +
+        return "UserComplex4{" +
                 "cat=" + cat +
                 ", favorites=" + favorites +
+                ", cats=" + cats +
+                ", map=" + map +
                 '}';
     }
 }

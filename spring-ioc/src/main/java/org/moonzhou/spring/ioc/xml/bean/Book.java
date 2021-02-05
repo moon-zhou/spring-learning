@@ -9,7 +9,8 @@
  * <author>      <time>      <version>    <desc>
  * 修改人姓名    修改时间    版本号       描述
  */
-package org.moonzhou.spring.ioc.bean;
+package org.moonzhou.spring.ioc.xml.bean;
+
 
 /**
  * 功能描述:<br>
@@ -18,19 +19,13 @@ package org.moonzhou.spring.ioc.bean;
  * @see [相关类/方法]（可选）
  * @since [产品/模块版本] （可选）
  */
-public class User {
+public class Book {
 
     private Integer id;
 
     private String name;
 
     private String gender;
-
-    private int age;
-
-    public User() {
-        System.out.println("--------------init user---------------");
-    }
 
     public Integer getId() {
         return id;
@@ -56,21 +51,7 @@ public class User {
         this.gender = gender;
     }
 
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", gender='" + gender + '\'' +
-                ", age=" + age +
-                '}';
+    public void MySelfAddress() {
+        System.out.println(this);
     }
 }

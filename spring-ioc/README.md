@@ -17,7 +17,7 @@
         <constructor-arg index="1" value="100"/>
         
         这两种效果都是一样的，但是1对应的数据类型，必须是构造方法里的数据类型，同理其他的也需要一致，否则bean会创建失败。
-        org.moonzhou.spring.ioc.bean.Device.Device(java.lang.Integer, java.math.BigDecimal, java.lang.String, java.lang.String)
+        org.moonzhou.spring.ioc.xml.bean.Device.Device(java.lang.Integer, java.math.BigDecimal, java.lang.String, java.lang.String)
         ```
     * `constructor-arg`使用`name`方式初始化：如果有多个构造方法，则会根据给出参数个数以及参数类型，自动匹配到对应的构造方法上，进而初始化一个对象。
 1. `set`方法注入:
@@ -35,23 +35,23 @@
     > 使用 ClassPathXmlApplicationContext 获取上下文，通过 getBean 获取bean。
 1. 使用JUnit+Spring-Test
     > 需要注意的是 spring-test 需要和 Spring 版本保持一致，使用 RELEASE 版本。
-1. 示例：`src\test\java\org\moonzhou\spring\ioc\bean`
+1. 示例：`src\test\java\org\moonzhou\spring\ioc\xml\bean`
 
 #### 代码实操顺序（尤其是对于test以及applicationContext.xml）
-1. 无参构造函数初始化-(隐式)：`org.moonzhou.spring.ioc.bean.Book`
-1. 无参构造函数初始化-(显示)：`org.moonzhou.spring.ioc.bean.User`
-1. 有参构造函数初始化-(constructor-arg & index)：`org.moonzhou.spring.ioc.bean.Device`
-1. 有参构造函数初始化-(constructor-arg & name)：`org.moonzhou.spring.ioc.bean.Car`
-1. set方法初始化：`org.moonzhou.spring.ioc.bean.Blog`
+1. 无参构造函数初始化-(隐式)：`org.moonzhou.spring.ioc.xml.bean.Book`
+1. 无参构造函数初始化-(显示)：`org.moonzhou.spring.ioc.xml.bean.User`
+1. 有参构造函数初始化-(constructor-arg & index)：`org.moonzhou.spring.ioc.xml.bean.Device`
+1. 有参构造函数初始化-(constructor-arg & name)：`org.moonzhou.spring.ioc.xml.bean.Car`
+1. set方法初始化：`org.moonzhou.spring.ioc.xml.bean.Blog`
 1. 外部`Bean`的注入
-    * `org.moonzhou.spring.ioc.util.OkHttpUtils`
-    * `org.moonzhou.spring.ioc.util.OkHttpUtils2`
+    * `org.moonzhou.spring.ioc.xml.util.OkHttpUtils`
+    * `org.moonzhou.spring.ioc.xml.util.OkHttpUtils2`
 1. 复杂属性的注入
-    * `org.moonzhou.spring.ioc.bean.UserComplex`
-    * `org.moonzhou.spring.ioc.bean.UserComplex2`
-    * `org.moonzhou.spring.ioc.bean.UserComplex3`
-    * `org.moonzhou.spring.ioc.bean.UserComplex4`
-    * `org.moonzhou.spring.ioc.bean.UserComplex5`
+    * `org.moonzhou.spring.ioc.xml.bean.UserComplex`
+    * `org.moonzhou.spring.ioc.xml.bean.UserComplex2`
+    * `org.moonzhou.spring.ioc.xml.bean.UserComplex3`
+    * `org.moonzhou.spring.ioc.xml.bean.UserComplex4`
+    * `org.moonzhou.spring.ioc.xml.bean.UserComplex5`
 
 #### 参考
 1. [Spring 学习，看这一篇万余字干货就够了（上）](https://zhuanlan.zhihu.com/p/99183015)

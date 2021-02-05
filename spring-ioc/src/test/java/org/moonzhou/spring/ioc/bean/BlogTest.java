@@ -1,6 +1,7 @@
 package org.moonzhou.spring.ioc.bean;
 
 import org.junit.Test;
+import org.moonzhou.spring.ioc.xml.bean.Blog;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class BlogTest {

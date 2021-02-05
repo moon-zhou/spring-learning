@@ -1,6 +1,7 @@
 package org.moonzhou.spring.ioc.bean;
 
 import org.junit.Test;
+import org.moonzhou.spring.ioc.xml.bean.User;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class UserTest {

@@ -5,53 +5,53 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-    <bean id="book" class="org.moonzhou.spring.ioc.bean.Book"/>
-    <!--<bean id="book2" class="org.moonzhou.spring.ioc.bean.Book"/>-->
+    <bean id="book" class="org.moonzhou.spring.ioc.xml.bean.Book"/>
+    <!--<bean id="book2" class="org.moonzhou.spring.ioc.xml.bean.Book"/>-->
 
-    <bean id="user" class="org.moonzhou.spring.ioc.bean.User"/>
+    <bean id="user" class="org.moonzhou.spring.ioc.xml.bean.User"/>
 
-    <bean id="device" class="org.moonzhou.spring.ioc.bean.Device">
+    <bean id="device" class="org.moonzhou.spring.ioc.xml.bean.Device">
         <constructor-arg index="0" value="1"/>
         <constructor-arg index="1" value="100"/>
         <constructor-arg index="2" value="g"/>
         <constructor-arg index="3" value="xiaomi"/>
     </bean>
 
-    <bean id="car" class="org.moonzhou.spring.ioc.bean.Car">
+    <bean id="car" class="org.moonzhou.spring.ioc.xml.bean.Car">
         <constructor-arg name="id" value="2"/>
         <constructor-arg name="name" value="特斯拉"/>
         <constructor-arg name="price" value="1000000.111"/>
     </bean>
 
-    <bean id="blog" class="org.moonzhou.spring.ioc.bean.Blog">
+    <bean id="blog" class="org.moonzhou.spring.ioc.xml.bean.Blog">
         <property name="id" value="3"/>
         <property name="name" value="spring ioc 笔记"/>
         <property name="size" value="30.01"/>
     </bean>
 
-    <bean id="blog2" class="org.moonzhou.spring.ioc.bean.Blog" p:id="4" p:name="spring ioc 笔记" p:size="30.02" />
+    <bean id="blog2" class="org.moonzhou.spring.ioc.xml.bean.Blog" p:id="4" p:name="spring ioc 笔记" p:size="30.02" />
 
     <!-- 静态工厂 -->
-    <bean class="org.moonzhou.spring.ioc.util.OkHttpUtils" factory-method="getInstance" id="okHttpClient"></bean>
+    <bean class="org.moonzhou.spring.ioc.xml.util.OkHttpUtils" factory-method="getInstance" id="okHttpClient"></bean>
 
     <!-- 实例工厂 -->
-    <bean class="org.moonzhou.spring.ioc.util.OkHttpUtils2" id="okHttpUtils2"/>
+    <bean class="org.moonzhou.spring.ioc.xml.util.OkHttpUtils2" id="okHttpUtils2"/>
     <bean class="okhttp3.OkHttpClient" factory-bean="okHttpUtils2" factory-method="getInstance" id="okHttpClient2"></bean>
 
     <!-- 复杂属性注入 -->
-    <bean id="cat" class="org.moonzhou.spring.ioc.bean.Cat">
+    <bean id="cat" class="org.moonzhou.spring.ioc.xml.bean.Cat">
         <property name="name" value="小白" />
         <property name="color" value="黑色" />
     </bean>
-    <bean id="cat2" class="org.moonzhou.spring.ioc.bean.Cat">
+    <bean id="cat2" class="org.moonzhou.spring.ioc.xml.bean.Cat">
         <property name="name" value="小黑" />
         <property name="color" value="白色" />
     </bean>
-    <bean id="userComplex" class="org.moonzhou.spring.ioc.bean.UserComplex">
+    <bean id="userComplex" class="org.moonzhou.spring.ioc.xml.bean.UserComplex">
         <property name="cat" ref="cat"/>
     </bean>
 
-    <bean id="userComplex2" class="org.moonzhou.spring.ioc.bean.UserComplex2">
+    <bean id="userComplex2" class="org.moonzhou.spring.ioc.xml.bean.UserComplex2">
         <property name="cat" ref="cat"/>
         <property name="favorites">
             <array>
@@ -62,7 +62,7 @@
         </property>
     </bean>
 
-    <bean id="userComplex3" class="org.moonzhou.spring.ioc.bean.UserComplex3">
+    <bean id="userComplex3" class="org.moonzhou.spring.ioc.xml.bean.UserComplex3">
         <property name="cat" ref="cat"/>
         <property name="favorites">
             <array>
@@ -75,7 +75,7 @@
             <list>
                 <ref bean="cat"/>
                 <ref bean="cat2"/>
-                <bean class="org.moonzhou.spring.ioc.bean.Cat" id="cat3">
+                <bean class="org.moonzhou.spring.ioc.xml.bean.Cat" id="cat3">
                     <property name="name" value="小花"/>
                     <property name="color" value="花色"/>
                 </bean>
@@ -83,7 +83,7 @@
         </property>
     </bean>
 
-    <bean id="userComplex4" class="org.moonzhou.spring.ioc.bean.UserComplex4">
+    <bean id="userComplex4" class="org.moonzhou.spring.ioc.xml.bean.UserComplex4">
         <property name="cat" ref="cat"/>
         <property name="favorites">
             <array>
@@ -96,7 +96,7 @@
             <list>
                 <ref bean="cat"/>
                 <ref bean="cat2"/>
-                <bean class="org.moonzhou.spring.ioc.bean.Cat" id="cat3">
+                <bean class="org.moonzhou.spring.ioc.xml.bean.Cat" id="cat3">
                     <property name="name" value="小花"/>
                     <property name="color" value="花色"/>
                 </bean>
@@ -111,7 +111,7 @@
         </property>
     </bean>
 
-    <bean id="userComplex5" class="org.moonzhou.spring.ioc.bean.UserComplex5">
+    <bean id="userComplex5" class="org.moonzhou.spring.ioc.xml.bean.UserComplex5">
         <property name="cat" ref="cat"/>
         <property name="favorites">
             <array>
@@ -124,7 +124,7 @@
             <list>
                 <ref bean="cat"/>
                 <ref bean="cat2"/>
-                <bean class="org.moonzhou.spring.ioc.bean.Cat" id="cat3">
+                <bean class="org.moonzhou.spring.ioc.xml.bean.Cat" id="cat3">
                     <property name="name" value="小花"/>
                     <property name="color" value="花色"/>
                 </bean>

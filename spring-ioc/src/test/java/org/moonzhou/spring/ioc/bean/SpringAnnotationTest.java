@@ -13,6 +13,8 @@ package org.moonzhou.spring.ioc.bean;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.moonzhou.spring.ioc.xml.bean.Book;
+import org.moonzhou.spring.ioc.xml.bean.Device;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
