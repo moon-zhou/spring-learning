@@ -1,7 +1,7 @@
 ### spring IOC
 
 #### 配置方式
-1. xml方式，`<bean>`
+##### xml方式，`<bean>`
 1. 构造函数：**构造函数方式初始化，可以不写`get/set`方法**
     * xml里未实际配置，直接调用空的构造方法（显示的空的构造方法或者隐式的空的构造方法）
     * `constructor-arg`使用`index`方式初始化，值的位置在代码前后上是可以调整的，但是value类型必须和构造函数的方法一致。
@@ -30,6 +30,12 @@
     * 实例工厂
 1. 复杂属性的注入：对象/数组/Map/Properties
 
+##### Java 配置（通过 Java 代码将 Bean 注册到 Spring 容器中）
+1. 需要添加`@Configuration`和`@Bean`，Bean 的默认名称是方法名。以上面的案例为例，Bean 的名字是 `sayHello/sayHi/sayHi2`。
+1. 配置的加载，是使用`AnnotationConfigApplicationContext`来实现
+
+##### 自动化配置(包扫描，既可以配置xml，也可以通过Java代码进行配置)
+
 #### 测试
 1. 使用JUnit测试
     > 使用 ClassPathXmlApplicationContext 获取上下文，通过 getBean 获取bean。
@@ -52,6 +58,7 @@
     * `org.moonzhou.spring.ioc.xml.bean.UserComplex3`
     * `org.moonzhou.spring.ioc.xml.bean.UserComplex4`
     * `org.moonzhou.spring.ioc.xml.bean.UserComplex5`
+1. java配置方式：`org.moonzhou.spring.ioc.configuration`
 
 #### 参考
 1. [Spring 学习，看这一篇万余字干货就够了（上）](https://zhuanlan.zhihu.com/p/99183015)
