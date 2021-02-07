@@ -35,6 +35,18 @@
 1. 配置的加载，是使用`AnnotationConfigApplicationContext`来实现
 
 ##### 自动化配置(包扫描，既可以配置xml，也可以通过Java代码进行配置)
+1. 注解：`@Configuration` + `@ComponentScan`
+    * 根据包位置进行扫描
+    * 根据注解类型进行扫描
+2. xml
+    * 根据包位置进行扫描
+    * 根据注解类型进行扫描
+    * 注意点：需要添加namespace
+        ```xml
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context.xsd"
+        ```
 
 #### 测试
 1. 使用JUnit测试
@@ -59,6 +71,7 @@
     * `org.moonzhou.spring.ioc.xml.bean.UserComplex4`
     * `org.moonzhou.spring.ioc.xml.bean.UserComplex5`
 1. java配置方式：`org.moonzhou.spring.ioc.configuration`
+1. 包扫描配置：`org.moonzhou.spring.ioc.scan`
 
 #### 参考
 1. [Spring 学习，看这一篇万余字干货就够了（上）](https://zhuanlan.zhihu.com/p/99183015)
