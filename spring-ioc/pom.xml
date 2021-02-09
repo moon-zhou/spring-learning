@@ -35,6 +35,13 @@
             <version>4.3.1</version>
         </dependency>
 
+        <!-- @Inject -->
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>inject</artifactId>
+            <version>1.0</version>
+        </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

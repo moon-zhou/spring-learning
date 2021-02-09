@@ -48,6 +48,29 @@
                         http://www.springframework.org/schema/context/spring-context.xsd"
         ```
 
+#### 注入
+1. `@Autowired`
+1. `@Resources`
+1. `@Injected`
+
+##### Inject using Interface type
+如果有多个实现，直接按接口类型注入，以上三个注解，都会抛出异常。
+```
+org.moonzhou.spring.ioc.injection.biz.Demo001AutowiredInterfaceType
+org.moonzhou.spring.ioc.injection.biz.Demo001InjectInterfaceType
+org.moonzhou.spring.ioc.injection.biz.Demo001ResourceInterfaceType
+
+org.springframework.beans.factory.UnsatisfiedDependencyException: 
+Error creating bean with name 'demo001AutowiredInterfaceType': 
+Unsatisfied dependency expressed through field 'vehicle'; 
+nested exception is org.springframework.beans.factory.NoUniqueBeanDefinitionException: 
+No qualifying bean of type 'org.moonzhou.spring.ioc.injection.service.Vehicle' available: 
+expected single matching bean but found 2: fourWheeler,twoWheeler
+```
+
+##### Inject using field type as concrete class
+
+
 #### 测试
 1. 使用JUnit测试
     > 使用 ClassPathXmlApplicationContext 获取上下文，通过 getBean 获取bean。
@@ -75,3 +98,4 @@
 
 #### 参考
 1. [Spring 学习，看这一篇万余字干货就够了（上）](https://zhuanlan.zhihu.com/p/99183015)
+1. [@Autowired, @Resource and @Inject](http://javainsimpleway.com/autowired-resource-and-inject-2/)
