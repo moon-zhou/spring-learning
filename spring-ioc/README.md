@@ -54,7 +54,7 @@
 1. `@Injected`
 
 ##### Inject using Interface type
-如果有多个实现，直接按接口类型注入，以上三个注解，都会抛出异常。
+如果有多个实现，直接按接口类型注入，以上三个注解，都会抛出异常。\[为了使其他示例可以正常运行，Demo001*相关的示例已经将`@Component`注释，避免扫描注入相关依赖时报错\]
 ```
 org.moonzhou.spring.ioc.injection.biz.Demo001AutowiredInterfaceType
 org.moonzhou.spring.ioc.injection.biz.Demo001InjectInterfaceType
@@ -69,6 +69,21 @@ expected single matching bean but found 2: fourWheeler,twoWheeler
 ```
 
 ##### Inject using field type as concrete class
+按照实现类，具体类名直接注入。
+```java
+org.moonzhou.spring.ioc.injection.biz.Demo002AutowiredConcreteClass
+org.moonzhou.spring.ioc.injection.biz.Demo002InjectConcreteClass
+org.moonzhou.spring.ioc.injection.biz.Demo002ResourceConcreteClass
+
+@Resource
+TwoWheeler vehicle;
+ 
+@Autowired
+TwoWheeler vehicle;
+ 
+@Inject
+TwoWheeler vehicle;
+```
 
 
 #### 测试
