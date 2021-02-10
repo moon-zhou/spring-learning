@@ -49,9 +49,9 @@
         ```
 
 #### 注入
-1. `@Autowired`
-1. `@Resources`
-1. `@Injected`
+1. `@Autowired`: org.springframework.bean.factory，`通过AutowiredAnnotationBeanPostProcessor`类实现的依赖注入，与`@inject`二者具有可互换性。
+1. `@Resources`: JSR250 (Common Annotations for Java)，通过`CommonAnnotationBeanPostProcessor`类实现依赖注入
+1. `@Injected`: JSR330 (Dependency Injection for Java)
 
 ##### Inject using Interface type
 如果有多个实现，直接按接口类型注入，以上三个注解，都会抛出异常。\[为了使其他示例可以正常运行，Demo001*相关的示例已经将`@Component`注释，避免扫描注入相关依赖时报错\]
@@ -104,6 +104,7 @@ Vehicle twoWheeler;
 
 ##### Qualifier with default bean name
 注入时仍使用接口类名，属性名不使用bean name（第一种注入方式，报错的方式）。但是需要配合`@Qualifier`显示表名注入的bean name。
+`@Resource`的name与`@Qualifier`效果一致
 ```java
 org.moonzhou.spring.ioc.injection.biz.Demo004AutowiredQualifierBeanName
 org.moonzhou.spring.ioc.injection.biz.Demo004InjectQualifierBeanName
@@ -111,6 +112,9 @@ org.moonzhou.spring.ioc.injection.biz.Demo004ResourceQualifierBeanName
 
 @Resource
 @Qualifier("fourWheeler")
+Vehicle vehicle;
+等同于
+@Resource(name = "twoWheeler")
 Vehicle vehicle;
 
 @Autowired
@@ -172,6 +176,36 @@ Vehicle twoWheeler;
 2. **Match by Type** -> bean with same Data type of the variable should be available in spring container
 3. **Restricts by Qualifier**(ignores if 1st attempt said above by name matches)
 
+```
+@Autowired和@Inject
+默认 autowired by type
+可以 通过@Qualifier 显式指定 autowired by qualifier name。
+
+@Resource
+默认 autowired by field name
+如果 autowired by field name失败，会退化为 autowired by type
+可以 通过@Qualifier 显式指定 autowired by qualifier name
+如果 autowired by qualifier name失败，会退化为 autowired by field name。但是这时候如果 autowired by field name失败，就不会再退化为autowired by type了。
+```
+
+* Spring自带的@Autowired的缺省情况等价于JSR-330的@Inject注解；
+* Spring自带的@Qualifier的缺省的根据Bean名字注入情况等价于JSR-330的@Named注解；
+* Spring自带的@Qualifier的扩展@Qualifier限定描述符注解情况等价于JSR-330的@Qualifier注解。
+
+##### 其他
+Spring组件模型元素与JSR-330变体
+
+| Spring              | javax.inject.*        | javax.inject restrictions / comments                         |
+| ------------------- | --------------------- | ------------------------------------------------------------ |
+| @Autowired          | @Inject               | @Inject没有“必需”属性。可以与Java 8一起使用Optional。        |
+| @Component          | @Named / @ManagedBean | JSR-330不提供可组合模型，只是一种识别命名组件的方法。        |
+| @Scope(“singleton”) | @Singleton            | JSR-330默认范围就像Spring一样prototype。但是，为了使其与Spring的一般默认值保持一致，singleton默认情况下在Spring容器中声明的JSR-330 bean是一个默认值。为了使用除以外的范围singleton，您应该使用Spring的@Scope注释。javax.inject还提供了 @Scope注释。然而，这个仅用于创建自己的注释。 |
+| @Qualifier          | @Qualifier / @Named   | javax.inject.Qualifier只是构建自定义限定符的元注释。具体String限定符（如@Qualifier带有值的Spring ）可以通过关联javax.inject.Named。 |
+| @Value              | -                     | 没有等价物                                                   |
+| @Required           | -                     | 没有等价物                                                   |
+| @Lazy               | -                     | 没有等价物                                                   |
+| ObjectFactory       | Provider              | javax.inject.Provider是Spring的直接替代品ObjectFactory，只有较短的get()方法名称。它也可以与Spring @Autowired或非注释构造函数和setter方法结合使用。 |
+
 
 #### 测试
 1. 使用JUnit测试
@@ -201,3 +235,4 @@ Vehicle twoWheeler;
 #### 参考
 1. [Spring 学习，看这一篇万余字干货就够了（上）](https://zhuanlan.zhihu.com/p/99183015)
 1. [@Autowired, @Resource and @Inject](http://javainsimpleway.com/autowired-resource-and-inject-2/)
+1. [@Inject和@Autowired以及@Resource区别](https://blog.csdn.net/u012734441/article/details/51706504)

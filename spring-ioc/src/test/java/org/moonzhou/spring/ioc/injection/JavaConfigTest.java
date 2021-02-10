@@ -151,4 +151,39 @@ public class JavaConfigTest {
         Demo006ResourceFiledNameConflictQualifier resourceFiledNameConflictQualifier = ctx.getBean(Demo006ResourceFiledNameConflictQualifier.class);
         resourceFiledNameConflictQualifier.test();
     }
+
+    @Test
+    public void testResourceBeanName() {
+        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(JavaConfig.class);
+        Demo007ResourceBeanName resourceBeanName = ctx.getBean(Demo007ResourceBeanName.class);
+        resourceBeanName.test();
+    }
+
+    @Test
+    public void testSetter() {
+        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(JavaConfig.class);
+
+        Demo008AutowiredSetter autowiredSetter = ctx.getBean(Demo008AutowiredSetter.class);
+        autowiredSetter.test();
+
+        Demo008InjectSetter injectSetter = ctx.getBean(Demo008InjectSetter.class);
+        injectSetter.test();
+
+        Demo008ResourceSetter resourceSetter = ctx.getBean(Demo008ResourceSetter.class);
+        resourceSetter.test();
+    }
+
+    @Test
+    public void testNamed() {
+        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(JavaConfig.class);
+
+        Demo009AutowiredNamed autowiredNamed = ctx.getBean(Demo009AutowiredNamed.class);
+        autowiredNamed.test();
+
+        Demo009InjectNamed injectNamed = ctx.getBean(Demo009InjectNamed.class);
+        injectNamed.test();
+
+        Demo009ResourceNamed resourceNamed = ctx.getBean(Demo009ResourceNamed.class);
+        resourceNamed.test();
+    }
 }
