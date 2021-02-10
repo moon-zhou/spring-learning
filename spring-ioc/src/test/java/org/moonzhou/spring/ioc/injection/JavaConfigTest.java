@@ -96,4 +96,20 @@ public class JavaConfigTest {
         Demo004ResourceQualifierBeanName resourceQualifierBeanName = ctx.getBean(Demo004ResourceQualifierBeanName.class);
         resourceQualifierBeanName.test();
     }
+
+    @Test
+    public void testListBean() {
+        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(JavaConfig.class);
+
+        Demo005AutowiredListBean autowiredListBean = ctx.getBean(Demo005AutowiredListBean.class);
+        autowiredListBean.test();
+        System.out.println();
+
+        Demo005InjectListBean injectListBean = ctx.getBean(Demo005InjectListBean.class);
+        injectListBean.test();
+        System.out.println();
+
+        Demo005ResourceListBean resourceListBean = ctx.getBean(Demo005ResourceListBean.class);
+        resourceListBean.test();
+    }
 }

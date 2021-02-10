@@ -122,6 +122,24 @@ private Vehicle vehicle;
 Vehicle vehicle;
 ```
 
+##### Injecting list of beans
+按接口类注入bean的列表
+```java
+org.moonzhou.spring.ioc.injection.biz.Demo005AutowiredListBean
+org.moonzhou.spring.ioc.injection.biz.Demo005InjectListBean
+org.moonzhou.spring.ioc.injection.biz.Demo005ResourceListBean
+
+@Resource
+private List<Vehicle> vehicles;
+ 
+@Autowired
+private List<Vehicle> vehicles;
+ 
+@Inject
+private List<Vehicle> vehicles;
+```
+
+
 #### 测试
 1. 使用JUnit测试
     > 使用 ClassPathXmlApplicationContext 获取上下文，通过 getBean 获取bean。
