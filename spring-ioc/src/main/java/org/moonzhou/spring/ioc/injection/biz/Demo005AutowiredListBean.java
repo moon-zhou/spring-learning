@@ -13,7 +13,6 @@ package org.moonzhou.spring.ioc.injection.biz;
 
 import org.moonzhou.spring.ioc.injection.service.Vehicle;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
