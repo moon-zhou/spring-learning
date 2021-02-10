@@ -82,4 +82,18 @@ public class JavaConfigTest {
         Demo003ResourceFiledName resourceFiledName = ctx.getBean(Demo003ResourceFiledName.class);
         resourceFiledName.test();
     }
+
+    @Test
+    public void testQualifierBeanName() {
+        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(JavaConfig.class);
+
+        Demo004AutowiredQualifierBeanName autowiredQualifierBeanName = ctx.getBean(Demo004AutowiredQualifierBeanName.class);
+        autowiredQualifierBeanName.test();
+
+        Demo004InjectQualifierBeanName injectQualifierBeanName = ctx.getBean(Demo004InjectQualifierBeanName.class);
+        injectQualifierBeanName.test();
+
+        Demo004ResourceQualifierBeanName resourceQualifierBeanName = ctx.getBean(Demo004ResourceQualifierBeanName.class);
+        resourceQualifierBeanName.test();
+    }
 }

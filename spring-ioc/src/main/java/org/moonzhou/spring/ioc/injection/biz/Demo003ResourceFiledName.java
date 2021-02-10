@@ -15,6 +15,8 @@ import org.moonzhou.spring.ioc.injection.service.Vehicle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
+
 /**
  * 功能描述:<br>
  *
@@ -26,7 +28,7 @@ import org.springframework.stereotype.Component;
 public class Demo003ResourceFiledName {
 
 
-    @Autowired
+    @Resource
     Vehicle fourWheeler;
 
     public void test() {

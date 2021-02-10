@@ -13,9 +13,8 @@ package org.moonzhou.spring.ioc.injection.biz;
 
 import org.moonzhou.spring.ioc.injection.service.Vehicle;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-
-import javax.inject.Inject;
 
 /**
  * 功能描述:<br>
@@ -25,13 +24,14 @@ import javax.inject.Inject;
  * @since [产品/模块版本] （可选）
  */
 @Component
-public class Demo003InjectFiledName {
+public class Demo004AutowiredQualifierBeanName {
 
 
-    @Inject
-    Vehicle twoWheeler;
+    @Autowired
+    @Qualifier("twoWheeler")
+    Vehicle vehicle;
 
     public void test() {
-        twoWheeler.info();
+        vehicle.info();
     }
 }

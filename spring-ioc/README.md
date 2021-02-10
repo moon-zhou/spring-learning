@@ -102,6 +102,25 @@ Vehicle twoWheeler;
 Vehicle twoWheeler;
 ```
 
+##### Qualifier with default bean name
+注入时仍使用接口类名，属性名不使用bean name（第一种注入方式，报错的方式）。但是需要配合`@Qualifier`显示表名注入的bean name。
+```java
+org.moonzhou.spring.ioc.injection.biz.Demo004AutowiredQualifierBeanName
+org.moonzhou.spring.ioc.injection.biz.Demo004InjectQualifierBeanName
+org.moonzhou.spring.ioc.injection.biz.Demo004ResourceQualifierBeanName
+
+@Resource
+@Qualifier("fourWheeler")
+Vehicle vehicle;
+
+@Autowired
+@Qualifier("twoWheeler")
+private Vehicle vehicle;
+
+@Inject
+@Qualifier("threeWheelerVehcile")
+Vehicle vehicle;
+```
 
 #### 测试
 1. 使用JUnit测试
