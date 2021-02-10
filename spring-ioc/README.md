@@ -85,6 +85,23 @@ TwoWheeler vehicle;
 TwoWheeler vehicle;
 ```
 
+##### injecting using field name
+根据注入的属性名为bean的name来进行注入。
+```java
+org.moonzhou.spring.ioc.injection.biz.Demo003AutowiredFiledName
+org.moonzhou.spring.ioc.injection.biz.Demo003InjectFiledName
+org.moonzhou.spring.ioc.injection.biz.Demo003ResourceFiledName
+
+@Resource
+Vehicle twoWheeler;
+ 
+@Autowired
+Vehicle twoWheeler;
+ 
+@Inject
+Vehicle twoWheeler;
+```
+
 
 #### 测试
 1. 使用JUnit测试

@@ -1,9 +1,7 @@
 package org.moonzhou.spring.ioc.injection;
 
 import org.junit.Test;
-import org.moonzhou.spring.ioc.injection.biz.Demo001AutowiredInterfaceType;
-import org.moonzhou.spring.ioc.injection.biz.Demo001InjectInterfaceType;
-import org.moonzhou.spring.ioc.injection.biz.Demo001ResourceInterfaceType;
+import org.moonzhou.spring.ioc.injection.biz.*;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import static org.junit.Assert.*;
@@ -12,7 +10,7 @@ public class JavaConfigTest {
 
     /**
      * Exception encountered during context initialization - cancelling refresh attempt:
-     *
+     * <p>
      * org.springframework.beans.factory.UnsatisfiedDependencyException:
      * Error creating bean with name 'demo001AutowiredInterfaceType':
      * Unsatisfied dependency expressed through field 'vehicle';
@@ -55,5 +53,33 @@ public class JavaConfigTest {
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(JavaConfig.class);
         Demo001ResourceInterfaceType bean = ctx.getBean(Demo001ResourceInterfaceType.class);
         bean.test();
+    }
+
+    @Test
+    public void testConcreteClass() {
+        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(JavaConfig.class);
+
+        Demo002AutowiredConcreteClass autowiredConcreteClass = ctx.getBean(Demo002AutowiredConcreteClass.class);
+        autowiredConcreteClass.test();
+
+        Demo002InjectConcreteClass injectConcreteClass = ctx.getBean(Demo002InjectConcreteClass.class);
+        injectConcreteClass.test();
+
+        Demo002ResourceConcreteClass resourceConcreteClass = ctx.getBean(Demo002ResourceConcreteClass.class);
+        resourceConcreteClass.test();
+    }
+
+    @Test
+    public void testFiledName() {
+        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(JavaConfig.class);
+
+        Demo003AutowiredFiledName autowiredFiledName = ctx.getBean(Demo003AutowiredFiledName.class);
+        autowiredFiledName.test();
+
+        Demo003InjectFiledName injectFiledName = ctx.getBean(Demo003InjectFiledName.class);
+        injectFiledName.test();
+
+        Demo003ResourceFiledName resourceFiledName = ctx.getBean(Demo003ResourceFiledName.class);
+        resourceFiledName.test();
     }
 }
