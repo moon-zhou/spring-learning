@@ -139,6 +139,39 @@ private List<Vehicle> vehicles;
 private List<Vehicle> vehicles;
 ```
 
+##### special behavior of @Resource during beans conflict while injecting
+当使用`@Qualifier`指定bean name时，而此bean name不存在，`@Autowired`和`@Inject`则会注入失败（相关示例类的`@Component`注解已注释，避免影响其他类无法测试）。
+
+而`@Resource`会根据属性名进行注入，而忽略掉`@Qualifier`里的bean name，所以这个示例是可以正常运行的。
+```java
+org.moonzhou.spring.ioc.injection.biz.Demo006AutowiredFiledNameConflictQualifier
+org.moonzhou.spring.ioc.injection.biz.Demo006InjectFiledNameConflictQualifier
+org.moonzhou.spring.ioc.injection.biz.Demo006ResourceFiledNameConflictQualifier
+
+@Autowired
+@Qualifier("noSuchBean")
+Vehicle twoWheeler;
+
+@Inject
+@Qualifier("noSuchBean")
+Vehicle twoWheeler;
+
+@Resource
+@Qualifier("noSuchBean")
+Vehicle twoWheeler;
+```
+
+##### 注入总结
+`@Autowired` and `@Inject`
+1. **Match by Type** -> bean with same Data type of the variable should be available in spring container
+2. **Restricts by Qualifier** -> If bean of variable’s data type not found or many implementation of the type available then it looks for any qualifier defined and if defined it uses Qualifier and wont go for 3rd option
+3. **Matches by Name** –> searches the bean in the spring whose id should be same as variable name defined while autowiring.
+
+`@Resource`
+1. **Match by Name** -> first it searches for the bean in spring whose id should be same as variable name declared.
+2. **Match by Type** -> bean with same Data type of the variable should be available in spring container
+3. **Restricts by Qualifier**(ignores if 1st attempt said above by name matches)
+
 
 #### 测试
 1. 使用JUnit测试

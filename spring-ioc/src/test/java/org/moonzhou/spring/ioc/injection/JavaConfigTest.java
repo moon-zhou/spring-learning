@@ -112,4 +112,43 @@ public class JavaConfigTest {
         Demo005ResourceListBean resourceListBean = ctx.getBean(Demo005ResourceListBean.class);
         resourceListBean.test();
     }
+
+    /**
+     * org.springframework.beans.factory.UnsatisfiedDependencyException:
+     * Error creating bean with name 'demo006AutowiredFiledNameConflictQualifier':
+     * Unsatisfied dependency expressed through field 'twoWheeler';
+     * nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException:
+     * No qualifying bean of type 'org.moonzhou.spring.ioc.injection.service.Vehicle' available:
+     * expected at least 1 bean which qualifies as autowire candidate. Dependency annotations:
+     * {@org.springframework.beans.factory.annotation.Autowired(required=true), @org.springframework.beans.factory.annotation.Qualifier(value=noSuchBean)}
+     */
+    @Test
+    public void testAutowiredFiledNameConflictQualifier() {
+        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(JavaConfig.class);
+        Demo006AutowiredFiledNameConflictQualifier autowiredFiledNameConflictQualifier = ctx.getBean(Demo006AutowiredFiledNameConflictQualifier.class);
+        autowiredFiledNameConflictQualifier.test();
+    }
+
+    /**
+     * org.springframework.beans.factory.UnsatisfiedDependencyException:
+     * Error creating bean with name 'demo006InjectFiledNameConflictQualifier':
+     * Unsatisfied dependency expressed through field 'twoWheeler';
+     * nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException:
+     * No qualifying bean of type 'org.moonzhou.spring.ioc.injection.service.Vehicle' available:
+     * expected at least 1 bean which qualifies as autowire candidate. Dependency annotations:
+     * {@javax.inject.Inject(), @org.springframework.beans.factory.annotation.Qualifier(value=noSuchBean)}
+     */
+    @Test
+    public void testInjectFiledNameConflictQualifier() {
+        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(JavaConfig.class);
+        Demo006InjectFiledNameConflictQualifier injectFiledNameConflictQualifier = ctx.getBean(Demo006InjectFiledNameConflictQualifier.class);
+        injectFiledNameConflictQualifier.test();
+    }
+
+    @Test
+    public void testResourceFiledNameConflictQualifier() {
+        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(JavaConfig.class);
+        Demo006ResourceFiledNameConflictQualifier resourceFiledNameConflictQualifier = ctx.getBean(Demo006ResourceFiledNameConflictQualifier.class);
+        resourceFiledNameConflictQualifier.test();
+    }
 }
