@@ -206,6 +206,19 @@ Spring组件模型元素与JSR-330变体
 | @Lazy               | -                     | 没有等价物                                                   |
 | ObjectFactory       | Provider              | javax.inject.Provider是Spring的直接替代品ObjectFactory，只有较短的get()方法名称。它也可以与Spring @Autowired或非注释构造函数和setter方法结合使用。 |
 
+#### 条件注入
+两个 Bean 取相同的名字，这样在调用时，才可以自动匹配。然后，给每一个 Bean 加上条件注解，当条件中的 matches 方法返回 true 的时候，这个 Bean 的定义就会生效。
+
+典型的使用场景，就是多环境切换。Spring中的`Profile`的底层就是条件注解，这个从`@Profile`注解的定义就可以看出来：
+```
+1. 实现Condition，多个（因为要多条件选择）
+2. @Conditional里加上对应实现的Condition.class
+3. @Bean注解保证需要选择创建的多个bean name一致，但 new 的对象和条件选择里要一一对应好。
+4. Profile的底层实现就是条件注解
+
+org.moonzhou.spring.ioc.condition
+```
+
 
 #### 测试
 1. 使用JUnit测试

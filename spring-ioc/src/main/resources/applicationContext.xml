@@ -155,4 +155,19 @@
     <context:component-scan base-package="org.moonzhou.spring.ioc.scan.xml" use-default-filters="true">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
+
+    <beans profile="dev">
+        <bean class="org.moonzhou.spring.ioc.condition.xml.DataSource" id="dataSource">
+            <property name="url" value="jdbc:mysql:///devdb"/>
+            <property name="password" value="root"/>
+            <property name="username" value="root"/>
+        </bean>
+    </beans>
+    <beans profile="prod">
+        <bean class="org.moonzhou.spring.ioc.condition.xml.DataSource" id="dataSource">
+            <property name="url" value="jdbc:mysql://111.111.111.111/devdb"/>
+            <property name="password" value="jsdfaklfj789345fjsd"/>
+            <property name="username" value="root"/>
+        </bean>
+    </beans>
 </beans>
