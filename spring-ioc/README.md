@@ -234,6 +234,15 @@ spring web又对Scope进行了扩展，增加了：
     1. 自动包扫描方式
     1. 注意点：`xml`和`java config`的`Scope`跟Bean的配置在一起，而包扫描方式，`Scope`直接写在Bean的类上。
 1. 自定义`Scope`
+TODO
+
+#### 其他
+1. `id`和`name`的区别
+    
+    在`XML`配置中，我们可以看到，即可以通过`id`给`Bean`指定一个唯一标识符，也可以通过`name`来指定，大部分情况下这两个作用是一样的，有一个小小区别：`name`支持取多个。多个`name`之间，用`,`隔开：
+    ```xml
+    <bean name="pen1,pen2,pen3" class="org.moonzhou.spring.ioc.xml.bean.Pen" scope="prototype" />
+    ```
 
 #### 测试
 1. 使用JUnit测试

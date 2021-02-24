@@ -176,4 +176,7 @@
     <!-- 未添加scope，默认的是singleton -->
     <bean id="cup" class="org.moonzhou.spring.ioc.scope.xml.Cup"/>
     <bean id="tea" class="org.moonzhou.spring.ioc.scope.xml.Tea" scope="prototype"/>
+
+    <!-- 使用name -->
+    <bean name="pen1,pen2,pen3" class="org.moonzhou.spring.ioc.xml.bean.Pen" scope="prototype" />
 </beans>
