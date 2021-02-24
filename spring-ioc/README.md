@@ -216,9 +216,24 @@ Spring组件模型元素与JSR-330变体
 3. @Bean注解保证需要选择创建的多个bean name一致，但 new 的对象和条件选择里要一一对应好。
 4. Profile的底层实现就是条件注解
 
+示例：
 org.moonzhou.spring.ioc.condition
 ```
 
+#### scope
+spring默认支持的Scope只有两种：
+* singleton 单例，每次从spring容器中获取到的bean都是同一个对象。
+* prototype 多例，每次从spring容器中获取到的bean都是不同的对象。
+
+spring web又对Scope进行了扩展，增加了：
+* RequestScope 同一次请求从spring容器中获取到的bean都是同一个对象。
+* SessionScope 同一个会话从spring容器中获取到的bean都是同一个对象。 
+1. 直接配置使用方式:`org.moonzhou.spring.ioc.scope`
+    1. xml方式
+    1. java config方式
+    1. 自动包扫描方式
+    1. 注意点：`xml`和`java config`的`Scope`跟Bean的配置在一起，而包扫描方式，`Scope`直接写在Bean的类上。
+1. 自定义`Scope`
 
 #### 测试
 1. 使用JUnit测试
@@ -249,3 +264,4 @@ org.moonzhou.spring.ioc.condition
 1. [Spring 学习，看这一篇万余字干货就够了（上）](https://zhuanlan.zhihu.com/p/99183015)
 1. [@Autowired, @Resource and @Inject](http://javainsimpleway.com/autowired-resource-and-inject-2/)
 1. [@Inject和@Autowired以及@Resource区别](https://blog.csdn.net/u012734441/article/details/51706504)
+1. [spring中那些让你爱不释手的代码技巧](https://juejin.cn/post/6931630572720619534)

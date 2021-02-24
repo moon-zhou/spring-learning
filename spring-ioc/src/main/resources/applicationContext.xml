@@ -155,8 +155,9 @@
     <context:component-scan base-package="org.moonzhou.spring.ioc.scan.xml" use-default-filters="true">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
+    <context:component-scan base-package="org.moonzhou.spring.ioc.scope.scan" />
 
-    <beans profile="dev">
+    <!--<beans profile="dev">
         <bean class="org.moonzhou.spring.ioc.condition.xml.DataSource" id="dataSource">
             <property name="url" value="jdbc:mysql:///devdb"/>
             <property name="password" value="root"/>
@@ -169,5 +170,10 @@
             <property name="password" value="jsdfaklfj789345fjsd"/>
             <property name="username" value="root"/>
         </bean>
-    </beans>
+    </beans>-->
+
+    <!-- scope demo -->
+    <!-- 未添加scope，默认的是singleton -->
+    <bean id="cup" class="org.moonzhou.spring.ioc.scope.xml.Cup"/>
+    <bean id="tea" class="org.moonzhou.spring.ioc.scope.xml.Tea" scope="prototype"/>
 </beans>
