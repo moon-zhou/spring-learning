@@ -47,6 +47,21 @@
         xsi:schemaLocation="http://www.springframework.org/schema/context
                         http://www.springframework.org/schema/context/spring-context.xsd"
         ```
+##### 混合模式
+`Java 配置` + `XML 配置`，核心是使用`@Configuration`和`@ImportResource`，示例：
+```java
+org.moonzhou.spring.ioc.mix
+
+@Configuration
+@ImportResource("classpath:applicationContext.xml")
+public class JavaConfig {
+
+    @Bean
+    MIPhone miPhone() {
+        return new MIPhone();
+    }
+}
+```
 
 #### 注入
 1. `@Autowired`: org.springframework.bean.factory，`通过AutowiredAnnotationBeanPostProcessor`类实现的依赖注入，与`@inject`二者具有可互换性。
@@ -232,7 +247,10 @@ spring web又对Scope进行了扩展，增加了：
     1. xml方式
     1. java config方式
     1. 自动包扫描方式
-    1. 注意点：`xml`和`java config`的`Scope`跟Bean的配置在一起，而包扫描方式，`Scope`直接写在Bean的类上。
+    1. 注意点：
+        * `xml`和`java config`的`Scope`跟Bean的配置在一起，而包扫描方式，`Scope`直接写在Bean的类上。
+        * Singleton Beans with Prototype-bean Dependencies(singleton bean 依赖 prototype bean)：prototype bean也表现为singleton bean
+            > When you use singleton-scoped beans with dependencies on prototype beans, be aware that dependencies are resolved at instantiation time. Thus, if you dependency-inject a prototype-scoped bean into a singleton-scoped bean, a new prototype bean is instantiated and then dependency-injected into the singleton bean. The prototype instance is the sole instance that is ever supplied to the singleton-scoped bean.
 1. 自定义`Scope`
 TODO
 

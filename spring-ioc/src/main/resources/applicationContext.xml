@@ -172,11 +172,23 @@
         </bean>
     </beans>-->
 
-    <!-- scope demo -->
+    <!-- scope demo start -->
     <!-- 未添加scope，默认的是singleton -->
     <bean id="cup" class="org.moonzhou.spring.ioc.scope.xml.Cup"/>
     <bean id="tea" class="org.moonzhou.spring.ioc.scope.xml.Tea" scope="prototype"/>
 
     <!-- 使用name -->
     <bean name="pen1,pen2,pen3" class="org.moonzhou.spring.ioc.xml.bean.Pen" scope="prototype" />
+
+    <!-- 混合模式示例 -->
+    <bean id="iPhone" class="org.moonzhou.spring.ioc.mix.IPhone"/>
+
+    <!-- dependencies： singleton-scoped beans with dependencies on prototype beans-->
+    <bean id="hiMom" class="org.moonzhou.spring.ioc.scope.dependencies.HiMom">
+        <property name="performer" ref="performer"/>
+    </bean>
+    <bean id="performer" class="org.moonzhou.spring.ioc.scope.dependencies.Performer" scope="prototype"/>
+
+    <!-- scope demo end -->
+
 </beans>
