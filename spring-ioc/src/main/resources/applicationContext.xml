@@ -187,6 +187,10 @@
     <bean id="hiMom" class="org.moonzhou.spring.ioc.scope.dependencies.HiMom">
         <property name="performer" ref="performer"/>
     </bean>
+    <bean id="hiMomLookup" class="org.moonzhou.spring.ioc.scope.dependencies.HiMomLookup">
+        <lookup-method name="getPerformer" bean="performer"/>
+    </bean>
+    <bean id="hiMomGetBean" class="org.moonzhou.spring.ioc.scope.dependencies.HiMomGetBean"></bean>
     <bean id="performer" class="org.moonzhou.spring.ioc.scope.dependencies.Performer" scope="prototype"/>
 
     <!-- scope demo end -->

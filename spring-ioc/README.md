@@ -251,6 +251,9 @@ spring web又对Scope进行了扩展，增加了：
         * `xml`和`java config`的`Scope`跟Bean的配置在一起，而包扫描方式，`Scope`直接写在Bean的类上。
         * Singleton Beans with Prototype-bean Dependencies(singleton bean 依赖 prototype bean)：prototype bean也表现为singleton bean
             > When you use singleton-scoped beans with dependencies on prototype beans, be aware that dependencies are resolved at instantiation time. Thus, if you dependency-inject a prototype-scoped bean into a singleton-scoped bean, a new prototype bean is instantiated and then dependency-injected into the singleton bean. The prototype instance is the sole instance that is ever supplied to the singleton-scoped bean.
+            * 方案1：`lookup-method`
+            * 方案2：侵入式`getBean`，手动获取
+            * 示例：`org.moonzhou.spring.ioc.scope.dependencies`
 1. 自定义`Scope`
 TODO
 

@@ -32,6 +32,9 @@ public class DependenciesTest {
 
     }
 
+    /**
+     * 验证Performer本身就是多例的
+     */
     @Test
     public void test02() {
         ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
@@ -42,6 +45,48 @@ public class DependenciesTest {
         System.out.println(performer2);
 
         assertNotEquals(performer1.getName(), performer2.getName());
+    }
+
+    /**
+     * 测试lookup方法
+     */
+    @Test
+    public void test03() {
+        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+
+        HiMomLookup hiMomLookup1 = ctx.getBean(HiMomLookup.class);
+        HiMomLookup hiMomLookup2 = ctx.getBean(HiMomLookup.class);
+
+        System.out.println(hiMomLookup1.getPerformer());
+        System.out.println(hiMomLookup2.getPerformer());
+
+        assertNotEquals(hiMomLookup1.getPerformer().getName(), hiMomLookup2.getPerformer().getName());
+    }
+
+    /**
+     * 测试getBean方法
+     */
+    @Test
+    public void test04() {
+        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+
+        HiMomGetBean hiMomGetBean1 = ctx.getBean(HiMomGetBean.class);
+        HiMomGetBean hiMomGetBean2 = ctx.getBean(HiMomGetBean.class);
+
+        System.out.println("-----------直接get---------");
+        System.out.println(hiMomGetBean1.getPerformer());
+        System.out.println(hiMomGetBean2.getPerformer());
+
+        System.out.println("-----------重新获取后get---------");
+        hiMomGetBean1.createPerformer();
+        Performer hiMomGetBean1Performer = hiMomGetBean1.getPerformer();
+        System.out.println(hiMomGetBean1Performer);
+
+        hiMomGetBean2.createPerformer();
+        Performer hiMomGetBean2Performer = hiMomGetBean2.getPerformer();
+        System.out.println(hiMomGetBean2Performer);
+
+        assertNotEquals(hiMomGetBean1Performer.getName(), hiMomGetBean2Performer.getName());
     }
 
 }
