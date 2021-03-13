@@ -47,9 +47,17 @@ select * from user where id=1 or 1=1;
 select * from user where id=1
 ```
 
+#### sql注入技巧
+
+#### 工具
+1. sqlMap
+
 #### 如何避免
 1. 不使用sql拼接，采用预编译方式，执行sql，在jdbcTemplate上体现为使用：`query(String sql, @Nullable Object[] args, RowMapper<T> rowMapper)`
 1. 做好上层的数据校验，长度，类型，sql关键词（不是根本有效手段，潜在的防御方式，根本还是第一点）
+
+#### 江湖记事
+1. 乌云 世纪佳缘
 
 #### 参考
 1. 《白帽子讲Web安全》
