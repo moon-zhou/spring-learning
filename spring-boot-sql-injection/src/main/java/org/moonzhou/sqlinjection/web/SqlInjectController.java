@@ -29,6 +29,9 @@ public class SqlInjectController {
     private SqlInjectService sqlInjectDefensedService;
 
     /**
+     * 错误回显：
+     * http://localhost:8080/sqlInject/error/1'
+     *
      * 注入查询全量数据：
      * http://localhost:8080/sqlInject/error/1 or 1=1
      *
