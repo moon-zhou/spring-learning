@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: spring-boot-response
+#  thymeleaf:
+#    classpath: /templates/
+server:
+  port: 8080
