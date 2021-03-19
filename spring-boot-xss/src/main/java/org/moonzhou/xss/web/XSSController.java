@@ -1,0 +1,70 @@
+package org.moonzhou.xss.web;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.io.UnsupportedEncodingException;
+import java.util.Base64;
+
+/**
+ * @author moon-zhou <ayimin1989@163.com>
+ * @version V1.0.0
+ * @description
+ * @date 2021/3/16 17:35
+ * @since 1.0
+ */
+@Controller
+@RequestMapping("/xss")
+public class XSSController {
+
+    /**
+     * 简单的XSS测试示例，弹框
+     */
+    private static final String XSS_SCRIPT_ALERT = "<script>alert('it is a xss test!')</script>";
+
+    /**
+     * http://localhost:8080/xss/simpleDemo
+     * rest接口，返回的数据直接在页面上展示
+     *
+     * @return
+     */
+    @RequestMapping("/simpleDemo")
+    @ResponseBody
+    String simpleDemo() {
+
+        return XSS_SCRIPT_ALERT;
+    }
+
+    /**
+     * 反射型XSS，
+     * <p>
+     * 因为连接里无法直接传递脚本，此处为了体现入参攻击，做了base64处理后进行处理。
+     * <p>
+     * 其实日常情况下，我们使用的加密方式传输，也会存在这种情况。
+     * 比如用户名使用加密方式传输，到后台解密入库，如果不做格式校验，那么该字段被使用到的页面就存在xss注入漏洞。
+     * <p>
+     * http://localhost:8080/xss/reflectXSS/MTEx
+     * http://localhost:8080/xss/reflectXSS/PHNjcmlwdD5hbGVydCgnaXQgaXMgYSB4c3MgdGVzdCEnKTwvc2NyaXB0Pg==
+     *
+     * @return
+     */
+    @RequestMapping("/reflectXSS/{xssStr}")
+    @ResponseBody
+    String reflectXSS(@PathVariable(name = "xssStr") String xssStr) {
+
+        String xssContent = "error.";
+
+        try {
+            byte[] xssBytes = Base64.getUrlDecoder().decode(xssStr);
+            xssContent = new String(xssBytes, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return xssContent;
+
+    }
+
+}
