@@ -2,9 +2,13 @@ package org.moonzhou.xss.web;
 
 import lombok.extern.slf4j.Slf4j;
 import org.moonzhou.xss.dto.MonitorData;
+import org.moonzhou.xss.service.MonitorService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * 用于监听记录，xss攻击之后，将用户的cookie信息构造请求，发送给攻击者
@@ -21,6 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/listener")
 public class ListenerController {
 
+    @Autowired
+    private MonitorService monitorService;
 
     /**
      * http://localhost:8080/listener/log
@@ -44,5 +50,16 @@ public class ListenerController {
     @RequestMapping("/store")
     void store(MonitorData monitorData) {
 
+    }
+
+    /**
+     * http://localhost:8080/listener/getAllMonitorData
+     * 展示所有攻击获取到的数据
+     * @return
+     */
+    @RequestMapping("/getAllMonitorData")
+    List<MonitorData> getAllMonitorData() {
+
+        return monitorService.getAllMonitorData();
     }
 }
