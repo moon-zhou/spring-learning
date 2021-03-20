@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello</title>
+</head>
+<body>
+<div>hello, xss反射测试页面</div>
+
+<div id="request_div" style="margin-top: 30px;">
+    <form id="submitForm">
+        <!-- <script>alert('it is a xss test!')</script> -->
+        <!-- $('body').append("<script>alert('it is a xss test!')</script>") -->
+        <input name="username" type="text" />
+    </form>
+
+    <button onclick="ajaxRequest()">ajax提交</button>
+    <button onclick="xssRequest()">form提交</button>
+</div>
+
+<div id="response_div" style="margin-top: 30px;">
+    <span>返回结果</span>
+
+    <!-- 实际开发过程中，通常作为隐藏域存储 -->
+    <input id="showMsg"></input>
+
+    <span id="xssSpan"></span>
+</div>
+</body>
+
+<script src="/js/jquery-3.6.0.min.js"></script>
+<script>
+
+    // form序列化为json
+    $.fn.serializeObject = function()
+    {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function() {
+            if (o[this.name] !== undefined) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    };
+
+    $(function (){
+
+    });
+
+    function ajaxRequest() {
+
+        var formdata = $("#submitForm").serializeObject();
+
+        $.ajax({
+            url: "/xss/ajaxReflectionXSSShow",
+            type: 'POST',
+            dataType: "json",
+            data: JSON.stringify(formdata),
+            processData: false, // tell jQuery not to process the data
+            // contentType: false, // tell jQuery not to set contentType
+            contentType: 'application/json', // tell jQuery not to set contentType
+            success:function (user) {
+
+                console.log(user);
+
+                console.log(user.username);
+
+                // 塞值类方法不会有xss
+                //$("#showMsg").val(user.username);
+
+                // ajax渲染类方法会有xss
+                $("#xssSpan").html(user.username)
+            }
+        });
+    }
+
+    function xssRequest() {
+
+    }
+</script>
+</html>

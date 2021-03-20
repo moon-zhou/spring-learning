@@ -1,9 +1,8 @@
 package org.moonzhou.xss.web;
 
+import org.moonzhou.xss.dto.User;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
@@ -66,5 +65,30 @@ public class XSSController {
         return xssContent;
 
     }
+
+    /**
+     *
+     * 进入页面
+     * http://localhost:8080/xss/xssPage
+     * @return
+     */
+    @RequestMapping("/xssPage")
+    String xssPage() {
+        return "xssPage";
+    }
+
+    /**
+     * 页面提交请求，不做处理，直接返回
+     * http://localhost:8080/xss/ajaxReflectionXSSShow
+     *
+     * 反射型XSS请求
+     * @return
+     */
+    @RequestMapping("/ajaxReflectionXSSShow")
+    @ResponseBody
+    User ajaxReflectionXSSShow(@RequestBody User user) {
+        return user;
+    }
+
 
 }
