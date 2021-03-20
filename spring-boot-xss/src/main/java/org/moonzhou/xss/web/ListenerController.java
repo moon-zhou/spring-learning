@@ -1,11 +1,10 @@
 package org.moonzhou.xss.web;
 
-import org.springframework.web.bind.annotation.PathVariable;
+import lombok.extern.slf4j.Slf4j;
+import org.moonzhou.xss.dto.MonitorData;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.io.UnsupportedEncodingException;
-import java.util.Base64;
 
 /**
  * 用于监听记录，xss攻击之后，将用户的cookie信息构造请求，发送给攻击者
@@ -17,6 +16,7 @@ import java.util.Base64;
  * @date 2021/3/19 17:35
  * @since 1.0
  */
+@Slf4j
 @RestController
 @RequestMapping("/listener")
 public class ListenerController {
@@ -29,11 +29,11 @@ public class ListenerController {
      * @return
      */
     @RequestMapping("/log")
-    void log(String msg) {
+    void log(@RequestBody MonitorData monitorData) {
 
         // 此处仅输出到控制台
-        System.out.println("listening...");
-        System.out.println(msg);
+        log.info("listening...");
+        log.info(monitorData.toString());
     }
 
     /**
@@ -42,7 +42,7 @@ public class ListenerController {
      * 存储攻击的数据
      */
     @RequestMapping("/store")
-    void store() {
+    void store(MonitorData monitorData) {
 
     }
 }

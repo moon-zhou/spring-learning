@@ -136,7 +136,7 @@ public class XSSController {
      * 直接查询存储的xss内容，处理后返回，避免XSS
      * @return
      */
-    @RequestMapping("/querySaveXSS")
+    @RequestMapping("/querySaveWithoutXSS")
     @ResponseBody
     String querySaveWithoutXSS() {
         return "xssPage";
