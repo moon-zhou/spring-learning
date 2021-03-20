@@ -90,5 +90,55 @@ public class XSSController {
         return user;
     }
 
+    /**
+     * 页面提交请求，处理结果并返回，避免XSS
+     * http://localhost:8080/xss/ajaxWithoutReflectionXSSShow
+     *
+     * 反射型XSS请求
+     * @return
+     */
+    @RequestMapping("/ajaxWithoutReflectionXSSShow")
+    @ResponseBody
+    User ajaxWithoutReflectionXSSShow(@RequestBody User user) {
 
+        return null;
+    }
+
+    /**
+     *
+     * http://localhost:8080/xss/saveXSS
+     *
+     * 页面提交请求，存储后返回
+     * 存储型XSS请求
+     * @return
+     */
+    @RequestMapping("/saveXSS")
+    @ResponseBody
+    String saveXSS() {
+        return "xssPage";
+    }
+
+    /**
+     *
+     * http://localhost:8080/xss/querySaveXSS
+     * 直接查询存储的xss内容返回
+     * @return
+     */
+    @RequestMapping("/querySaveXSS")
+    @ResponseBody
+    String querySaveXSS() {
+        return "xssPage";
+    }
+
+    /**
+     *
+     * http://localhost:8080/xss/querySaveWithoutXSS
+     * 直接查询存储的xss内容，处理后返回，避免XSS
+     * @return
+     */
+    @RequestMapping("/querySaveXSS")
+    @ResponseBody
+    String querySaveWithoutXSS() {
+        return "xssPage";
+    }
 }
