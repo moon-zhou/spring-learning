@@ -15,17 +15,19 @@ import org.moonzhou.xss.handler.CookieProducerInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 /**
  * 功能描述: 配置初始化类<br>
- *
+ * org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter已过时，
+ * 使用org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport
  * @author moon-zhou
  * @see [相关类/方法]（可选）
  * @since [产品/模块版本] （可选）
  */
 @Component
-public class AppInterceptorConfig extends WebMvcConfigurerAdapter {
+public class AppInterceptorConfig extends WebMvcConfigurationSupport {
 
     /**
      * 生产cookie拦截器
@@ -38,6 +40,17 @@ public class AppInterceptorConfig extends WebMvcConfigurerAdapter {
         // cookie拦截器初始化，并且设置只拦截controller请求，不拦截静态资源
         registry.addInterceptor(cookieProducerInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/", "/css/**", "/js/**", "/img/**");
+                .excludePathPatterns("/", "/css/**", "/js/**", "/img/**");  // 不能配置.excludePathPatterns("/","/static/**");
+    }
+
+    /**
+     * WebMvcConfigurationSupport 会导致静态资源无法加载，而WebMvcConfigurerAdapter不会，但是2.0之后adapter已经废弃
+     * https://blog.csdn.net/fmwind/article/details/82832758
+     * @param registry
+     */
+    @Override
+    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
+        super.addResourceHandlers(registry);
     }
 }
