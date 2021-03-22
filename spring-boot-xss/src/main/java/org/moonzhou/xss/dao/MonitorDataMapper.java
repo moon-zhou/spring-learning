@@ -24,5 +24,15 @@ import java.util.List;
  */
 public interface MonitorDataMapper {
 
+    /**
+     * 查询所有监控数据
+     * @return
+     */
     List<MonitorDataDmo> findAll();
+
+    /**
+     * 插入监控数据
+     * @return
+     */
+    int insertMonitorData(MonitorDataDmo monitorDataDmo);
 }

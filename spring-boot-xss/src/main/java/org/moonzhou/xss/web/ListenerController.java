@@ -25,13 +25,19 @@ import java.util.List;
 @RequestMapping("/listener")
 public class ListenerController {
 
+    /**
+     * 入库成功标志位
+     */
+    private static final int DB_INSERT_SUCCESS_FLAG = 1;
+
     @Autowired
     private MonitorService monitorService;
 
     /**
      * http://localhost:8080/listener/log
-     *
+     * <p>
      * 打印攻击获取到的数据
+     *
      * @return
      */
     @RequestMapping("/log")
@@ -44,17 +50,21 @@ public class ListenerController {
 
     /**
      * http://localhost:8080/listener/store
-     * 
+     * <p>
      * 存储攻击的数据
      */
     @RequestMapping("/store")
-    void store(MonitorData monitorData) {
+    void store(@RequestBody MonitorData monitorData) {
 
+        int result = monitorService.insertMonitorData(monitorData);
+
+        log.info("monitor data stroe: {}", result == DB_INSERT_SUCCESS_FLAG ? "success" : "fail");
     }
 
     /**
      * http://localhost:8080/listener/getAllMonitorData
      * 展示所有攻击获取到的数据
+     *
      * @return
      */
     @RequestMapping("/getAllMonitorData")

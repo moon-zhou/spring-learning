@@ -3,6 +3,10 @@
 <mapper namespace="org.moonzhou.xss.dao.MonitorDataMapper">
 
     <select id="findAll" resultType="MonitorDataDmo">
-        select * from monitor_data;
+        select * from monitor_data
     </select>
+
+    <insert id="insertMonitorData" parameterType="MonitorDataDmo">
+        insert into monitor_data (data) values (#{data,jdbcType=VARCHAR})
+    </insert>
 </mapper>
