@@ -1,8 +1,11 @@
 package org.moonzhou.xss.web;
 
+import org.apache.commons.text.StringEscapeUtils;
+import org.moonzhou.xss.constants.CommonConstants;
 import org.moonzhou.xss.dto.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
@@ -66,6 +69,8 @@ public class XSSController {
 
     }
 
+    /*****************************************************************************/
+
     /**
      *
      * 进入页面
@@ -91,7 +96,37 @@ public class XSSController {
     }
 
     /**
-     * 页面提交请求，处理结果并返回，避免XSS
+     * 输入校验：页面提交请求，处理结果并返回，避免XSS
+     * http://localhost:8080/xss/ajaxWithoutReflectionXSSCheck
+     *
+     * 反射型XSS请求
+     * @return
+     */
+    @RequestMapping("/ajaxWithoutReflectionXSSCheck")
+    @ResponseBody
+    User ajaxWithoutReflectionXSSCheck(@RequestBody User user) {
+
+        boolean checkFlag = true;
+
+        String username = user.getUsername();
+        if (null != username) {
+            for (String illegalChar : CommonConstants.ILLEGAL_CHAR) {
+                if (username.contains(illegalChar)) {
+                    checkFlag = false;
+                    break;
+                }
+            }
+        }
+
+        if (!checkFlag) {
+            user.setUsername("illegal char...");
+        }
+
+        return user;
+    }
+
+    /**
+     * 输出编码：页面提交请求，处理结果并返回，避免XSS
      * http://localhost:8080/xss/ajaxWithoutReflectionXSSShow
      *
      * 反射型XSS请求
@@ -101,44 +136,14 @@ public class XSSController {
     @ResponseBody
     User ajaxWithoutReflectionXSSShow(@RequestBody User user) {
 
-        return null;
+        User userDto = new User();
+
+        userDto.setUsername(StringEscapeUtils.escapeHtml4(user.getUsername()));
+
+        return userDto;
     }
 
-    /**
-     *
-     * http://localhost:8080/xss/saveXSS
-     *
-     * 页面提交请求，存储后返回
-     * 存储型XSS请求
-     * @return
-     */
-    @RequestMapping("/saveXSS")
-    @ResponseBody
-    String saveXSS() {
-        return "xssPage";
-    }
+    /*****************************************************************************/
 
-    /**
-     *
-     * http://localhost:8080/xss/querySaveXSS
-     * 直接查询存储的xss内容返回
-     * @return
-     */
-    @RequestMapping("/querySaveXSS")
-    @ResponseBody
-    String querySaveXSS() {
-        return "xssPage";
-    }
 
-    /**
-     *
-     * http://localhost:8080/xss/querySaveWithoutXSS
-     * 直接查询存储的xss内容，处理后返回，避免XSS
-     * @return
-     */
-    @RequestMapping("/querySaveWithoutXSS")
-    @ResponseBody
-    String querySaveWithoutXSS() {
-        return "xssPage";
-    }
 }

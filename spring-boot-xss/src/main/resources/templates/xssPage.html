@@ -15,15 +15,16 @@
         <input name="username" type="text" />
     </form>
 
-    <button onclick="ajaxRequest()">ajax提交</button>
-    <button onclick="xssRequest()">form提交</button>
+    <button onclick="ajaxRequest()">xss存在-ajax提交</button>
+    <button onclick="ajaxNoXssCheckRequest()">xss不存在，输入校验-ajax提交</button>
+    <button onclick="ajaxNoXssRequest()">xss不存在，输出编码-ajax提交</button>
 </div>
 
 <div id="response_div" style="margin-top: 30px;">
     <span>返回结果</span>
 
     <!-- 实际开发过程中，通常作为隐藏域存储 -->
-    <input id="showMsg"></input>
+    <input hidden id="showMsg"></input>
 
     <span id="xssSpan"></span>
 </div>
@@ -55,11 +56,21 @@
     });
 
     function ajaxRequest() {
+        ajaxDo("/xss/ajaxReflectionXSSShow")
+    }
 
+    function ajaxNoXssCheckRequest() {
+        ajaxDo("/xss/ajaxWithoutReflectionXSSCheck");
+    }
+
+    function ajaxNoXssRequest() {
+        ajaxDo("/xss/ajaxWithoutReflectionXSSShow");
+    }
+
+    function ajaxDo(url) {
         var formdata = $("#submitForm").serializeObject();
-
         $.ajax({
-            url: "/xss/ajaxReflectionXSSShow",
+            url: url,
             type: 'POST',
             dataType: "json",
             data: JSON.stringify(formdata),
@@ -76,14 +87,12 @@
                 //$("#showMsg").val(user.username);
 
                 // ajax渲染类方法会有xss（脚本更改页面dom的方法，如果返回值不处理，都能触发XSS，此处的html和append，都能触发）
+                //
+                $("#xssSpan").html("");
                 $("#xssSpan").html(user.username)
                 // $("#xssSpan").append(user.username)
             }
         });
-    }
-
-    function xssRequest() {
-
     }
 </script>
 </html>
