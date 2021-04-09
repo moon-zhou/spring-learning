@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DOM Based XSS Demo</title>
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <script>
+        function xsstest() {
+            var str = document.getElementById("input").value;
+            document.getElementById("output").innerHTML = "<img src='"+str+"'></img>";
+        }
+
+        // 获取地址参数
+        function getQueryString(url) {
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(url.indexOf("?") + 1);
+                strs = str.split("&");
+                for (var i = 0; i < strs.length; i++) {
+                    theRequest[strs[i].split("=")[0]] = decodeURI(strs[i].split("=")[1]);
+                }
+            }
+            return theRequest;
+        }
+
+        /**
+         * 构造请求：http://localhost:8080/page/DomXssDemo.html?param=111
+         * 构造请求TODO：http://localhost:8080/page/DomXssDemo.html?param=http%3A%2F%2Flocalhost%3A8081%2Flistener%2Flog
+         *
+         */
+        $(function(){
+            console.info(window.location.href);
+
+            // 模拟连接里带查询条件
+            // 从请求链接里面获取param字段值，放到查询框里（非空）
+            var queryString = getQueryString(window.location.href);
+            var param = queryString["param"];
+
+            if (param) {
+                $("#input").val(param);
+                xsstest();
+            }
+
+        });
+    </script>
+</head>
+<body>
+<div id="output"></div>
+<input type="text" id="input" size=50 value="" />
+<input type="button" value="search" onclick="xsstest()" />
+</body>
+</html>
+
