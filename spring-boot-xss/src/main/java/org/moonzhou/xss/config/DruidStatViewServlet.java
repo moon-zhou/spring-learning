@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 
 /**
  * druid监控
+ * http://localhost:8080/druid/login.html
  */
 @WebServlet(
         urlPatterns = {"/druid/*"},

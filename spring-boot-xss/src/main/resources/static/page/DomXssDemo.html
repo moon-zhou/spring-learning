@@ -2,11 +2,14 @@
 <html>
 <head>
     <title>DOM Based XSS Demo</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <script src="/js/jquery-3.6.0.min.js"></script>
     <script>
         function xsstest() {
             var str = document.getElementById("input").value;
-            document.getElementById("output").innerHTML = "<img src='"+str+"'></img>";
+            // document.getElementById("output").innerHTML = "<img src='"+str+"'></img>";
+            var innerHTML = "<a href='"+str+"'>跳转</a>";
+            document.getElementById("output").innerHTML = innerHTML;
         }
 
         // 获取地址参数
@@ -23,12 +26,16 @@
         }
 
         /**
-         * 构造请求：http://localhost:8080/page/DomXssDemo.html?param=111
-         * 构造请求TODO：http://localhost:8080/page/DomXssDemo.html?param=http%3A%2F%2Flocalhost%3A8081%2Flistener%2Flog
+         * 构造请求（示例）：http://localhost:8080/page/DomXssDemo.html?param=111
+         * 构造请求(未成功)：http://localhost:8080/page/DomXssDemo.html?param=http%3A%2F%2Flocalhost%3A8081%2Fjs%2Fattack.js
+         * 构造请求：http://localhost:8080/page/DomXssDemo.html?param=javascript%3Avoid(0)%27%20onclick%3Dalert(%2Fxss%2F)%20%2F%2F%27%20%3EtestLink%3C%2Fa%3E
          *
+         * http://localhost:8080/page/DomXssDemo.html
+         * 查询条件： ' onclick=alert(/xss/) //' >跳转</a>
+         * 或者： javascript:void(0)' onclick=alert(/xss/) //' >testLink</a>
          */
         $(function(){
-            console.info(window.location.href);
+            // console.info(window.location.href);
 
             // 模拟连接里带查询条件
             // 从请求链接里面获取param字段值，放到查询框里（非空）
@@ -36,7 +43,7 @@
             var param = queryString["param"];
 
             if (param) {
-                $("#input").val(param);
+                $("#input").val(decodeURIComponent(param));
                 xsstest();
             }
 

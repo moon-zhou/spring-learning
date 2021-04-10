@@ -52,8 +52,13 @@
 ##### 防御方法
 脚本通过DOM动态地输出数据到页面而不是依赖于将数据提交给服务器端，而从客户端获得DOM中的数据在本地执行，因而仅从服务器端是无法防御的。其防御在于：
 1. 避免客户端文档重写、重定向或其他敏感操作，同时避免使用客户端数据，这些操作尽量在服务器端使用动态页面来实现
-1. 分析和强化客户端JS代码，特别是受到用户影响的DOM对象，注意能直接修改DOM和创建HTML文件的相关函数或方法，并在输出变量到页面时先进行编码转义，如输出到HTML则进行HTML编码、输出到<script>则进行JS编码
+1. 分析和强化客户端JS代码，特别是受到用户影响的DOM对象，注意能直接修改DOM和创建HTML文件的相关函数或方法，并在输出变量到页面时先进行编码转义，如输出到HTML则进行HTML编码、输出到`<script>`则进行JS编码
 
+##### 示例
+```
+http://localhost:8080/page/DomXssDemo.html?param=javascript%3Avoid(0)%27%20onclick%3Dalert(%2Fxss%2F)%20%2F%2F%27%20%3EtestLink%3C%2Fa%3E
+```
+![dom xss](./img/domXSS.png)
 
 #### 防御手段
 1. waf（非侵入）
@@ -142,7 +147,9 @@
     | th:remove   |             删除某个属性             | `<tr th:remove="all"> 1.all:删除包含标签和所有的孩子。2.body:不包含标记删除,但删除其所有的孩子。3.tag:包含标记的删除,但不删除它的孩子。4.all-but-first:删除所有包含标签的孩子,除了第一个。5.none:什么也不做。这个值是有用的动态评估。` |
     | th:attr     | 设置标签属性，多个属性可以用逗号分隔 | `比如 th:attr="src=@{/image/aa.jpg},title=#{logo}"，此标签不太优雅，一般用的比较少。` |
 
-    
+
+#### 示例
+`https://github.com/moon-zhou/spring-learning/tree/master/spring-boot-xss`
 
 #### 参考
 1. 《白帽子讲Web安全》

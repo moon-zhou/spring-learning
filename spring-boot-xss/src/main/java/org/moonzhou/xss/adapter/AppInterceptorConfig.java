@@ -66,9 +66,16 @@ public class AppInterceptorConfig extends WebMvcConfigurationSupport {
     protected void addCorsMappings(CorsRegistry registry) {
         super.addCorsMappings(registry);
 
+        // 模拟攻击者的后台服务，可以跨域
         registry.addMapping("/listener/**")
                 .allowedHeaders("*")
                 .allowedMethods("POST", "GET")
                 .allowedOrigins("*");
+
+        // 模拟攻击者的前台脚本，可以跨域
+        /*registry.addMapping("/js/**")
+                .allowedHeaders("*")
+                .allowedMethods("POST", "GET")
+                .allowedOrigins("*");*/
     }
 }

