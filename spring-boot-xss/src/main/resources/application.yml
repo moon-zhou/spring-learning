@@ -37,6 +37,8 @@ mybatis:
   type-aliases-package: org.moonzhou.xss.dmo
   # xml配置方式，xml文件的位置
   mapper-locations: classpath:mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 server:
   port: 8080
