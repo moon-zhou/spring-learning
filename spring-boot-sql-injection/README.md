@@ -72,6 +72,9 @@ select * from user where id=1 or 1=1;
 select * from user where id=1
 ```
 
+#### Mybatis下示例
+![mybatis sql injection](./img/mybatisSQLInjection.png)
+
 #### 工具
 1. sqlMap(TODO 实践)
 
@@ -87,3 +90,7 @@ select * from user where id=1
 
 #### 参考
 1. 《白帽子讲Web安全》
+
+#### My Github
+1. https://github.com/moon-zhou/spring-learning/tree/master/spring-boot-sql-injection
+1. https://github.com/moon-zhou/spring-learning/blob/master/spring-boot-xss/src/main/java/org/moonzhou/xss/web/SQLInjectionController.java
