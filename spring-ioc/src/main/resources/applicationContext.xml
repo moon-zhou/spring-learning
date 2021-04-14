@@ -195,4 +195,9 @@
 
     <!-- scope demo end -->
 
+
+    <!-- aware demo start -->
+    <bean id="driveService" class="org.moonzhou.spring.ioc.aware.DriveService"/>
+    <!-- aware demo end -->
+
 </beans>

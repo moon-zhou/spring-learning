@@ -257,6 +257,91 @@ spring web又对Scope进行了扩展，增加了：
 1. 自定义`Scope`
 TODO
 
+#### Aware 接口
+Spring框架中提供了许多实现了Aware接口的类，这些类主要是为了辅助一些自定义的类（bean）访问容器中的对象信息。
+![spring bean arch](./img/springBeanArch.png)
+##### 公共特性
+1. 都是以 `Aware` 结尾
+1. 都继承自 Aware
+1. 接口内均定义了一个 `set` 方法
+##### spring 中的 Aware 接口
+![aware](./img/aware.png)
+1. `BeanNameAware`：
+
+##### 使用方式
+1. 实现相关 `Aware` 接口，重写对应的 `set` 方法
+1. 对应 `set` 方法里，将入参里的 `spring` 容器相关属性设置到自己使用到的相关 `bean` 里
+##### 使用场景
+1. 需要动态获取 `spring bean`，如工具类，singleton 依赖 prototype 时的解决方案
+    ```java
+    /**
+     * 自定义一个实现类，一定要注入到容器中
+     */
+    @Component
+    public class ApplicationContextAwareImpl implements ApplicationContextAware {
+    ​
+        /**
+         * 容器启动的时候会调用这个方法，只需要将applicationContext设置即可
+         * @param applicationContext 容器启动会自动注入
+         * @throws BeansException
+         */
+        @Override
+        public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+            //将其设置到ApplicationContextUtil
+            ApplicationContextUtil.setApplicationContext(applicationContext);
+        }
+    }
+    
+    import org.springframework.context.ApplicationContext;
+    /**
+     * ApplicationContext的工具类
+     */
+    public class ApplicationContextUtil {
+        /**
+         * ApplicationContext对象，会ApplicationContextAwareImpl中的setApplicationContext方法中赋值
+         */
+        private static ApplicationContext applicationContext;
+    ​
+        public static ApplicationContext getApplicationContext() {
+            return applicationContext;
+        }
+    ​
+        public static void setApplicationContext(ApplicationContext applicationContext) {
+            ApplicationContextUtil.applicationContext = applicationContext;
+        }
+    ​
+        /**
+         * 根据类型获取指定的bean
+         * @param requiredType Class
+         * @param <T> 泛型
+         * @return
+         */
+        public static <T> T getBean(Class<T> requiredType ){
+            return applicationContext.getBean(requiredType);
+        }
+    ​
+        /**
+         * 根据名称和类型获取Bean
+         * @param name bean的id
+         * @param requiredType class
+         * @param <T>
+         * @return
+         */
+        public static <T> T getBean(String name,Class<T> requiredType){
+            return applicationContext.getBean(name,requiredType);
+        }
+    }
+    
+    // 工具类使用
+    StringRedisTemplate redisTemplate=ApplicationContextUtil.getBean("stringRedisTemplate",StringRedisTemplate.class);
+    
+    ```
+    ```java
+    org.moonzhou.spring.ioc.scope.dependencies.DependenciesTest
+    ```
+1. 
+
+
 #### 其他
 1. `id`和`name`的区别
     
@@ -292,6 +377,8 @@ TODO
 
 #### 参考
 1. [Spring 学习，看这一篇万余字干货就够了（上）](https://zhuanlan.zhihu.com/p/99183015)
+1. [Spring 学习，看这一篇万余字干货就够了（下）](https://zhuanlan.zhihu.com/p/99183453)
 1. [@Autowired, @Resource and @Inject](http://javainsimpleway.com/autowired-resource-and-inject-2/)
 1. [@Inject和@Autowired以及@Resource区别](https://blog.csdn.net/u012734441/article/details/51706504)
 1. [spring中那些让你爱不释手的代码技巧](https://juejin.cn/post/6931630572720619534)
+1. [Spring中的Aware](https://zhuanlan.zhihu.com/p/68877265)
