@@ -31,7 +31,7 @@
 1. 复杂属性的注入：对象/数组/Map/Properties
 
 ##### Java 配置（通过 Java 代码将 Bean 注册到 Spring 容器中）
-1. 需要添加`@Configuration`和`@Bean`，Bean 的默认名称是方法名。以上面的案例为例，Bean 的名字是 `sayHello/sayHi/sayHi2`。
+1. 需要添加`@Configuration`和`@Bean`，Bean 的默认名称是方法名（内省-Introspector）。以上面的案例为例，Bean 的名字是 `sayHello/sayHi/sayHi2`。
 1. 配置的加载，是使用`AnnotationConfigApplicationContext`来实现
 
 ##### 自动化配置(包扫描，既可以配置xml，也可以通过Java代码进行配置)
@@ -251,8 +251,8 @@ spring web又对Scope进行了扩展，增加了：
         * `xml`和`java config`的`Scope`跟Bean的配置在一起，而包扫描方式，`Scope`直接写在Bean的类上。
         * Singleton Beans with Prototype-bean Dependencies(singleton bean 依赖 prototype bean)：prototype bean也表现为singleton bean
             > When you use singleton-scoped beans with dependencies on prototype beans, be aware that dependencies are resolved at instantiation time. Thus, if you dependency-inject a prototype-scoped bean into a singleton-scoped bean, a new prototype bean is instantiated and then dependency-injected into the singleton bean. The prototype instance is the sole instance that is ever supplied to the singleton-scoped bean.
-            * 方案1：`lookup-method`
-            * 方案2：侵入式`getBean`，手动获取
+            * 方案1：`lookup-method`(xml配置) 或者 `@Lookup`(注解)
+            * 方案2：`Method Injection` (Aware侵入式`getBean`，手动获取)
             * 示例：`org.moonzhou.spring.ioc.scope.dependencies`
 1. 自定义`Scope`
 TODO
@@ -266,6 +266,16 @@ Spring框架中提供了许多实现了Aware接口的类，这些类主要是为
 1. 接口内均定义了一个 `set` 方法
 ##### spring 中的 Aware 接口
 ![aware](./img/aware.png)
+
+| Aware子接口                    | 描述                                                         |
+| :----------------------------- | :----------------------------------------------------------- |
+| BeanNameAware                  | 获取容器中 Bean 的名称                                       |
+| BeanFactoryAware               | 获取当前 BeanFactory ，这样可以调用容器的服务                |
+| ApplicationContextAware        | 同上，在[BeanFactory 和 ApplicationContext 的区别](https://mp.weixin.qq.com/s/YVl20QqUHTXMubr68wXR1A) 中已明确说明 |
+| MessageSourceAware             | 获取 Message Source 相关文本信息                             |
+| ApplicationEventPublisherAware | 发布事件                                                     |
+| ResourceLoaderAware            | 获取资源加载器，这样获取外部资源文件                         |
+
 1. `BeanNameAware`：
 
 ##### 使用方式
