@@ -25,6 +25,8 @@
         <!-- springboot logback -->
         <module>spring-boot-logback</module>
         <module>spring-boot-web-threadlocal</module>
+
+        <!-- springboot 返回值处理示例 -->
         <module>spring-boot-response</module>
 
         <!-- springboot sql注入 -->
@@ -32,6 +34,9 @@
 
         <!-- spring ioc 示例 -->
         <module>spring-ioc</module>
+
+        <!-- spring aop 示例 -->
+        <module>spring-aop</module>
     </modules>
     <developers>
         <developer>
