@@ -33,12 +33,25 @@ Java 中的动态代理有两种实现方式：
 - 使用自定义注解
 - 使用规则
 
+#### 自定义注解
+1. 侵入式的
+1. 方法级注解
+
+#### 规则
+execution表达式
+
+
 #### My Hub
 ```
-org.moonzhou.spring.aop.aspect.MoonLogAspectV1
+动态代理示例：
+https://github.com/moon-zhou/advanced-java/tree/master/advancedprogramming/src/main/java/org/moonzhou/proxy
+
+
+org.moonzhou.spring.aop.annotationconfig.aspect.MoonLogAspectV1
 和
-org.moonzhou.spring.aop.aspect.MoonLogAspectV2
-运行时只能放开已开，避免同时放开输出信息错乱。当然也可以在实现了做区分输出。
+org.moonzhou.spring.aop.annotationconfig.aspect.MoonLogAspectV2
+运行时只能放开已开，避免同时放开输出信息错乱。
+但是同时放开，也可以看出多个aop时，是责任链模式，类似filter的特性，先开始的后结束。
 ```
 
 

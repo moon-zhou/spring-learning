@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                http://www.springframework.org/schema/context
+                http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+
+    <bean id="job" class="org.moonzhou.spring.aop.xmlconfig.biz.JobImpl"/>
+
+    <bean id="moonLogAspect" class="org.moonzhou.spring.aop.xmlconfig.aspect.MoonLogAspect"/>
+    <aop:config>
+        <aop:pointcut id="pc" expression="execution(* org.moonzhou.spring.aop.xmlconfig.biz..*.*(..))"/>
+        <aop:aspect ref="moonLogAspect">
+            <aop:before method="before" pointcut-ref="pc"/>
+            <aop:after method="after" pointcut-ref="pc"/>
+            <aop:after-returning method="returing" pointcut-ref="pc" returning="r"/>
+            <aop:after-throwing method="afterThrowing" pointcut-ref="pc" throwing="e"/>
+            <aop:around method="around" pointcut-ref="pc"/>
+        </aop:aspect>
+    </aop:config>
+</beans>
