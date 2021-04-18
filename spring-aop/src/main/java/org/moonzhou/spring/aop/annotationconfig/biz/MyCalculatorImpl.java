@@ -1,6 +1,6 @@
-package org.moonzhou.spring.aop.biz;
+package org.moonzhou.spring.aop.annotationconfig.biz;
 
-import org.moonzhou.spring.aop.annotation.MoonLog;
+import org.moonzhou.spring.aop.annotationconfig.annotation.MoonLog;
 import org.springframework.stereotype.Component;
 
 @Component

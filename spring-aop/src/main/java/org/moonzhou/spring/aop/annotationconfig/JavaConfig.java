@@ -1,4 +1,4 @@
-package org.moonzhou.spring.aop;
+package org.moonzhou.spring.aop.annotationconfig;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

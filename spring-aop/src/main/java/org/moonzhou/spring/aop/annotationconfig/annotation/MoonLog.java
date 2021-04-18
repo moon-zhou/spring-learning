@@ -1,4 +1,4 @@
-package org.moonzhou.spring.aop.annotation;
+package org.moonzhou.spring.aop.annotationconfig.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

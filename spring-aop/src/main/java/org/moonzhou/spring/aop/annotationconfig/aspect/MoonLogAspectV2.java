@@ -9,7 +9,7 @@
  * <author>      <time>      <version>    <desc>
  * 修改人姓名    修改时间    版本号       描述
  */
-package org.moonzhou.spring.aop.aspect;
+package org.moonzhou.spring.aop.annotationconfig.aspect;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -32,7 +32,7 @@ public class MoonLogAspectV2 {
     /**
      * 可以统一定义切点
      */
-    @Pointcut("@annotation(org.moonzhou.spring.aop.annotation.MoonLog)")
+    @Pointcut("@annotation(org.moonzhou.spring.aop.annotationconfig.annotation.MoonLog)")
     public void pointcut() {
 
     }

@@ -9,7 +9,7 @@
  * <author>      <time>      <version>    <desc>
  * 修改人姓名    修改时间    版本号       描述
  */
-package org.moonzhou.spring.aop.aspect;
+package org.moonzhou.spring.aop.annotationconfig.aspect;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -35,7 +35,7 @@ public class MoonLogAspectV1 {
      *
      * @param joinPoint 包含了目标方法的关键信息
      */
-    @Before(value="@annotation(org.moonzhou.spring.aop.annotation.MoonLog)")
+    @Before(value="@annotation(org.moonzhou.spring.aop.annotationconfig.annotation.MoonLog)")
     public void before(JoinPoint joinPoint) {
         Signature signature = joinPoint.getSignature();
         String name = signature.getName();
@@ -49,7 +49,7 @@ public class MoonLogAspectV1 {
      *
      * @param joinPoint
      */
-    @After("@annotation(org.moonzhou.spring.aop.annotation.MoonLog)")
+    @After("@annotation(org.moonzhou.spring.aop.annotationconfig.annotation.MoonLog)")
     public void after(JoinPoint joinPoint) {
         Signature signature = joinPoint.getSignature();
         String name = signature.getName();
@@ -66,7 +66,7 @@ public class MoonLogAspectV1 {
      * @param joinPoint
      * @param returnValue
      */
-    @AfterReturning(value = "@annotation(org.moonzhou.spring.aop.annotation.MoonLog)", returning = "returnValue")
+    @AfterReturning(value = "@annotation(org.moonzhou.spring.aop.annotationconfig.annotation.MoonLog)", returning = "returnValue")
     public void returning(JoinPoint joinPoint, Integer returnValue) {
         Signature signature = joinPoint.getSignature();
         String name = signature.getName();
@@ -81,7 +81,7 @@ public class MoonLogAspectV1 {
      * @param joinPoint
      * @param e
      */
-    @AfterThrowing(value = "@annotation(org.moonzhou.spring.aop.annotation.MoonLog)", throwing = "e")
+    @AfterThrowing(value = "@annotation(org.moonzhou.spring.aop.annotationconfig.annotation.MoonLog)", throwing = "e")
     public void afterThrowing(JoinPoint joinPoint, Exception e) {
         Signature signature = joinPoint.getSignature();
         String name = signature.getName();
@@ -95,7 +95,7 @@ public class MoonLogAspectV1 {
      * @param proceedingJoinPoint
      * @return 注意这里的返回值类型最好是 Object ，和拦截到的方法相匹配
      */
-    @Around(value="@annotation(org.moonzhou.spring.aop.annotation.MoonLog)")
+    @Around(value="@annotation(org.moonzhou.spring.aop.annotationconfig.annotation.MoonLog)")
     public Object around(ProceedingJoinPoint proceedingJoinPoint) {
 
         Object proceed = null;

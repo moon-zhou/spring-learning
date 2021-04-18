@@ -1,10 +1,9 @@
 package org.moonzhou.spring.aop;
 
 import org.junit.Test;
-import org.moonzhou.spring.aop.biz.MyCalculatorImpl;
+import org.moonzhou.spring.aop.annotationconfig.JavaConfig;
+import org.moonzhou.spring.aop.annotationconfig.biz.MyCalculatorImpl;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-import static org.junit.Assert.*;
 
 public class SpringAOPTest {
 
