@@ -36,10 +36,15 @@
         </dependency>
 
         <!-- @Inject -->
-        <dependency>
+        <!--<dependency>
             <groupId>javax.inject</groupId>
             <artifactId>inject</artifactId>
             <version>1.0</version>
+        </dependency>-->
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
         </dependency>
 
         <dependency>
