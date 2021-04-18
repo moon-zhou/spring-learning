@@ -8,7 +8,7 @@
                 http://www.springframework.org/schema/context
                 http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
 
-
+    <!--aop 示例 start -->
     <bean id="job" class="org.moonzhou.spring.aop.xmlconfig.biz.JobImpl"/>
 
     <bean id="moonLogAspect" class="org.moonzhou.spring.aop.xmlconfig.aspect.MoonLogAspect"/>
@@ -22,4 +22,18 @@
             <aop:around method="around" pointcut-ref="pc"/>
         </aop:aspect>
     </aop:config>
+    <!--aop 示例 end -->
+
+
+    <!-- jdbc template start -->
+    <bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSource">
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/moon?characterEncoding=utf8&amp;connectTimeout=1000&amp;socketTimeout=3000&amp;autoReconnect=true&amp;useUnicode=true&amp;useSSL=false&amp;serverTimezone=GMT%2B8"/>
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+    </bean>
+    <bean class="org.springframework.jdbc.core.JdbcTemplate" id="jdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!-- jdbc template end -->
 </beans>

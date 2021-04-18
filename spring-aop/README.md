@@ -40,6 +40,15 @@ Java 中的动态代理有两种实现方式：
 #### 规则
 execution表达式
 
+#### JDBC Template
+JdbcTemplate 是 Spring 利用 Aop 思想封装的 JDBC 操作工具。
+
+在查询时，如果使用了 BeanPropertyRowMapper，要求查出来的字段必须和 Bean 的属性名一一对应。如果不一样，则不要使用 BeanPropertyRowMapper，此时需要自定义 RowMapper 或者给查询的字段取别名。
+
+
+#### 事务
+
+
 
 #### My Hub
 ```
