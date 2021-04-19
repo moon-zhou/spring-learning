@@ -47,7 +47,7 @@ JdbcTemplate 是 Spring 利用 Aop 思想封装的 JDBC 操作工具。
 
 
 #### 事务
-
+Spring 中的事务主要是利用 Aop 思想，简化事务的配置，可以通过 Java 配置也可以通过 XML 配置。
 
 
 #### My Hub

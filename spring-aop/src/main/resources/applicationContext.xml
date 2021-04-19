@@ -4,9 +4,11 @@
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-                http://www.springframework.org/schema/context
-                http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd
+                http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <!--aop 示例 start -->
     <bean id="job" class="org.moonzhou.spring.aop.xmlconfig.biz.JobImpl"/>
@@ -25,7 +27,10 @@
     <!--aop 示例 end -->
 
 
-    <!-- jdbc template start -->
+
+
+
+    <!-- jdbc template start & transaction the same config -->
     <bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSource">
         <property name="username" value="root"/>
         <property name="password" value="root"/>
@@ -35,5 +40,34 @@
     <bean class="org.springframework.jdbc.core.JdbcTemplate" id="jdbcTemplate">
         <property name="dataSource" ref="dataSource"/>
     </bean>
-    <!-- jdbc template end -->
+    <!-- jdbc template end & transaction the same config -->
+
+    <!-- transaction config start -->
+    <!-- 配置事务管理器 -->
+    <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!-- 配置事务的增强，通过配置通知（advice） -->
+    <!--<tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            &lt;!&ndash; 可配置事务传播特性-propagation，后续单独示例演示 &ndash;&gt;
+            <tx:method name="update*"/>
+            <tx:method name="insert*"/>
+            <tx:method name="add*"/>
+            <tx:method name="delete*"/>
+        </tx:attributes>
+    </tx:advice>-->
+
+    <!-- 配置切面 -->
+    <!--<aop:config>
+        <aop:pointcut id="pc1" expression="execution(* org.moonzhou.spring.aop.transaction.service.xml.*.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="pc1"/>
+    </aop:config>-->
+
+    <!-- 使用注解方式（侵入式），这一句就是上面tx:advice和aop:config -->
+    <tx:annotation-driven transaction-manager="transactionManager" />
+    <!-- transaction config end -->
+
+    <!-- transaction demo bean directory -->
+    <context:component-scan base-package="org.moonzhou.spring.aop.transaction" />
 </beans>
