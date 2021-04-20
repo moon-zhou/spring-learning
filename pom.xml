@@ -37,6 +37,7 @@
 
         <!-- spring aop 示例 -->
         <module>spring-aop</module>
+        <module>spring-event</module>
     </modules>
     <developers>
         <developer>
