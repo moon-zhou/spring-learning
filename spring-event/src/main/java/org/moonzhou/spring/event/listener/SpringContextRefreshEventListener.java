@@ -13,10 +13,10 @@ public class SpringContextRefreshEventListener implements ApplicationListener<Co
     public void onApplicationEvent(ContextRefreshedEvent event) {
         System.out.println("bean刷新了..." + event.getApplicationContext().getBeanDefinitionCount());
 
-        //获取所有的bean
+        // 获取所有的bean
         String[] definitionNames = event.getApplicationContext().getBeanDefinitionNames();
         for (String name : definitionNames) {
-            //打印名称
+            // 打印名称
             System.out.println("name = " + name);
         }
     }

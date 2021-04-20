@@ -1,4 +1,5 @@
 ### spring Event&Listener
+spring事件是基于事件/监听器编程模型，在这个模型中，有几个重要的角色，事件（`ApplicationEvent`），应用事件监听器（`ApplicationListener`），以及事件发布者（`ApplicationContext`）。
 
 #### spring自有的Event
 | Event                        | Explanation                                                  |
@@ -11,11 +12,22 @@
 | `ServletRequestHandledEvent` | A subclass of `RequestHandledEvent` that adds Servlet-specific context information. |
 
 #### 自定义Event
+1. 继承 `ApplicationEvent`
+1. 实现 `ApplicationListener`，同时第一步里自定义的Event通过泛型，传入本步骤里的自定义Listener
+1. `ApplicationContext`进行事件发布
+1. 其他：`@Order`来调整监听的顺序
+
+相关代码结构如下：
+![custom event](./img/customEvent.png)
+![custom listener](./img/customListener.png)
+![generics](./img/generics.png)
 
 
 #### MyHub
 
 ```java
+
+
 
 // springboot的测试方法
 @SpringBootTest
@@ -31,3 +43,9 @@ public class ListenerTest {
   }
 }
 ```
+
+
+#### 参考
+1. [spring doc](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#spring-core)
+2. [Spring ApplicationListener的使用](Spring ApplicationListener的使用)
+3. [spring事件之ApplicationListener](https://www.jianshu.com/p/0fb29a27eb61)
