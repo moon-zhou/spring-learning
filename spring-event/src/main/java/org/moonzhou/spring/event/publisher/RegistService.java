@@ -35,10 +35,12 @@ public class RegistService implements ApplicationEventPublisherAware {
     }
 
     public void regist() {
-        System.out.println("doing regist biz......");
+        System.out.println(this.getClass().getName() + "    " + Thread.currentThread().getName() + "    " + "doing regist biz......");
 
         // 发布自定义事件
         RegistEvent registEvent = new RegistEvent("regist", "moon");
         applicationEventPublisher.publishEvent(registEvent);
+
+        System.out.println(this.getClass().getName() + "    " + Thread.currentThread().getName() + "    " + "doing regist end......");
     }
 }

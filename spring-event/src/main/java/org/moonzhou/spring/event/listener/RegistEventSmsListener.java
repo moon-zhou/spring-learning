@@ -31,12 +31,12 @@ public class RegistEventSmsListener {
     @Order(1)
     @EventListener
     public void listen(RegistEvent registEvent) {
-        System.out.println(registEvent.getUserName() + "已注册成功~~~");
+        System.out.println(this.getClass().getName() + "    " + Thread.currentThread().getName() + "    " + registEvent.getUserName() + "已注册成功~~~");
 
         // 模拟耗时业务，同时也验证了多个事件监听，默认是单线程处理的。
         try {
             TimeUnit.SECONDS.sleep(10);
-            System.out.println("done......");
+            System.out.println(this.getClass().getName() + "    " + Thread.currentThread().getName() + "    " + "done......");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
