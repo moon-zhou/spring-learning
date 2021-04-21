@@ -2,12 +2,11 @@ package org.moonzhou.spring.event;
 
 import org.junit.Test;
 import org.moonzhou.spring.event.event.MyEvent;
+import org.moonzhou.spring.event.publisher.LoginService;
 import org.moonzhou.spring.event.publisher.MyService;
 import org.moonzhou.spring.event.publisher.RegistService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-import static org.junit.Assert.*;
 
 public class AppConfigTest {
 
@@ -63,6 +62,17 @@ public class AppConfigTest {
 
         RegistService registService = ctx.getBean(RegistService.class);
         registService.regist();
+    }
+
+    /**
+     * 测试多个监听器监听一个事件时，异步处理
+     */
+    @Test
+    public void testMultiEventAsync() {
+        ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+
+        LoginService loginService = ctx.getBean(LoginService.class);
+        loginService.login();
     }
 
 }
