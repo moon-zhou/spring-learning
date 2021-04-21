@@ -2,6 +2,8 @@ package org.moonzhou.spring.event;
 
 import org.junit.Test;
 import org.moonzhou.spring.event.event.MyEvent;
+import org.moonzhou.spring.event.publisher.MyService;
+import org.moonzhou.spring.event.publisher.RegistService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -38,6 +40,29 @@ public class AppConfigTest {
 
         // 通过ApplicationContext发布时间
         ctx.publishEvent(myEvent);
+    }
+
+    /**
+     * 测试通过ApplicationEventPublisher发布自定义事件
+     */
+    @Test
+    public void testApplicationEventPublisher() {
+        ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+
+        MyService myService = ctx.getBean(MyService.class);
+        myService.doing();
+    }
+
+    /**
+     * 测试<code>@EventListener</code>
+     * 且多个监听（串行）
+     */
+    @Test
+    public void testMultiEventListener() {
+        ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+
+        RegistService registService = ctx.getBean(RegistService.class);
+        registService.regist();
     }
 
 }
