@@ -26,12 +26,11 @@ import java.util.concurrent.TimeUnit;
  * @since [产品/模块版本] （可选）
  */
 @Component
-
 public class RegistEventSmsListener {
 
     @Order(1)
     @EventListener
-    public void listener(RegistEvent registEvent) {
+    public void listen(RegistEvent registEvent) {
         System.out.println(registEvent.getUserName() + "已注册成功~~~");
 
         // 模拟耗时业务，同时也验证了多个事件监听，默认是单线程处理的。

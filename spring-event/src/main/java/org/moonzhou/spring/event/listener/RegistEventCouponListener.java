@@ -28,7 +28,7 @@ public class RegistEventCouponListener {
 
     @Order(2)
     @EventListener
-    public void listener(RegistEvent registEvent) {
+    public void listen(RegistEvent registEvent) {
         System.out.println("账号：" + registEvent.getUserName() + "注册完成。发送一张50元霸王券~~~");
     }
 }

@@ -55,7 +55,7 @@ public class AppConfigTest {
 
     /**
      * 测试<code>@EventListener</code>
-     * 且多个监听（串行）
+     * 且多个监听（串行），可控制监听事件顺序
      */
     @Test
     public void testMultiEventListener() {
