@@ -3,6 +3,7 @@ package org.moonzhou.spring.event;
 import org.junit.Test;
 import org.moonzhou.spring.event.event.MyEvent;
 import org.moonzhou.spring.event.publisher.LoginService;
+import org.moonzhou.spring.event.publisher.MyGenericService;
 import org.moonzhou.spring.event.publisher.MyService;
 import org.moonzhou.spring.event.publisher.RegistService;
 import org.springframework.context.ApplicationContext;
@@ -73,6 +74,17 @@ public class AppConfigTest {
 
         LoginService loginService = ctx.getBean(LoginService.class);
         loginService.login();
+    }
+
+    /**
+     * 测试泛型事件参数
+     */
+    @Test
+    public void testGenericParam() {
+        ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+
+        MyGenericService genericService = ctx.getBean(MyGenericService.class);
+        genericService.doing();
     }
 
 }
