@@ -37,7 +37,12 @@
 
         <!-- spring aop 示例 -->
         <module>spring-aop</module>
+
+        <!-- spring event 示例 -->
         <module>spring-event</module>
+
+        <!-- spring boot 下线组件 -->
+        <module>spring-boot-offline</module>
     </modules>
     <developers>
         <developer>

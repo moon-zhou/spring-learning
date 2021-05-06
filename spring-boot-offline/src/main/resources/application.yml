@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: spring-boot-offline
+server:
+  port: 8080
