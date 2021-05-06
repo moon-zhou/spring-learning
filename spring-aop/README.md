@@ -23,11 +23,14 @@ Java 中的动态代理有两种实现方式：
 其中jdk动态代理必须是基于接口进行代理，也就是我们的目标类必须实现一个接口，才能进行代理。
 
 五种通知:
-- 前置通知
-- 后置通知
-- 异常通知
-- 返回通知
-- 环绕通知
+- 前置通知(before)
+- 后置通知(after)
+- 异常通知(afterThrowing)
+- 返回通知(afterReturning)
+- 环绕通知(around)
+
+执行顺序：
+> around > before > around > after > afterReturning
 
 切点定义：
 - 使用自定义注解
