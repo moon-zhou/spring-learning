@@ -15,6 +15,9 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.*;
+import org.moonzhou.offline.annotation.Offline;
+import org.moonzhou.offline.exception.AjaxOfflineException;
+import org.moonzhou.offline.exception.FormOfflineException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -47,17 +50,25 @@ public class AOfflineAspect {
      *
      * @param joinPoint 包含了目标方法的关键信息
      */
-    @Before(value="pointcut()")
-    public void before(JoinPoint joinPoint) {
+    @Before(value="pointcut() && @annotation(offline)")
+    public void before(JoinPoint joinPoint, Offline offline) {
 
         //获取RequestAttributes
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         //从获取RequestAttributes中获取HttpServletRequest的信息
         HttpServletRequest request = (HttpServletRequest) requestAttributes.resolveReference(RequestAttributes.REFERENCE_REQUEST);
 
-        System.out.println("=================" + request.getRequestURI());
+        // 获取注解值，同时抛送运行时异常，表达提交和ajax提交的异常进行区分处理
+        if (offline.offline()) {
 
-        // TODO 获取注解值，同时抛送运行时异常，表达提交和ajax提交的异常进行区分处理
+            // 如果是ajax请求
+            if ("XMLHttpRequest".equalsIgnoreCase(request.getHeader("x-requested-with"))) {
+                throw new AjaxOfflineException("ajax请求：" + request.getRequestURI() + "已下线");
+            } else {
+                // 表单类请求
+                throw new FormOfflineException("表单请求：" + request.getRequestURI() + "已下线");
+            }
+        }
     }
 
 }
