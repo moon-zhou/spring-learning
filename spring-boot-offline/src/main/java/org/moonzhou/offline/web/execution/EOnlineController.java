@@ -27,7 +27,7 @@ public class EOnlineController {
      */
     @RequestMapping("/retStr")
     String retStr() {
-        return "hello offline project!!!";
+        return "hello offline project, but this service is online !!!";
     }
 
     /**

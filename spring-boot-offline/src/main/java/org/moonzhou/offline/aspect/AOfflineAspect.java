@@ -53,9 +53,9 @@ public class AOfflineAspect {
     @Before(value="pointcut() && @annotation(offline)")
     public void before(JoinPoint joinPoint, Offline offline) {
 
-        //获取RequestAttributes
+        // 获取RequestAttributes
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-        //从获取RequestAttributes中获取HttpServletRequest的信息
+        // 从获取RequestAttributes中获取HttpServletRequest的信息
         HttpServletRequest request = (HttpServletRequest) requestAttributes.resolveReference(RequestAttributes.REFERENCE_REQUEST);
 
         // 获取注解值，同时抛送运行时异常，表达提交和ajax提交的异常进行区分处理

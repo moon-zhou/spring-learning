@@ -11,10 +11,16 @@
     <input name="username" type="text" />
 </form>-->
 
-<div id="request_div" style="margin-top: 30px;">
-    <button onclick="ajaxOfflineRequest()">ajax请求-请求已下线</button>
-    <button onclick="ajaxOnlineRequest()">ajax请求-请求未下线</button>
+<div style="margin-top: 30px;">
+    <button onclick="ajaxOfflineRequestAnnotation()">注解方式：ajax请求-请求已下线</button>
+    <button onclick="ajaxOnlineRequestAnnotation()">注解方式：ajax请求-请求未下线</button>
 </div>
+
+<div style="margin-top: 30px;">
+    <button onclick="ajaxOfflineRequestExecution()">execution方式：ajax请求-请求已下线</button>
+    <button onclick="ajaxOnlineRequestExecution()">execution方式：ajax请求-请求未下线</button>
+</div>
+
 </body>
 
 <script src="/js/jquery-3.6.0.min.js"></script>
@@ -42,12 +48,20 @@
 
     });*/
 
-    function ajaxOfflineRequest() {
-        ajaxDo("/aoffline/retJson")
+    function ajaxOfflineRequestAnnotation() {
+        ajaxDo("/aoffline/retJson");
     }
 
-    function ajaxOnlineRequest() {
+    function ajaxOnlineRequestAnnotation() {
         ajaxDo("/aonline/retJson");
+    }
+
+    function ajaxOfflineRequestExecution() {
+        ajaxDo("/eoffline/retJsonOff");
+    }
+
+    function ajaxOnlineRequestExecution() {
+        ajaxDo("/eonline/retJson");
     }
 
     function ajaxDo(url) {
