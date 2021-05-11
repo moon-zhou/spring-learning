@@ -1,4 +1,5 @@
 ### spring学习集成项目
+此项目为日常spring里知识点测试，以及相关spring在实际开发过程中的实现方案示例。
 
 #### 目录
 1. `spring-boot-unified-exception-handing`:统一异常处理
@@ -15,6 +16,8 @@
     * `spring-boot-csrf`:TODO尚未开始
 1. spring学习:
     * `spring-ioc`
-    * `spring-aop`(TODO文章整理未完成)
+    * `spring-aop`
     * `spring-transaction`:TODO尚未开始
     * `spring-event`:spring事件
+1. 公共组件类
+    * `spring-boot-offline`：基于aspectJ的http接口下线组件
