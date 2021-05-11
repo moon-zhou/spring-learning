@@ -41,7 +41,22 @@ Java 中的动态代理有两种实现方式：
 1. 方法级注解
 
 #### 规则
-execution表达式
+execution表达式(参考自本工程的`spring-boot-offline`模块)
+
+```
+execution(* org.moonzhou..service.*.*(..))
+```
+* execution 表达式的主体
+* 第一个* 代表任意的返回值
+* `org.moonzhou` aop所横切的包名
+* 包后面.. 表示当前包及其子包
+* 第二个* 表示类名，代表所有类
+* .*(..) 表示任何方法,括号代表参数 .. 表示任意参数
+
+```
+execution(* org.moonzhou.offline.web.execution.EOfflineController.*Off(..))
+```
+* EOfflineController类下以Off为结尾的方法，任意入参，任意返回
 
 #### JDBC Template
 JdbcTemplate 是 Spring 利用 Aop 思想封装的 JDBC 操作工具。
