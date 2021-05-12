@@ -58,6 +58,101 @@ execution(* org.moonzhou.offline.web.execution.EOfflineController.*Off(..))
 ```
 * EOfflineController类下以Off为结尾的方法，任意入参，任意返回
 
+#### 参数传递
+> To make argument values available to the advice body, you can use the
+  binding form of args. If you use a parameter name in place of a type name in an args expression,
+  the value of the corresponding argument is passed as the parameter value when the advice is
+  invoked.
+
+> The args(account,..) part of the pointcut expression serves two purposes. First, it restricts
+  matching to only those method executions where the method takes at least one parameter, and the
+  argument passed to that parameter is an instance of Account. Second, it makes the actual Account
+  object available to the advice through the account parameter.
+
+```java
+// 方式一
+@Before("com.xyz.myapp.CommonPointcuts.dataAccessOperation() && args(account,..)")
+public void validateAccount(Account account) {
+  // ...
+}
+
+// 方式二
+@Pointcut("com.xyz.myapp.CommonPointcuts.dataAccessOperation() && args(account,..)")
+private void accountDataAccessOperation(Account account) {}
+@Before("accountDataAccessOperation(account)")
+public void validateAccount(Account account) {
+  // ...
+}
+```
+
+#### 泛型参数传递
+```java
+public interface Sample<T> {
+  void sampleGenericMethod(T param);
+  void sampleGenericCollectionMethod(Collection<T> param);
+}
+
+@Before("execution(* ..Sample+.sampleGenericMethod(*)) && args(param)")
+public void beforeSampleMethod(MyType param) {
+  // Advice implementation
+}
+```
+
+但是不能够使用泛型集合（This approach does not work for generic collections. so you cannot define a pointcut as follow:）
+```java
+@Before("execution(* ..Sample+.sampleGenericCollectionMethod(*)) && args(param)")
+public void beforeSampleMethod(Collection<MyType> param) {
+    // Advice implementation
+}
+```
+
+
+#### 注解传递
+> The proxy object ( this), target object ( target), and annotations ( @within, @target, @annotation, and
+  @args) can all be bound in a similar fashion. 
+
+```java
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface Auditable {
+  AuditCode value();
+}
+
+@Before("com.xyz.lib.Pointcuts.anyPublicMethod() && @annotation(auditable)")
+public void audit(Auditable auditable) {
+  AuditCode code = auditable.value();
+  // ...
+}
+```
+
+offline里的示例：
+```java
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Offline {
+    boolean offline() default true;
+}
+
+@Pointcut("@annotation(org.moonzhou.offline.annotation.Offline)")
+public void pointcut() {
+
+}
+@Before(value="pointcut() && @annotation(offline)")
+public void before(JoinPoint joinPoint, Offline offline) {
+    // ...
+}
+```
+
+#### 顺序
+1. `@Aspect`配合`@Order`使用，可以控制多个切面的执行顺序（责任链模式）
+1. 当然，同一个切面的不同通知的执行顺序也需要主要
+![one aspect process](./img/oneAspectProcess.png)
+![more aspect process](./img/moreAspectProcess.png)
+
+#### 其他概念
+1. Introductions
+1. Aspect Instantiation Models
+
 #### JDBC Template
 JdbcTemplate 是 Spring 利用 Aop 思想封装的 JDBC 操作工具。
 
