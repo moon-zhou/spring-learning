@@ -12,6 +12,7 @@
 package org.moonzhou.filter.auto;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.moonzhou.constant.GlobalConstant;
 import org.moonzhou.constant.ParamsConstant;
 import org.springframework.core.annotation.Order;
@@ -42,9 +43,20 @@ public class MonitorFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         log.debug("start to monitor request validate...");
 
-        // 添加该filter自定义的参数
-        servletRequest.setAttribute(ParamsConstant.MONITOR_FILTER_PARAM_KEY_NAME, "hello monitor filter");
 
+        // 判断ServletRequest是否已经有值
+        /*ServletRequest request = GlobalConstant.CURRENT_THREAD_REQUEST.get();
+        if (null != request && StringUtils.isNotBlank((String)request.getAttribute(ParamsConstant.MONITOR_FILTER_PARAM_KEY_NAME))) {
+            log.info("request param is not null ****************");
+        } else {
+            log.info("monitor request==" + request);
+            if (null != request) {
+                log.info("monitor param==" + request.getAttribute(ParamsConstant.MONITOR_FILTER_PARAM_KEY_NAME));
+            }
+        }*/
+
+        // 添加该filter自定义的参数
+        servletRequest.setAttribute(ParamsConstant.MONITOR_FILTER_PARAM_KEY_NAME, "hello monitor filter" + System.currentTimeMillis());
         GlobalConstant.CURRENT_THREAD_REQUEST.set(servletRequest);
 
         log.info("MonitorFilter doFilter start...");

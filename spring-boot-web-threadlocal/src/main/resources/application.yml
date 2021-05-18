@@ -3,3 +3,8 @@ spring:
     name: spring-boot-web-threadlocal
 server:
   port: 8080
+  tomcat:
+    threads:
+      max: 3 # 为了能够快速重现tomcat容器使用线程池，同时使用到TreadLocal的示例为线程级别证据
+      min-spare: 3
+

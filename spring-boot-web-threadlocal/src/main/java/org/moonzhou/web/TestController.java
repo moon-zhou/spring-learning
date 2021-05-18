@@ -50,6 +50,9 @@ public class TestController {
 
         result.put("responseCode", "0000");
         result.put("responseMsg", msg);
+        result.put("logId", GlobalConstant.LOG.get().getId());
+
+        log.info(msg);
 
         return result;
     }

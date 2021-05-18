@@ -11,6 +11,8 @@
  */
 package org.moonzhou.constant;
 
+import org.moonzhou.dto.LogDto;
+
 import javax.servlet.ServletRequest;
 
 /**
@@ -23,4 +25,6 @@ import javax.servlet.ServletRequest;
 public class GlobalConstant {
 
     public static ThreadLocal<ServletRequest> CURRENT_THREAD_REQUEST = new ThreadLocal<>();
+
+    public static ThreadLocal<LogDto> LOG = new ThreadLocal<>();
 }
