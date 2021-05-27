@@ -47,6 +47,42 @@
     * ServletRequest的示例，也就是第五点，尚未分析源码
     * LogBack的MDC设置某一次请求的线程号，在请求结束后，删除线程号的设置值，避免日志里出现不正确的线程号id。(finally{})
 
+#### 内存
+![ThreadLocal memory leak](./img/ThreadLocal_Memory_Leak.png)
+
+Entry的key不存在内存泄漏，因为弱引用。
+但是存在 当前线程->ThreadLocal->ThreadLocalMap->Entry的一条强引用链，因此如果当前线程没有死亡，或者还持有ThreadLocal实例的引用Entry就无法被回收。
+
+当我们使用线程池来处理请求的时候，一个请求处理完成，线程并不一定会被回收，因此线程还会持有ThreadLocal实例的引用，即使ThreadLocal已经没有作用了。此时就发生了ThreadLocal的内存泄露。
+针对该问题，ThreadLocalMap 的 set 方法中，通过 replaceStaleEntry 方法将所有键为 null 的 Entry 的值设置为 null，从而使得该值可被回收。另外，会在 rehash 方法中通过 expungeStaleEntry 方法将键和值为 null 的 Entry 设置为 null 从而使得该 Entry 可被回收。通过这种方式，ThreadLocal 可防止内存泄漏。
+
+#### 思考
+通常的MVC编程或者面向spring的编程，大多数时候我们并没有考虑并发的问题。根本原因还是我们使用到的这些对象，都是一些无状态的对象。
+而且在spring里面，我们通常都是使用的默认的Scope，即对象的实例均为单例的。而单例的无状态对象都是线程安全的。
+当然，也是可以设置为多例，因为无状态对象是不受单例还是多例的影响，但是实际中单例节省了不断创建对象与GC的开销。
+
+**无状态的对象即是自身没有状态的对象，自然也就不会因为多个线程的交替调度而破坏自身状态导致线程安全问题。**
+无状态对象包括我们经常使用的DO、DTO、VO这些只作为数据的实体模型的贫血对象，还有Service、DAO和Controller，这些对象并没有自己的状态，它们只是用来执行某些操作的。
+例如，每个DAO提供的函数都只是对数据库的CRUD，而且每个数据库Connection都作为函数的局部变量（**局部变量是在用户栈中的，而且用户栈本身就是线程私有的内存区域，所以不存在线程安全问题**），用完即关（或交还给连接池）。
+
+
+ThreadLocal是一个为线程提供线程局部变量的工具类。它的思想也十分简单，就是为线程提供一个线程私有的变量副本，这样多个线程都可以随意更改自己线程局部的变量，不会影响到其他线程。(解决的是线程内部对象访问的问题，一定程度上避免对象作为参数到处传递。)
+不过需要注意的是，ThreadLocal提供的只是一个**浅拷贝**，如果变量是一个引用类型，那么就要考虑它内部的状态是否会被改变，想要解决这个问题可以通过重写ThreadLocal的`initialValue()`函数来自己实现深拷贝，建议在使用ThreadLocal时一开始就重写该函数。
+
+ThreadLocal与像synchronized这样的锁机制是不同的。
+首先，它们的应用场景与实现思路就不一样，锁更强调的是如何同步多个线程去正确地共享一个变量，ThreadLocal则是为了解决同一个变量如何不被多个线程共享。
+从性能开销的角度上来讲，如果锁机制是用时间换空间的话，那么ThreadLocal就是用空间换时间。
+
+
+#### 使用场景
+1. 数据库连接（事务）
+1. Session管理
+
+
+#### TransmittableThreadLocal
+阿里开源的ThreadLocal在线程池下传递值：https://github.com/alibaba/transmittable-thread-local
+
+
 #### springboot里Filter的实现
 1. 手动
     ```
@@ -62,3 +98,7 @@
 
 #### 注意点
 > 手动和自动配置方式是互斥的，如果同时配置，自动的配置将无法生效，此处注释掉手动配置代码
+
+
+#### 参考
+1. [聊一聊Spring中的线程安全性](https://juejin.cn/post/6844903509037416455)

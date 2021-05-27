@@ -9,7 +9,7 @@
 1. `spring-boot-logback`:logback使用集成
 1. `spring-boot-request-param-mapping`:http请求参数接收示例
 1. `spring-boot-response`:http接口返回参数示例
-1. `spring-boot-web-threadlocal`: threadlocal实际使用(TODO还有部分未完成)
+1. `spring-boot-web-threadlocal`: threadlocal实际使用
 1. 安全问题：
     * `spring-boot-sql-injection`:sql注入
     * `spring-boot-xss`:xss注入
