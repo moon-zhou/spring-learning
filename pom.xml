@@ -13,33 +13,33 @@
     <description>spring learning collection</description>
 
     <modules>
-        <!-- springboot 统一异常处理示例 -->
-        <module>spring-boot-unified-exception-handing</module>
+        <!-- spring ioc 示例 -->
+        <module>spring-ioc</module>
+        <!-- spring aop 示例 -->
+        <module>spring-aop</module>
+        <!-- spring event 示例 -->
+        <module>spring-event</module>
 
         <!-- springboot 测试 -->
         <module>spring-boot-testing</module>
 
         <!-- springboot 各类请求参数后台映射示例 -->
         <module>spring-boot-request-param-mapping</module>
+        <!-- springboot 返回值处理示例 -->
+        <module>spring-boot-response</module>
+        <!-- springboot 统一异常处理示例 -->
+        <module>spring-boot-unified-exception-handing</module>
 
         <!-- springboot logback -->
         <module>spring-boot-logback</module>
         <module>spring-boot-web-threadlocal</module>
 
-        <!-- springboot 返回值处理示例 -->
-        <module>spring-boot-response</module>
-
         <!-- springboot sql注入 -->
         <module>spring-boot-sql-injection</module>
-
-        <!-- spring ioc 示例 -->
-        <module>spring-ioc</module>
-
-        <!-- spring aop 示例 -->
-        <module>spring-aop</module>
-
-        <!-- spring event 示例 -->
-        <module>spring-event</module>
+        <!-- springboot xss -->
+        <module>spring-boot-xss</module>
+        <!-- springboot csrf -->
+        <module>spring-boot-csrf</module>
 
         <!-- spring boot 下线组件 -->
         <module>spring-boot-offline</module>
