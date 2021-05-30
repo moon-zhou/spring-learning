@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: spring-boot-csrf
+server:
+  port: 8080
