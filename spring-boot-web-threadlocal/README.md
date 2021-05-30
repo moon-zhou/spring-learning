@@ -99,6 +99,15 @@ ThreadLocal与像synchronized这样的锁机制是不同的。
 #### 注意点
 > 手动和自动配置方式是互斥的，如果同时配置，自动的配置将无法生效，此处注释掉手动配置代码
 
+#### MyHub
+1. [threadlocal web应用示例](https://github.com/moon-zhou/spring-learning/)
+    ```
+    spring-boot-web-threadlocal
+    ```
+1. [threadlocal 使用示例](https://github.com/moon-zhou/advanced-java)
+    ```
+    advanced-java/advancedprogramming/src/main/java/org/moonzhou/advancedprogramming/concurrency/threadlocal/
+    ```
 
 #### 参考
 1. [聊一聊Spring中的线程安全性](https://juejin.cn/post/6844903509037416455)
