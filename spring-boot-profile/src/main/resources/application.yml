@@ -1,0 +1,6 @@
+spring:
+  profile:
+    active: prd
+
+server:
+  port: 8080
