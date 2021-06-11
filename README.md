@@ -6,6 +6,7 @@
 1. 国际化支持:TODO尚未开始
 1. `spring-boot-testing`:测试模块
     > 性能测试某些方法，某些算法
+1. `spring-boot-profile`：springboot区分环境时的一些配置或特性
 1. `spring-boot-logback`:logback使用集成
 1. `spring-boot-request-param-mapping`:http请求参数接收示例
 1. `spring-boot-response`:http接口返回参数示例

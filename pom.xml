@@ -22,6 +22,8 @@
 
         <!-- springboot 测试 -->
         <module>spring-boot-testing</module>
+        <!-- springboot profile -->
+        <module>spring-boot-profile</module>
 
         <!-- springboot 各类请求参数后台映射示例 -->
         <module>spring-boot-request-param-mapping</module>
