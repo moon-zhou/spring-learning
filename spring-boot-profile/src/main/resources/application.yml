@@ -1,9 +1,18 @@
 spring:
   profiles:
     active: prd
+    include:
+      - security
 
 server:
   port: 8080
+
+
+
+
+system-info:
+  code: 001
+  name: spring-boot-profile
 
 
 # 因为多配置文件问题，为了更好的复用，直接将此处的配置注释掉，如果运行示例时，可以自行放开注释
