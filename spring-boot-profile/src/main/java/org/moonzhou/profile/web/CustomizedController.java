@@ -11,6 +11,7 @@
  */
 package org.moonzhou.profile.web;
 
+import org.moonzhou.profile.config.bean.Duts;
 import org.moonzhou.profile.config.bean.Security;
 import org.moonzhou.profile.config.bean.SystemInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +46,11 @@ public class CustomizedController {
     @Value("${security.system}")
     private String securitySystem;
 
+    @Autowired
+    private Duts duts;
+
     /**
-     * 测试返回json数据
+     * 测试返回json数据：配置到组件扩展的文件里application-xxx.yml，通过绑定POJO使用
      * http://localhost:8083/customized/config/security
      * @return
      */
@@ -61,7 +65,7 @@ public class CustomizedController {
     }
 
     /**
-     * 测试返回json数据
+     * 测试返回json数据：配置到组件配置文件application.yml，通过绑定POJO使用
      * http://localhost:8083/customized/config/system
      * @return
      */
@@ -76,7 +80,7 @@ public class CustomizedController {
     }
 
     /**
-     * 测试返回json数据
+     * 测试返回json数据：配置到组件配置文件application.yml，通过注解使用
      * http://localhost:8083/customized/config/value
      * @return
      */
@@ -87,6 +91,21 @@ public class CustomizedController {
         result.put("success", true);
         result.put("data1", systemName);
         result.put("data2", securitySystem);
+
+        return result;
+    }
+
+    /**
+     * 测试返回json数据：单独配置文件，duts，通过绑定POJO使用
+     * http://localhost:8083/customized/config/single
+     * @return
+     */
+    @RequestMapping("single")
+    @ResponseBody
+    Map<String, Object> single() {
+        Map<String, Object> result = new HashMap<>();
+        result.put("success", true);
+        result.put("data", duts.toString());
 
         return result;
     }

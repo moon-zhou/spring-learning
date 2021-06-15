@@ -44,8 +44,7 @@ spring:
 server:
   port: 8083
 ```
-
-#### 引申自定义配置
+#### 扩展application.yml的自定义配置
 1. 新增配置文件，与springboot的标准配置文件同目录（e.g.`application.yml`），且配置文件名称格式为`application-XXX.yml`，如本示例里面的`application-security.yml`
 1. 在`application.yml`文件中加上配置：
     ```yml
@@ -75,6 +74,47 @@ server:
 1. 如果配置在springboot的标准配置文件里，比如`application.yml`，直接创建配置bean和通过注解使用，不需要额外配置。
 1. 当然，对于上述的配置，均可以直接使用`@Value`进行直接使用。但是对于具体业务而言，更倾向于使用抽象配置文件以及抽象对应配置bean的方式。配置独立，标准配置文件配置springboot等组件类配置，避免配置内容繁杂，配置项“爆照”，无法维护。
 
+#### 引申自定义配置
+1. 配置目录下创建yml文件：`duts.yml`
+1. 创建配置文件对应的POJO：`Duts.java`
+    ```java
+    @Data
+    @Configuration
+    @ConfigurationProperties(prefix = "duts")
+    @PropertySource(value = "classpath:duts.yml", factory = MyYamlPropertySourceFactory.class)
+    public class Duts {
+        private String account;
+    
+        private String keyId;
+    
+        private String keySecret;
+    }
+    ```
+1. 创建对应的自定义的`PropertySourceFactory`，继承自`PropertySourceFactory`：
+    ```
+    org.moonzhou.profile.config.factory.MyYamlPropertySourceFactory
+    此示例需要注意，有多种实现方式，根本在于创建出PropertySource
+    ```
+1. springboot 在1.5版本以后，`@ConfigurationProperties`去除location参数，因此无法直接导出yml配置文件，
+而properties配置文件可以通过`@PropertySource`或者`@ImportResource` 来直接导入，上述的示例就是通过`@PropertySource`。
+也可以通过`@ImportResource`方式，即：
+```java
+// org.moonzhou.profile.config.CustomizedConfig
+@Configuration
+public class CustomizedConfig {
+
+    // 加载YML格式自定义配置文件
+    /*@Bean
+    public static PropertySourcesPlaceholderConfigurer properties() {
+        PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
+        YamlPropertiesFactoryBean yaml = new YamlPropertiesFactoryBean();
+        yaml.setResources(new ClassPathResource("duts.yml"));//File引入
+        configurer.setProperties(yaml.getObject());
+        return configurer;
+    }*/
+}
+```
+1. 本代码示例使用`@PropertySource`实现，`@ImportResource`方式被注释（容易注释），可以根据自己的需要，自行放开对应的注释。
 
 #### profile区分不同的服务
 
@@ -87,8 +127,13 @@ server:
     * 测试时因为配置方式多种，为了避免多种方式之间的干扰，运行示例时，确保只有一种配置生效，注释掉其他的配置。
     * 直接启动该springboot示例即可。
 1. 自定义配置测试过程
-    * 访问：http://localhost:8083/customized/config
+    * 配置到组件扩展的文件里application-xxx.yml，通过绑定POJO使用，访问：`http://localhost:8083/customized/config/security`
+    * 配置到组件配置文件application.yml，通过绑定POJO使用，访问：`http://localhost:8083/customized/config/system`
+    * 配置到组件配置文件application.yml，通过注解`@Value`使用，访问：`http://localhost:8083/customized/config/value`
+    * 单独配置yml文件，通过绑定POJO使用，访问：`http://localhost:8083/customized/config/single`
+    
     
 #### 参考
 1. [spring boot profile配置和启动时no active profile set, falling back to default profiles: default的问题](https://blog.csdn.net/benbenniaono1/article/details/105632264)
 1. [Spring Boot添加自定义yml文件配置](https://blog.csdn.net/u013314786/article/details/87975279)
+1. [springboot 自定义yml 配置文件](https://www.e-learn.cn/topic/1350377)
