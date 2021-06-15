@@ -1,6 +1,7 @@
 spring:
   profiles:
-    active: prd
+    #active: prd
+    active: @select.config@
     include:
       - security
 

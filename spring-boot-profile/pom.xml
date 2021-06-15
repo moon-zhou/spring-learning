@@ -37,8 +37,61 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <!-- 开发环境 -->
+        <profile>
+            <id>dev</id>
+            <properties>
+                <select.config>dev</select.config>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+         
+        <!-- 预生产环境 -->
+        <profile>
+            <id>pre</id>
+            <properties>
+                <select.config>pre</select.config>
+            </properties>
+        </profile>
+                 
+        <!-- 生产环境 -->
+        <profile>
+            <id>prd</id>
+            <properties>
+                <select.config>prd</select.config>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <!-- 需要包含的文件，多环境文件尽量只打包所需要的 -->
+                    <include>application.yml</include>
+                    <include>application-${select.config}.yml</include>
+                    <include>application-security.yml</include>
+                    <include>duts.yml</include>
+                </includes>
+            </resource>
+        </resources>
+
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

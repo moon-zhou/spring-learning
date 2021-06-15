@@ -123,6 +123,16 @@ public class CustomizedConfig {
 1. 任何`@Component`或`@Configuration`注解的类都可以使用`@Profile`注解
 
 #### maven打包区分环境
+1. maven配置:`spring-boot-profile/pom.xml`
+    1. 添加profile配置
+    1. 添加需要maven渲染的目录（打包时统一替换变量）：
+        ```
+        properties文件使用：${select.config}
+        yml文件使用：@select.config@
+        ```
+    1. 添加打包配置
+1. 打包：`mvn clean package -P dev`
+1. 运行jar包：`java -jar spring-boot-profile-0.0.1-SNAPSHOT-exec.jar`
 
 
 #### MyHub
@@ -135,9 +145,9 @@ public class CustomizedConfig {
     * 配置到组件配置文件application.yml，通过绑定POJO使用，访问：`http://localhost:8083/customized/config/system`
     * 配置到组件配置文件application.yml，通过注解`@Value`使用，访问：`http://localhost:8083/customized/config/value`
     * 单独配置yml文件，通过绑定POJO使用，访问：`http://localhost:8083/customized/config/single`
-1. 使用springboot打包，通过命令进行测试：
+1. 使用springboot打包，通过命令进行测试(打包不区分环境，运行时区分环境)：
     * 添加打包配置
-    * 执行打包
+    * 执行打包：通过IDEA maven插件可视化打包，也可以执行命令`mvn clean package`
     * 运行命令后，测试相关服务:`java -jar spring-boot-profile-0.0.1-SNAPSHOT-exec.jar --spring.profiles.active=prd`
     ![springboot package run](./img/springboot-package-plugin.png)    
     
