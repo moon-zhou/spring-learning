@@ -7,7 +7,7 @@ springboot里profile的特性使用
     * 配置在`application.properties`或者`application.yml`
     * 或者在环境变量里配置对应的值即可
     * VM options设置启动参数 `-Dspring.profiles.active=prod`
-    * Program arguments设置 `--spring.profiles.active=prod`
+    * Program arguments设置 `--spring.profiles.active=prod` ()
 1. 创建对应环境的配置文件：`application-dev.yml`/`application-pre.yml`/`application-prd.yml`
 
 ![profile property](./img/profile-property.png)
@@ -117,6 +117,10 @@ public class CustomizedConfig {
 1. 本代码示例使用`@PropertySource`实现，`@ImportResource`方式被注释（容易注释），可以根据自己的需要，自行放开对应的注释。
 
 #### profile区分不同的服务
+1. 创建服务接口：`HelloService`
+2. 针对服务，进行不同环境的实现，同时添加上`@Profile`，值为各个环境的区分值：`PrdHelloServiceImpl`和`DevHelloServiceImpl`
+3. 使用的地方，直接注入即可：`ConditionalServiceController`
+1. 任何`@Component`或`@Configuration`注解的类都可以使用`@Profile`注解
 
 #### maven打包区分环境
 
@@ -131,9 +135,14 @@ public class CustomizedConfig {
     * 配置到组件配置文件application.yml，通过绑定POJO使用，访问：`http://localhost:8083/customized/config/system`
     * 配置到组件配置文件application.yml，通过注解`@Value`使用，访问：`http://localhost:8083/customized/config/value`
     * 单独配置yml文件，通过绑定POJO使用，访问：`http://localhost:8083/customized/config/single`
-    
+1. 使用springboot打包，通过命令进行测试：
+    * 添加打包配置
+    * 执行打包
+    * 运行命令后，测试相关服务:`java -jar spring-boot-profile-0.0.1-SNAPSHOT-exec.jar --spring.profiles.active=prd`
+    ![springboot package run](./img/springboot-package-plugin.png)    
     
 #### 参考
 1. [spring boot profile配置和启动时no active profile set, falling back to default profiles: default的问题](https://blog.csdn.net/benbenniaono1/article/details/105632264)
 1. [Spring Boot添加自定义yml文件配置](https://blog.csdn.net/u013314786/article/details/87975279)
 1. [springboot 自定义yml 配置文件](https://www.e-learn.cn/topic/1350377)
+1. [SpringBoot2(二)：Profile使用](https://www.jianshu.com/p/99dd27da31dd)
