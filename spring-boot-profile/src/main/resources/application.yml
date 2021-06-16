@@ -1,15 +1,26 @@
 spring:
   profiles:
-    #active: prd
-    active: @select.config@
+    active: prd
+    #active: @select.config@
     include:
       - security
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
 
 server:
   port: 8080
+  shutdown: graceful
 
-
-
+# 端点配置，建议使用白名单方式，不要用黑名单方式，且慎重打开
+management:
+  endpoint:
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        exclude: env,beans
 
 system-info:
   code: 001

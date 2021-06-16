@@ -131,8 +131,54 @@ public class CustomizedConfig {
         yml文件使用：@select.config@
         ```
     1. 添加打包配置
-1. 打包：`mvn clean package -P dev`
+1. 打包
+    * 通过profile的id：`mvn clean package -P dev`
+    * 通过参数设置：`mvn clean package -Dselect.config=prd`
 1. 运行jar包：`java -jar spring-boot-profile-0.0.1-SNAPSHOT-exec.jar`
+
+
+#### 优雅关机
+##### 目的
+如果没有优雅停机，服务器此时直接直接关闭(kill -9)，那么就会导致当前正在容器内运行的业务直接失败，在某些特殊的场景下产生脏数据。
+
+优雅停机后：在服务器执行关闭（kill -2）时，会预留一点时间使容器内部业务线程执行完毕，此时容器也不允许新的请求进入。新请求的处理方式跟web服务器有关，Reactor Netty、 Tomcat将停止接入请求，Undertow的处理方式是返回503。
+![server shutdown action](./img/webserver-shutdown-action.jpg)
+
+> Graceful shutdown is supported with all four embedded web servers (Jetty, Reactor Netty, Tomcat, and Undertow) and with both reactive and Servlet-based 
+> web applications. It occurs as part of closing the application context and is performed in the earliest phase of stopping SmartLifecycle beans.
+> This stop processing uses a timeout which provides a grace period during which existing requests will be allowed to complete but no new requests will be permitted.
+> The exact way in which new requests are not permitted varies depending on the web server that is being used. Jetty, Reactor Netty, and Tomcat will stop accepting requests at the network layer.
+> Undertow will accept requests but respond immediately with a service unavailable (503) response.
+
+##### 实现步骤
+1. 添加yml配置
+    ```yaml
+    server:
+      shutdown: graceful
+    
+    spring:
+      lifecycle:
+        timeout-per-shutdown-phase: 30s
+    ```
+1. 编写测试请求：增加业务处理过程，保证优雅关机时服务仍然在处理中，未完成返回。（GracefulShutDownController，线程sleep）
+1. 验证
+    * 打包：`mvn clean package -P prd`
+    * 启动(进入打包目录)：`java -jar spring-boot-profile-0.0.1-SNAPSHOT-exec.jar`
+    * 访问请求：`http://localhost:8083/gracefulShutDown/shutdown`
+    * 执行优雅关机：
+        * `Ctrl + c` 或者 `kill -2`（如果通过IDEA启动，关闭按钮操作的是强制关闭，此示例运行达不到预期效果）。
+        * 使用`/actuator/shutdown`
+            1. 引入依赖：`spring-boot-starter-actuator`
+            1. 添加shutdown配置
+            1. 执行shutdown请求，注意http必须为post请求，无法发起get请求。`curl -X POST localhost:8083/actuator/shutdown`
+            ![actuator showdown](./img/actuator-shutdown-disable.png)
+            ![actuator showdown](./img/actuator-shutdown-disable2.png)
+            ![actuator showdown](./img/actuator-shutdown-disable3.png)
+            ![actuator showdown](./img/actuator-shutdown-disable4.png)
+    * 如果业务已经执行完了，会直接关机，不会等到缓冲时间完成。如果本身业务业务，也会直接关闭，不会等到缓冲时间结束。
+    ![graceful shutdown](./img/graceful-shutdown.png)
+    
+
 
 
 #### MyHub
@@ -156,3 +202,5 @@ public class CustomizedConfig {
 1. [Spring Boot添加自定义yml文件配置](https://blog.csdn.net/u013314786/article/details/87975279)
 1. [springboot 自定义yml 配置文件](https://www.e-learn.cn/topic/1350377)
 1. [SpringBoot2(二)：Profile使用](https://www.jianshu.com/p/99dd27da31dd)
+1. [Spring Boot 系列：最新版优雅停机详解](https://www.cnblogs.com/jiagoujishu/p/13817948.html)
+1. [springboot 官方文档 endpoint](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.endpoints)
