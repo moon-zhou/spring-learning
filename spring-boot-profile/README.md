@@ -177,9 +177,109 @@ public class CustomizedConfig {
             ![actuator showdown](./img/actuator-shutdown-disable4.png)
     * 如果业务已经执行完了，会直接关机，不会等到缓冲时间完成。如果本身业务业务，也会直接关闭，不会等到缓冲时间结束。
     ![graceful shutdown](./img/graceful-shutdown.png)
+##### 其他
+1. 扩展windows下curl工具
+    * [在线下载](https://curl.se/windows/) 或者本示例下的文件`./file/curl-7.74.0_2-win64-mingw.zip`
+    * 解压文件
+    * 配置环境变量到bin目录
+    * 使用功能curl命令
+1. 关于此处执行kill -2 而不是 kill -9
+* kill -2 相当于快捷键 Ctrl + C 会触发 Java 的 ShutdownHook 事件处理（优雅停机或者一些后置处理可参考以下源码）
+    ```java
+    //ApplicationContext
+     @Override
+     public void registerShutdownHook() {
+      if (this.shutdownHook == null) {
+       // No shutdown hook registered yet.
+       this.shutdownHook = new Thread(SHUTDOWN_HOOK_THREAD_NAME) {
+        @Override
+        public void run() {
+         synchronized (startupShutdownMonitor) {
+          doClose();
+         }
+        }
+       };
+       Runtime.getRuntime().addShutdownHook(this.shutdownHook);
+      }
+     }
+    ```
+* kill -9，暴力美学强制杀死进程，不会执行 ShutdownHook
+* 通过端点实现优雅停机源码：`org.springframework.boot.actuate.context.ShutdownEndpoint`，最底层依然还是处理`addShutdownHook`
+  ```java
+    @Endpoint(id = "shutdown", enableByDefault = false)
+    public class ShutdownEndpoint implements ApplicationContextAware {
     
+        private static final Map<String, String> NO_CONTEXT_MESSAGE = Collections
+                .unmodifiableMap(Collections.singletonMap("message", "No context to shutdown."));
+    
+        private static final Map<String, String> SHUTDOWN_MESSAGE = Collections
+                .unmodifiableMap(Collections.singletonMap("message", "Shutting down, bye..."));
+    
+        private ConfigurableApplicationContext context;
+    
+        @WriteOperation
+        public Map<String, String> shutdown() {
+            if (this.context == null) {
+                return NO_CONTEXT_MESSAGE;
+            }
+            try {
+                return SHUTDOWN_MESSAGE;
+            }
+            finally {
+                Thread thread = new Thread(this::performShutdown);
+                thread.setContextClassLoader(getClass().getClassLoader());
+                thread.start();
+            }
+        }
+    
+        private void performShutdown() {
+            try {
+                Thread.sleep(500L);
+            }
+            catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+            this.context.close();// 调用shutdownhook
+        }
+    
+        @Override
+        public void setApplicationContext(ApplicationContext context) throws BeansException {
+            if (context instanceof ConfigurableApplicationContext) {
+                this.context = (ConfigurableApplicationContext) context;
+            }
+        }
+    
+    }
+  
+    // org.springframework.context.support.AbstractApplicationContext
+    @Override
+    public void close() {
+        synchronized (this.startupShutdownMonitor) {
+            doClose(); // 销毁bean 并执行jvm shutdown hook
+            // If we registered a JVM shutdown hook, we don't need it anymore now:
+            // We've already explicitly closed the context.
+            if (this.shutdownHook != null) {
+                try {
+                    Runtime.getRuntime().removeShutdownHook(this.shutdownHook);
+                }
+                catch (IllegalStateException ex) {
+                    // ignore - VM is already shutting down
+                }
+            }
+        }
+    }
+    ```
+* 此处的优雅停机，仅仅是单机版的，服务内的优雅停机。只是保证了服务端内部线程执行完毕，调用方（外部服务）的状态是没关注的。
+```
+不论是Dubbo还是Cloud 的分布式服务框架，需要关注的是怎么能在服务停止前，先将提供者在注册中心进行反注册，然后在停止服务提供者，这样才能保证业务系统不会产生各种503、timeout等现象。
 
+好在当前Spring Boot 结合Kubernetes已经帮我们搞定了这一点，也就是Spring Boot 2.3版本新功能Liveness（存活状态） 和Readiness（就绪状态）
 
+简单的提下这两个状态：
+
+Liveness（存活状态）：Liveness 状态来查看内部情况可以理解为health check，如果Liveness失败就就意味着应用处于故障状态并且目前无法恢复，这种情况就重启吧。此时Kubernetes如果存活探测失败将杀死Container。
+Readiness（就绪状态）：用来告诉应用是否已经准备好接受客户端请求，如果Readiness未就绪那么k8s就不能路由流量过来。
+```
 
 #### MyHub
 1. 
