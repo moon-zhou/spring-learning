@@ -82,6 +82,8 @@
                     <include>application-${select.config}.yml</include>
                     <include>application-security.yml</include>
                     <include>duts.yml</include>
+                    <!-- 自定义文件多环境配置 -->
+                    <!--<include>duts-${select.config}.yml</include>-->
                 </includes>
             </resource>
         </resources>

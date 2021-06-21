@@ -136,6 +136,19 @@ public class CustomizedConfig {
     * 通过参数设置：`mvn clean package -Dselect.config=prd`
 1. 运行jar包：`java -jar spring-boot-profile-0.0.1-SNAPSHOT-exec.jar`
 
+#### 自定义文件区分环境
+1. 如果是最终打包，自定义配置也可以通过环境后缀来进行区分打包，只不过需要重新修改下文件名。不能添加后缀，因为代码里加载的配置文件名是不包含环境的。
+    ```java
+    @PropertySource(value = "classpath:duts.yml", factory = MyYamlPropertySourceFactory.class)
+    ```
+    ![custome config maven package](./img/custome-config-maven-package.png)
+1. 拆分为application-XXX-${ENV}.yml配置。
+1. 定义bean的基类，同时根据对应环境进行继承，每个继承类使用`@Profile("xxx")`来区分环境初始化，当然选线在bean上的注解都需要下移到具体子类上(`@ConfigurationProperties`等)。
+
+#### 其他配置
+1. yml里的各类数据结构配置，类嵌套配置，参数引用(`${}`)等
+1. 加载配置时添加校验`@Validated`
+1. 
 
 #### 优雅关机
 ##### 目的
