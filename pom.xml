@@ -31,6 +31,8 @@
         <module>spring-boot-response</module>
         <!-- springboot 统一异常处理示例 -->
         <module>spring-boot-unified-exception-handing</module>
+        <!-- springboot filter 示例 -->
+        <module>spring-boot-filter</module>
 
         <!-- springboot logback -->
         <module>spring-boot-logback</module>
