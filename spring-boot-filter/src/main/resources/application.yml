@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: spring-boot-filter
+server:
+  port: 8081
+
+logging:
+  file: # 注意path和name只能有一个生效，同时配置了，只有name是生效了的，path不生效
+    #path: # 只能指定路径，不能指定名字
+    name: E:/test/logs/spring-boot-filter.log #既可以指定名字，也可以指定路径。
+  level:
+#    root: "debug" # 此配置不生效，可能和版本有关
+    org.moonzhou.filter: debug
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss} %clr(%5p) [%thread] %clr(%logger){cyan} : %msg%n'
+    file: '%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger : %msg%n'
