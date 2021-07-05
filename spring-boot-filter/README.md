@@ -28,6 +28,47 @@
 | Log4j2                  | `log4j2-spring.xml` or `log4j2.xml`                          |
 | JDK (Java Util Logging) | `logging.properties`                                         |
 
+#### 过滤器-Filter
+##### 实现方式
+1. `@Component` 注解：**无法改变默认的URL映射（拦截所有请求）**，通过`@Order`注释设置过滤器顺序。
+1. 使用`FilterRegistrationBean`类：提供增加URL映射的方法，设置过滤器顺序。
+1. `@ServletComponentScan`注解： 过滤器必须使用`@WebFilter`注释，能够通过它的urlPattern属性增加URL映射，但是**无法设置过滤器顺序**，只在使用嵌入服务器才有效。
+
+#### 示例运行
+1. `@Component`方式：
+    ```
+    过滤器：
+    org.moonzhou.filter.component.ComponentFilter01
+    org.moonzhou.filter.component.ComponentFilter02
+    
+    请求：http://localhost:8081/filter/componentfilter
+    ```
+1. `FilterRegistrationBean`注册方式：
+    ```
+    过滤器：
+    org.moonzhou.filter.registration.RegistrationFilter01
+    org.moonzhou.filter.registration.RegistrationFilter02
+    
+    初始化：
+    org.moonzhou.filter.config.AppConfig
+   
+    请求：http://localhost:8081/filter/registrationfilter
+    注意：因为component方式拦截所有的请求，所以当前的请求也会被component方式的两个拦截器拦截。
+    ```
+1. `@WebFilter` + `@ServletComponentScan`方式：
+    ```
+    过滤器：
+    org.moonzhou.filter.webfilter.WebFilter01
+    org.moonzhou.filter.webfilter.WebFilter02
+   
+    scan:
+    org.moonzhou.filter.SpringBootFilterApplication
+    
+    请求：http://localhost:8081/filter/webfilter
+    注意：因为component方式拦截所有的请求，所以当前的请求也会被component方式的两个拦截器拦截。
+    ```
+
 
 #### 参考
 1. [log](https://devdocs.io/spring_boot/spring-boot-features#boot-features-logging)
+1. [SpringBoot过滤器Filter](https://www.jdon.com/springboot/spring-filter.html)
