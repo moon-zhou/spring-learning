@@ -34,6 +34,25 @@
 1. 使用`FilterRegistrationBean`类：提供增加URL映射的方法，设置过滤器顺序。
 1. `@ServletComponentScan`注解： 过滤器必须使用`@WebFilter`注释，能够通过它的urlPattern属性增加URL映射，但是**无法设置过滤器顺序**，只在使用嵌入服务器才有效。
 
+##### filter dispatcher
+* REQUEST（默认值）
+* FOWARD
+* INCLUDE
+* ERROR
+
+拦截规则：
+- REQUEST：拦截每一次客户端的的http请求，服务端转发是不会触发的(forward转发)，但是重定向是可以拦截的(302-sendRedirect)。
+- FOWARD：通过request dispatcher的forward方法传递过来，则必须经过这个过滤器。（注意此示例需要配置拦截的路径为`/dispatcher/forward2`，不能配置`/dispatcher/forward1`）
+- INCLUDE：通过request dispatcher的include方法传递过来，则必须经过这个过滤器
+- ERROR：通过<error-page>过来的，则必须经过这个过滤器
+
+注意事项：   
+1. 在目标资源中调用forward方法时，必须保证此响应没有提交。也就是不要使用 ServletResponse 对象的输出流对象，因为即便你写入了数据到响应缓冲区，最后也会被清空，如果缓冲区数据被刷新提交（out.flush），还会抛出IllegalStateException异常。
+1. 服务端转发后，目标资源使用的request对象和转发的资源使用的request对象不是同一个request对象，因为分别从这2个request中获取RequestURL，发现是不一样的。但是在目标资源request提取的`Paramter` 和 `Attribute`，在转发后的资源的request对象中，依然都可以提取到，且是相同的。所以，二者只是在请求路径相关的属性上不同，其它API调用返回的都是一样的。
+1. forward1-->forward2时，虽然forward2也在RequestFilter里面进行了配置拦截，因为本身不是客户端发起，所以不会被RequestFilter拦截，只是被ForwardFilter拦截。如果直接访问forward2，则此时都会被拦截到。
+
+##### OncePerRequestFilter
+
 #### 示例运行
 1. `@Component`方式：
     ```
@@ -67,7 +86,22 @@
     请求：http://localhost:8081/filter/webfilter
     注意：因为component方式拦截所有的请求，所以当前的请求也会被component方式的两个拦截器拦截。
     ```
-
+1. filter dispatcher
+    ```
+    过滤器：
+    org.moonzhou.filter.dispatcher.ForwardFilter
+    org.moonzhou.filter.dispatcher.RequestFilter
+    
+    controller：
+    org.moonzhou.filter.web.DispatcherController
+    
+    请求：
+    单纯request：http://localhost:8081/dispatcher/request
+    302request：http://localhost:8081/dispatcher/sendRedirect1
+    forward:http://localhost:8081/dispatcher/forward1?userName=moonzhou
+    
+    注意：因为component方式拦截所有的请求，所以当前的请求也会被component方式的两个拦截器拦截。忽略这两个，关注需要关注的过滤器即可。
+    ```
 
 #### 参考
 1. [log](https://devdocs.io/spring_boot/spring-boot-features#boot-features-logging)
