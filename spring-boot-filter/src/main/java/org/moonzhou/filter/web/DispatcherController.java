@@ -149,10 +149,11 @@ public class DispatcherController {
             LOGGER.info("request memory address: {}.", request);
 
             request.setAttribute("forwardValue", UUID.randomUUID());
-            LOGGER.info("request refer: {}, {}, {}.", request.getHeader("referrer"),
+            LOGGER.info("request refer: {}, uri: {}, {}, {}.", request.getHeader("referrer"), request.getRequestURI(),
                     request.getAttribute("forwardValue"), request.getParameter("userName"));
 
             request.getRequestDispatcher("/dispatcher/include1").include(request, response);
+            request.getRequestDispatcher("/dispatcher/include2").include(request, response);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -171,7 +172,7 @@ public class DispatcherController {
         LOGGER.info("request memory address: {}.", request);
 
         // 服务端包含，refer是第一次请求的refer，但是参数依然都能够获取到
-        LOGGER.info("request refer: {}, {}, {}.", request.getHeader("referrer"),
+        LOGGER.info("request refer: {}, uri: {}, {}, {}.", request.getHeader("referrer"), request.getRequestURI(),
                 request.getAttribute("forwardValue"), request.getParameter("userName"));
 
 
@@ -191,7 +192,7 @@ public class DispatcherController {
         LOGGER.info("request memory address: {}.", request);
 
         // 服务端包含，refer是第一次请求的refer，但是参数依然都能够获取到
-        LOGGER.info("request refer: {}, {}, {}.", request.getHeader("referrer"),
+        LOGGER.info("request refer: {}, uri: {}, {}, {}.", request.getHeader("referrer"), request.getRequestURI(),
                 request.getAttribute("forwardValue"), request.getParameter("userName"));
 
 

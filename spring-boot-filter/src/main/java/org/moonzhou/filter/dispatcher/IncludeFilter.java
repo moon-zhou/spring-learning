@@ -27,7 +27,7 @@ import java.io.IOException;
  * @see [相关类/方法]（可选）
  * @since [产品/模块版本] （可选）
  */
-@WebFilter(urlPatterns = {"/dispatcher/include1", "/dispatcher/include2"}, dispatcherTypes = {DispatcherType.INCLUDE})
+@WebFilter(urlPatterns = {"/dispatcher/include", "/dispatcher/include1", "/dispatcher/include2"}, dispatcherTypes = {DispatcherType.INCLUDE})
 public class IncludeFilter implements Filter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WebFilter01.class);
