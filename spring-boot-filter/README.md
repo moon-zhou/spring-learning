@@ -51,6 +51,7 @@
 1. 服务端转发后，目标资源使用的request对象和转发的资源使用的request对象不是同一个request对象，因为分别从这2个request中获取RequestURL，发现是不一样的。但是在目标资源request提取的`Paramter` 和 `Attribute`，在转发后的资源的request对象中，依然都可以提取到，且是相同的。所以，二者只是在请求路径相关的属性上不同，其它API调用返回的都是一样的。
 1. forward1-->forward2时，虽然forward2也在RequestFilter里面进行了配置拦截，因为本身不是客户端发起，所以不会被RequestFilter拦截，只是被ForwardFilter拦截。如果直接访问forward2，则此时都会被拦截到。
 1. include包含结果是string时，会拼接返回，比如此示例`org.moonzhou.filter.web.DispatcherController.include`。在被包含的资源中从request中获取请求路径相关的信息，发现依然是原始请求的路径（request uri值不变），也就是浏览器地址栏相关的路径，也就是说被包含的资源获得的request对象的路径属性和原始请求资源的路径一样。
+1. forward会丢失response，但是include会将原来的数据和后来的数据合并在一起
 1. 在做组件开发时，比如http请求统一解密时，需要注意的是，服务端forward或者include，只需要最初才request filter过滤处理即可，后续dispatcher是不需要再进行相同的处理即可。因此可以在request里设置标志位，进入此过滤器如果有值，说明是服务端dispatcher的请求，无需进行重复处理。
 
 
