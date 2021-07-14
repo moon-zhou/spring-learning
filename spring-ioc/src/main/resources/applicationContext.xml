@@ -200,4 +200,7 @@
     <bean id="driveService" class="org.moonzhou.spring.ioc.aware.DriveService"/>
     <!-- aware demo end -->
 
+    <bean id="multiDefinedBeanOther" class="org.moonzhou.spring.ioc.exception.MultiDefinedBean"/>
+    <context:component-scan base-package="org.moonzhou.spring.ioc.exception" />
+
 </beans>

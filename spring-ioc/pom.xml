@@ -9,7 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>org.moon-zhou</groupId>
     <artifactId>spring-ioc</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
 
     <properties>
         <spring.version>5.2.9.RELEASE</spring.version>
