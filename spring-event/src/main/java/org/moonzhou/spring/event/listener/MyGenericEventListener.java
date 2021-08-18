@@ -19,7 +19,8 @@ public class MyGenericEventListener {
     }*/
 
     /**
-     * 可根据事件泛型参数，定义对应的监听做对应业务处理
+     * 可根据事件泛型参数，定义对应的监听做对应业务处理。
+     * 如果出现过多的监听，整体结构都会显得重复，因而出现了<code>ResolvableTypeProvider</code>
      * @param event
      */
     @EventListener
