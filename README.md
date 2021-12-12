@@ -16,6 +16,7 @@
     * `spring-boot-sql-injection`:sql注入
     * `spring-boot-xss`:xss注入
     * `spring-boot-csrf`:csrf注入
+    * `spring-boot-log4j-jndi-bug`: `log4j jndi`漏洞演示及修复
 1. spring学习:
     * `spring-ioc`
     * `spring-aop`

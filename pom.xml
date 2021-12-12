@@ -47,6 +47,7 @@
 
         <!-- spring boot 下线组件 -->
         <module>spring-boot-offline</module>
+        <module>spring-boot-log4j-jndi-bug</module>
     </modules>
     <developers>
         <developer>
