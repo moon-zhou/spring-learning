@@ -12,6 +12,7 @@
 1. `spring-boot-response`:http接口返回参数示例
 1. `spring-boot-web-threadlocal`: threadlocal实际使用
 1. `spring-boot-filter`：`Servlet Filter`的相关使用，用于一些`Filter`的组件开发。
+1. `spring-boot-jwt`： `jwt`在`springboot`下的示例
 1. 安全问题：
     * `spring-boot-sql-injection`:sql注入
     * `spring-boot-xss`:xss注入

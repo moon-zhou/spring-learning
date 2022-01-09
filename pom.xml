@@ -33,6 +33,8 @@
         <module>spring-boot-unified-exception-handing</module>
         <!-- springboot filter 示例 -->
         <module>spring-boot-filter</module>
+        <!-- springboot jwt 示例-->
+        <module>spring-boot-jwt</module>
 
         <!-- springboot logback -->
         <module>spring-boot-logback</module>
@@ -66,7 +68,7 @@
         <hutool-all.version>5.3.7</hutool-all.version>
         <commons-lang3.version>3.10</commons-lang3.version>
         <commons-collections4.version>4.4</commons-collections4.version>
-        <fastjson.version>1.2.70</fastjson.version>
+        <fastjson.version>1.2.79</fastjson.version>
         <druid-spring-boot-starter.version>1.1.23</druid-spring-boot-starter.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

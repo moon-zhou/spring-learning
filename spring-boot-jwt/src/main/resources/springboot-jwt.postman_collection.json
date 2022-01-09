@@ -1,0 +1,86 @@
+{
+	"info": {
+		"_postman_id": "c701726d-341a-4da7-b1d4-2266a15be1c6",
+		"name": "springboot-jwt",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8888/user/login?username=张三&password=123456",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"user",
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "张三"
+						},
+						{
+							"key": "password",
+							"value": "123456"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "hello",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MDQyMzU0NzMsInVzZXJJZCI6IjEiLCJ1c2VybmFtZSI6IuW8oOS4iSJ9.UQZNpd4yNnvyj4SpQp_-84fUX_agmw2Bxes7b-9ciy0",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8888/user/hello",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"user",
+						"hello"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "hi",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8888/user/hi",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"user",
+						"hi"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
