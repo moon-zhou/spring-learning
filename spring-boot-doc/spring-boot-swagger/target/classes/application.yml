@@ -1,0 +1,31 @@
+spring:
+  profiles:
+    active: prd
+#server:
+#  port: 8080
+
+# 因为多配置文件问题，为了更好的复用，直接将此处的配置注释掉，如果运行示例时，可以自行放开注释
+---
+spring:
+  profiles: dev
+server:
+  port: 8081
+springfox:
+  documentation:
+    enabled: true
+---
+spring:
+  profiles: pre
+server:
+  port: 8082
+springfox:
+  documentation:
+    enabled: true
+---
+spring:
+  profiles: prd
+server:
+  port: 8083
+springfox:
+  documentation:
+    enabled: false

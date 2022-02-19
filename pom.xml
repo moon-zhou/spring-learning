@@ -40,6 +40,9 @@
         <module>spring-boot-logback</module>
         <module>spring-boot-web-threadlocal</module>
 
+        <!-- springboot 集成接口文档测试组件-->
+        <module>spring-boot-doc</module>
+
         <!-- springboot sql注入 -->
         <module>spring-boot-sql-injection</module>
         <!-- springboot xss -->
