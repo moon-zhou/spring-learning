@@ -32,3 +32,4 @@ Swagger 是一个方便 API 开发的框架，它有以下优点：
 
 #### 参考
 1. [在 Spring Boot 中使用 Swagger](https://juejin.cn/post/6992515756504121380)
+2. [还在手动整合Swagger？Swagger官方Starter是真的香！](https://juejin.cn/post/6890692970018766856)
