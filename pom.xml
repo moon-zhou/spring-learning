@@ -33,8 +33,10 @@
         <module>spring-boot-unified-exception-handing</module>
         <!-- springboot filter 示例 -->
         <module>spring-boot-filter</module>
-        <!-- springboot jwt 示例-->
+        <!-- springboot jwt 示例 -->
         <module>spring-boot-jwt</module>
+        <!-- springboot mybatis-plus 示例 -->
+        <module>spring-boot-mybatis-plus</module>
 
         <!-- springboot logback -->
         <module>spring-boot-logback</module>
@@ -49,10 +51,11 @@
         <module>spring-boot-xss</module>
         <!-- springboot csrf -->
         <module>spring-boot-csrf</module>
+        <!-- log4j security problem -->
+        <module>spring-boot-log4j-jndi-bug</module>
 
         <!-- spring boot 下线组件 -->
         <module>spring-boot-offline</module>
-        <module>spring-boot-log4j-jndi-bug</module>
     </modules>
     <developers>
         <developer>
@@ -62,9 +65,13 @@
     </developers>
 
     <parent>
+        <!--<groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.0.RELEASE</version>-->
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.0.RELEASE</version>
+        <version>2.6.4</version>
+        <!--<type>pom</type>-->
     </parent>
 
     <properties>
