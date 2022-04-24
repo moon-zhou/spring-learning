@@ -37,6 +37,10 @@
         <module>spring-boot-jwt</module>
         <!-- springboot mybatis-plus 示例 -->
         <module>spring-boot-mybatis-plus</module>
+        <!-- springboot aspectJ 业务使用示例 -->
+        <module>spring-boot-aspectJ</module>
+        <!-- springboot validation including custom -->
+        <module>spring-boot-validation</module>
 
         <!-- springboot logback -->
         <module>spring-boot-logback</module>
