@@ -7,6 +7,8 @@ import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfReader;
 import com.itextpdf.kernel.pdf.PdfWriter;
+import lombok.extern.slf4j.Slf4j;
+import org.moonzhou.dto.TemplateParam;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,16 +16,21 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.net.URLEncoder;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
- * @author  moon zhou
+ * @author moon zhou
  * @description
  * @email ayimin1989@163.com
  * @date 2022/4/24 11:03
  **/
+@Slf4j
 @RestController
 @RequestMapping("/test")
 public class TestController {
@@ -40,12 +47,16 @@ public class TestController {
 
     /**
      * http://localhost:8081/test/generatePdf
+     *
      * @return
      */
     @RequestMapping("/generatePdf")
     public void generatePdf(HttpServletResponse response) {
 
-        try {
+        // try with resources (AutoCloseable)
+        try (InputStream pdfTemplateInputStream = new ClassPathResource("pdf/pdfTemplate.pdf").getInputStream();
+             OutputStream pdfOutputStream = response.getOutputStream();
+             PdfDocument pdf = new PdfDocument(new PdfReader(pdfTemplateInputStream), new PdfWriter(pdfOutputStream))) {
             Map<String, String> params = new HashMap<>();
             params.put("applicant", "我爱罗");
             params.put("name", "lisi");
@@ -53,7 +64,7 @@ public class TestController {
             params.put("email", "1@1.com");
 
             response.setCharacterEncoding("utf-8");
-            response.setContentType("application/octet-stream");
+            response.setContentType("application/pdf");
             response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("application.pdf", "utf-8"));
 
             String resourcePath = this.getClass().getClassLoader().getResource("").getPath();
@@ -61,15 +72,11 @@ public class TestController {
             String fontPath = resourcePath + "pdf/font/Alibaba-PuHuiTi-Regular.ttf";
 
 //            InputStream pdfTemplateInputStream = this.getClass().getClassLoader().getResourceAsStream("pdf/pdfTemplate.pdf");
-            InputStream pdfTemplateInputStream = new ClassPathResource("pdf/pdfTemplate.pdf").getInputStream();
-            OutputStream pdfOutputStream = response.getOutputStream();
+
 
             // 输出到固定地址
 //            String newPDFPath = "/Users/xxxF/tmp/pdf/result.pdf";
 //            PdfDocument pdf = new PdfDocument(new PdfReader(pdfTemplateInputStream), new PdfWriter(newPDFPath));
-
-            // 通过流会写到浏览器
-            PdfDocument pdf = new PdfDocument(new PdfReader(pdfTemplateInputStream), new PdfWriter(pdfOutputStream));
 
             /*PdfFont font = PdfFontFactory.createFont(this.getClass().getClassLoader().getResource("/").getPath()
                     + "font/Alibaba-PuHuiTi-Regular.ttf");*/
@@ -93,11 +100,65 @@ public class TestController {
                 // 锁定表单，不让修改
                 form.flattenFields();
             }
-            pdf.close();
+//            try with resources, autoClosable
+//            pdf.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("generatePdf error: ", e);
         }
     }
 
+
+    /**
+     * http://localhost:8081/test/exportPdf
+     *
+     * @return
+     */
+    @RequestMapping("/exportPdf")
+    public void exportPdf(HttpServletResponse response) {
+
+        // try with resources (AutoCloseable)
+        try (InputStream pdfTemplateInputStream = new ClassPathResource("pdf/pdfTemplate.pdf").getInputStream();
+             OutputStream pdfOutputStream = response.getOutputStream();
+             PdfDocument pdf = new PdfDocument(new PdfReader(pdfTemplateInputStream), new PdfWriter(pdfOutputStream))) {
+
+            TemplateParam templateParam = new TemplateParam(UUID.randomUUID().toString(), "Zhan San",
+                    "001", "Li si", "1@1.com", "ABC", "officer",
+                    "Zhang San", LocalDate.now(), "01", "01", "困难",
+                    "支出费用10000", new BigDecimal(10000.01), "一次性", "困难原因");
+
+            response.setCharacterEncoding("utf-8");
+            response.setContentType("application/pdf");
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(templateParam.getApplicationFormCode() + ".pdf", "utf-8"));
+
+
+            String resourcePath = this.getClass().getClassLoader().getResource("").getPath();
+            String fontPath = resourcePath + "pdf/font/Alibaba-PuHuiTi-Regular.ttf";
+
+            PdfFont font = PdfFontFactory.createFont(fontPath);
+
+            // 有参数才替换
+            if (templateParam != null) {
+                // 获取所有的表单域
+                PdfAcroForm form = PdfAcroForm.getAcroForm(pdf, true);
+                Map<String, PdfFormField> fields = form.getFormFields();
+
+                Field[] templateParamFields = TemplateParam.class.getDeclaredFields();
+                for (Field templateParamField : templateParamFields) {
+                    PdfFormField formField = fields.get(templateParamField.getName());
+                    // 获取某个表单域
+                    if (formField != null) {
+                        templateParamField.setAccessible(true);
+                        // 替换值
+                        formField.setFont(font).setValue(String.valueOf(templateParamField.get(templateParam)));
+                    }
+                }
+
+                // 锁定表单，不让修改
+                form.flattenFields();
+            }
+        } catch (Exception e) {
+            log.error("export pdf error: ", e);
+        }
+    }
 }
