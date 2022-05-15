@@ -150,7 +150,13 @@ public class TestController {
                     if (formField != null) {
                         templateParamField.setAccessible(true);
                         // 替换值
-                        formField.setFont(font).setValue(String.valueOf(templateParamField.get(templateParam)));
+                        if (formField.getFieldName().getValue().equals("personnelClassification") || formField.getFieldName().getValue().equals("eventClassification")) {
+                            // TODO 模板本身设置的值为Aa/Bb，但是读取过来是，为0/1
+                            // 如果是通过itext7生成的pdf表单域，则可以读取的对应值且设置成功，后续需要分析关于表单域radio的设置值方式
+                            formField.setValue("1");
+                        } else {
+                            formField.setFont(font).setValue(String.valueOf(templateParamField.get(templateParam)));
+                        }
                     }
                 }
 
