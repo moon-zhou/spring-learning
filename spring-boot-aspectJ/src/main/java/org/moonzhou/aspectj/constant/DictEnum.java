@@ -19,18 +19,27 @@ public enum DictEnum {
     /**
      * 流程状态
      */
-    PROCESS_STATUS_DRAFT("STATUS", "00", "草稿", "draft"),
-    PROCESS_STATUS_SUBMITTED("STATUS", "01", "已提交，审核中", "submitted, under approval"),
-    PROCESS_STATUS_MODIFY("STATUS", "02", "打回修改", "reject to modify"),
-    PROCESS_STATUS_DECLINE("STATUS", "03", "拒绝", "decline"),
-    PROCESS_STATUS_COMPLETED("STATUS", "04", "审批通过结束", "completed"),
+    PROCESS_STATUS_DRAFT(Common.DICT_ENUM_PROCESS_STATUS, "00", "草稿", "draft"),
+    PROCESS_STATUS_SUBMITTED(Common.DICT_ENUM_PROCESS_STATUS, "01", "已提交，审核中", "submitted, under approval"),
+    PROCESS_STATUS_MODIFY(Common.DICT_ENUM_PROCESS_STATUS, "02", "打回修改", "reject to modify"),
+    PROCESS_STATUS_DECLINE(Common.DICT_ENUM_PROCESS_STATUS, "03", "拒绝", "decline"),
+    PROCESS_STATUS_COMPLETED(Common.DICT_ENUM_PROCESS_STATUS, "04", "审批通过结束", "completed"),
 
     /**
      * 优先级
      */
-    PRIORITY_LEVEL_LOW("PRIORITY", "01", "低", "low"),
-    PRIORITY_LEVEL_MIDDLE("PRIORITY", "02", "中", "middle"),
-    PRIORITY_LEVEL_HIGH("PRIORITY", "03", "高", "high"),
+    PRIORITY_LEVEL_LOW(Common.DICT_ENUM_PRIORITY_LEVEL, "01", "低", "low"),
+    PRIORITY_LEVEL_MIDDLE(Common.DICT_ENUM_PRIORITY_LEVEL, "02", "中", "middle"),
+    PRIORITY_LEVEL_HIGH(Common.DICT_ENUM_PRIORITY_LEVEL, "03", "高", "high"),
+
+    /**
+     * 员工级别
+     */
+    POSITION_LEVEL_GENERAL(Common.DICT_ENUM_POSITION_LEVEL, "001", "普通员工", "general staff"),
+    POSITION_LEVE_MANAGER(Common.DICT_ENUM_POSITION_LEVEL, "002", "经理", "manager"),
+    POSITION_LEVEL_DIRECTOR(Common.DICT_ENUM_POSITION_LEVEL, "003", "总监", "director"),
+    POSITION_LEVEL_PRESIDENT(Common.DICT_ENUM_POSITION_LEVEL, "004", "总裁", "president"),
+    POSITION_LEVEL_CHAIRMAN(Common.DICT_ENUM_POSITION_LEVEL, "005", "董事长", "chairman"),
 
 
     // last end char

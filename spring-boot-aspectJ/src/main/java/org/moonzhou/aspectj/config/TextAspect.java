@@ -11,6 +11,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.moonzhou.aspectj.annotation.Text;
 import org.moonzhou.aspectj.base.Result;
 import org.moonzhou.aspectj.constant.DictEnum;
+import org.moonzhou.aspectj.dto.BaseDto;
 import org.moonzhou.aspectj.dto.ProcessDto;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 
 /**
  * controller 返回枚举值时，如果没有定义对应的文案字段，可以在字段上添加相关注解，由aspect自动添加上展示的字段
+ * 支持对象嵌套使用该注解
  *
  * @author moon zhou
  * @email ayimin1989@163.com
@@ -56,7 +58,7 @@ public class TextAspect {
 //            result = proceedingJoinPoint.proceed();
 //
 //            if (result instanceof ProcessDto) {
-//                ObjectNode jsonNodes = addTest(result);
+//                ObjectNode jsonNodes = addText(result);
 //
 //                // not work
 //                // java.lang.ClassCastException: com.fasterxml.jackson.databind.node.ObjectNode cannot be cast to org.moonzhou.aspectj.dto.ProcessDto
@@ -72,14 +74,21 @@ public class TextAspect {
 //    }
 
 
-    @AfterReturning(value = "addTextPoint()", returning = "result")
-    public void afterReturning(JoinPoint joinPoint, Object result) {
-        if (result instanceof Result && Objects.nonNull(((Result<?>) result).getData())) {
-            Result res = (Result) result;
-            if (res.getData() instanceof ProcessDto) {
-                ObjectNode jsonNodes = addTest(res.getData());
+    /**
+     * returning: 该值表示切点的具体方法
+     *
+     * @param joinPoint
+     * @param testResult
+     */
+    @AfterReturning(value = "addTextPoint()", returning = "testResult")
+    public void afterReturning(JoinPoint joinPoint, Object testResult) {
+        if (testResult instanceof Result && Objects.nonNull(((Result<?>) testResult).getData())) {
+            Result res = (Result) testResult;
+            if (res.getData() instanceof BaseDto) {
+                ObjectNode jsonNodes = addText(res.getData());
 
-                if (jsonNodes != null) {
+                // 提取方法
+                /*if (jsonNodes != null) {
                     try {
                         Field dataField = res.getClass().getDeclaredField("data");
                         dataField.setAccessible(true);
@@ -89,25 +98,39 @@ public class TextAspect {
                     } catch (IllegalAccessException e) {
                         log.error("set data by reflection, set error: ", e);
                     }
-                }
+                }*/
+                reflectSetResultData(res, jsonNodes);
             } else {
                 log.warn("result return type is Result, but data is not ProcessDto!!!");
             }
-        } else if (result instanceof ProcessDto) {
-            ObjectNode jsonNodes = addTest(result);
+        } else if (testResult instanceof ProcessDto) {
+            ObjectNode jsonNodes = addText(testResult);
 
-            // not work
-            result = jsonNodes;
-        } else if (result instanceof String) {
-            // not work
-            result = result + "---";
+            // not work, and can not reflection
+            testResult = jsonNodes;
+        } else if (testResult instanceof String) {
+            // not work, and can not reflection
+            testResult = testResult + "---";
         } else {
             log.warn("return type is not Result or ProcessDto!!!");
         }
 
     }
 
-    private ObjectNode addTest(Object record) {
+    private <T> void reflectSetResultData(Result res, T data) {
+
+        try {
+            Field dataField = res.getClass().getDeclaredField("data");
+            dataField.setAccessible(true);
+            dataField.set(res, data);
+        } catch (NoSuchFieldException e) {
+            log.error("set data by reflection, no field: ", e);
+        } catch (IllegalAccessException e) {
+            log.error("set data by reflection, set error: ", e);
+        }
+    }
+
+    private ObjectNode addText(Object record) {
         JsonNode node = mapper.valueToTree(record);
         ObjectNode item = mapper.createObjectNode();
 
@@ -119,6 +142,37 @@ public class TextAspect {
 
         //get field list
         Field[] allFields = getAllFields(record);
+
+        // 筛选出为封装对象的属性，暗含的规则为必须是BaseDto的子类
+        List<Field> objFields = Arrays.stream(allFields).filter(f -> {
+//            return !fieldClass.isPrimitive();
+            f.setAccessible(true);
+            try {
+                return f.get(record) instanceof BaseDto;
+            } catch (IllegalAccessException e) {
+                log.error("get field class type error: ", e);
+                return false;
+            }
+        }).collect(Collectors.toList());
+        if (null != objFields && !objFields.isEmpty()) {
+            objFields.forEach(objField -> {
+                try {
+                    objField.setAccessible(true);
+                    Object objFieldValue = objField.get(record);
+                    if (null != objFieldValue) {
+                        // 递归调用
+                        ObjectNode objFieldHandleValue = addText(objFieldValue);
+                        // 对象字段已经发生了变更，如果使用反射或者json转，都会发生异常
+//                        objField.setAccessible(true);
+//                        objField.set(record, new ObjectMapper().readValue(objFieldHandleValue.toString(), UserDto.class));
+                        item.set(objField.getName(), objFieldHandleValue);
+                    }
+                } catch (Exception e) {
+                    log.error("recursion get annotation error: ", e);
+                }
+            });
+        }
+
 
         Map<String, List<Field>> fieldMap = Arrays.stream(allFields)
                 .filter(f -> f.getAnnotation(Text.class) != null)

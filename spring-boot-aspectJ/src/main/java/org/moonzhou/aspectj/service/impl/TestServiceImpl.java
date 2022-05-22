@@ -3,6 +3,7 @@ package org.moonzhou.aspectj.service.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.moonzhou.aspectj.constant.DictEnum;
 import org.moonzhou.aspectj.dto.ProcessDto;
+import org.moonzhou.aspectj.dto.UserDto;
 import org.moonzhou.aspectj.service.TestService;
 import org.springframework.stereotype.Service;
 
@@ -49,5 +50,19 @@ public class TestServiceImpl implements TestService {
 
         return new ProcessDto(UUID.randomUUID().toString(), LocalDateTime.now(),
                 DictEnum.PROCESS_STATUS_SUBMITTED.getCode(), DictEnum.PRIORITY_LEVEL_HIGH.getCode());
+    }
+
+    @Override
+    public UserDto user() {
+        // 总监
+        UserDto director = new UserDto("Wang Wu", DictEnum.POSITION_LEVEL_DIRECTOR.getCode(), null);
+
+        // 经理
+        UserDto manager = new UserDto("Li Si", DictEnum.POSITION_LEVE_MANAGER.getCode(), director);
+
+        // 普通员工
+        UserDto staff = new UserDto("Zhang San", DictEnum.POSITION_LEVEL_GENERAL.getCode(), manager);
+
+        return staff;
     }
 }

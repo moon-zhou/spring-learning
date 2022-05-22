@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.moonzhou.aspectj.annotation.Text;
+import org.moonzhou.aspectj.constant.Common;
 
 import java.time.LocalDateTime;
 
@@ -16,13 +17,14 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProcessDto {
+public class ProcessDto extends BaseDto {
     private String id;
     private LocalDateTime createTime;
 
-    @Text(enumCode = "STATUS")
+    @Text(enumCode = Common.DICT_ENUM_PROCESS_STATUS)
     private String status;
 
-    @Text(enumCode = "PRIORITY")
+    @Text(enumCode = Common.DICT_ENUM_PRIORITY_LEVEL)
     private String priority;
+
 }

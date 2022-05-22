@@ -2,6 +2,7 @@ package org.moonzhou.aspectj.controller;
 
 import org.moonzhou.aspectj.base.Result;
 import org.moonzhou.aspectj.dto.ProcessDto;
+import org.moonzhou.aspectj.dto.UserDto;
 import org.moonzhou.aspectj.service.TestService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,6 +52,7 @@ public class TestController {
     }
 
     /**
+     * 普通对象注解不生效，因为最外层切面不返回
      * http://localhost:8081/test/process
      *
      * @return
@@ -60,5 +62,17 @@ public class TestController {
     public ProcessDto findProcessById() {
 
         return testService.process();
+    }
+
+    /**
+     * 支持注解嵌套示例
+     * http://localhost:8081/test/user
+     * @return
+     */
+    @RequestMapping("/user")
+    @ResponseBody
+    public Result<UserDto> findUser() {
+
+        return Result.success(testService.user());
     }
 }

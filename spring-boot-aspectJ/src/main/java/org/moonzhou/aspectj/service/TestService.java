@@ -1,6 +1,7 @@
 package org.moonzhou.aspectj.service;
 
 import org.moonzhou.aspectj.dto.ProcessDto;
+import org.moonzhou.aspectj.dto.UserDto;
 
 /**
  * @author moon zhou
@@ -21,4 +22,10 @@ public interface TestService {
      * @return
      */
     ProcessDto process();
+
+    /**
+     * 返回固定用户信息
+     * @return
+     */
+    UserDto user();
 }
