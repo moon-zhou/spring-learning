@@ -18,7 +18,10 @@
 12. `spring-boot-pdf`：springboot集成pdf工具
 13. `spring-boot-mybatis-plus`：springboot中集成mybatis-plus
 14. `spring-boot-aspectJ`：业务中使用aspectJ，以及改变返回值验证
-15. `spring-boot-validation`：验证及自定义验证
+15. `spring-boot-validation`：TODO 验证及自定义验证
+15. `spring-boot-transaction`：TODO 事务使用（正确&错误的使用方式）
+15. `spring-boot-file`：TODO 文件上传下载（断点续传等）
+15. `spring-boot-httputil`：TODO http工具使用，httpclient调用httpserver接口
 16. 安全问题：
      * `spring-boot-sql-injection`:sql注入
      * `spring-boot-xss`:xss注入
@@ -27,7 +30,7 @@
 17. spring学习:
      * `spring-ioc`
      * `spring-aop`
-     * `spring-transaction`:TODO尚未开始
+     * `spring-transaction`:TODO 尚未开始
      * `spring-event`:spring事件
 18. 公共组件类
      * `spring-boot-offline`：基于aspectJ的http接口下线组件

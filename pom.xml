@@ -41,6 +41,12 @@
         <module>spring-boot-aspectJ</module>
         <!-- springboot validation including custom -->
         <module>spring-boot-validation</module>
+        <!-- springboot transaction demo -->
+        <module>spring-boot-transaction</module>
+        <!-- springboot file -->
+        <module>spring-boot-file</module>
+        <!-- springboot 使用http示例 -->
+        <module>spring-boot-httputil</module>
 
         <!-- springboot logback -->
         <module>spring-boot-logback</module>
