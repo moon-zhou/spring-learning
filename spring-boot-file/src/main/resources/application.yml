@@ -1,5 +1,6 @@
 spring:
   application:
-    name: spring-boot-pdf
-  profiles:
-    active: dev
+    name: spring-boot-file
+
+server:
+  port: 8081
