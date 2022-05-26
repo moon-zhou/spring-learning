@@ -39,6 +39,36 @@
 					"response": []
 				},
 				{
+					"name": "upload batch",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/xxx/Downloads/1.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8081/test/uploadFile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"test",
+								"uploadFile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "download",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true

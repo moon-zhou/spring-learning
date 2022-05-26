@@ -2,6 +2,7 @@ package org.moonzhou.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.moonzhou.dto.Result;
+import org.moonzhou.param.BatchFileParam;
 import org.moonzhou.param.FileParam;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.annotation.Validated;
@@ -14,7 +15,6 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 
 /**
- * TODO batch file upload
  * @author moon zhou
  * @description file upload / download /delete
  * @email ayimin1989@163.com
@@ -56,6 +56,33 @@ public class TestController {
             // 测试将上传文件直接存储到本地临时目录(如果有oss类的对象存储，可直接接入)
             String filename = file.getOriginalFilename();
             FileCopyUtils.copy(file.getBytes(), new File(FILE_FOLDER + filename));
+
+            upload = true;
+        } catch (IOException e) {
+            log.error("upload file error: ", e);
+        }
+
+        return Result.success(upload);
+    }
+
+    /**
+     * http://localhost:8081/test/uploadBatchFile
+     * @param param
+     *
+     * @return
+     */
+    @PostMapping("/uploadBatchFile")
+    public Result<Boolean> uploadBatchFile(@ModelAttribute @Validated BatchFileParam param) {
+
+        boolean upload = false;
+        try {
+            MultipartFile[] files = param.getFiles();
+
+            for (MultipartFile file : files) {
+                // 测试将上传文件直接存储到本地临时目录(如果有oss类的对象存储，可直接接入)
+                String filename = file.getOriginalFilename();
+                FileCopyUtils.copy(file.getBytes(), new File(FILE_FOLDER + filename));
+            }
 
             upload = true;
         } catch (IOException e) {
