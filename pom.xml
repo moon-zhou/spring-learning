@@ -48,6 +48,9 @@
         <!-- springboot 使用http示例 -->
         <module>spring-boot-httputil</module>
 
+        <!-- springboot 集成activiti -->
+        <module>spring-boot-activiti</module>
+
         <!-- springboot logback -->
         <module>spring-boot-logback</module>
         <module>spring-boot-web-threadlocal</module>
