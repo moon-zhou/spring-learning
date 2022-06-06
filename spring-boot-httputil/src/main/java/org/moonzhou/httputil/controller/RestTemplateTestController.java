@@ -6,6 +6,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.moonzhou.httputil.dto.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -140,7 +143,7 @@ public class RestTemplateTestController {
         Result result = restTemplate.getForObject(HTTP_SERVICE_PREFIX + "getParam2?param={param}", Result.class, param);*/
 
         return Result.success(result);
-    }Ï
+    }
 
     /**
      * http://localhost:8081/http/restTemplate/testPostParam
@@ -150,7 +153,25 @@ public class RestTemplateTestController {
     @ResponseBody
     public Result<Object> testPostParam() {
 
-        // TODO 测试post接口
-        return null;
+        // 不加此配置，返回405
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+        /*
+         * postForObject 返回值为响应的数据
+         * 参数1 要请求地址的url
+         * 参数2 通过LinkedMultiValueMap对象封装请求参数  模拟表单参数，封装在请求体中
+         * 参数3 响应数据的类型
+         * @RequestBody参数接收，如果不按照此方式构造参数，返回400
+         */
+        Map<String, Object> request = new HashMap<>();
+        request.put("id", 3000L);
+        request.put("name", "moon");
+
+        HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(request, httpHeaders);
+
+        Result result = restTemplate.postForObject(HTTP_SERVICE_PREFIX + "postParam", requestEntity, Result.class);
+
+        return result;
     }
 }
