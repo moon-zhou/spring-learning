@@ -51,6 +51,9 @@
         <!-- springboot 集成activiti -->
         <module>spring-boot-activiti</module>
 
+        <!-- spring boot 验证biz上的一些best practice -->
+        <module>spring-boot-biz</module>
+
         <!-- springboot logback -->
         <module>spring-boot-logback</module>
         <module>spring-boot-web-threadlocal</module>
