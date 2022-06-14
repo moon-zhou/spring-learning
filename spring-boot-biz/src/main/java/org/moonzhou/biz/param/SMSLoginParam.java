@@ -16,4 +16,10 @@ import lombok.NoArgsConstructor;
 public class SMSLoginParam extends LoginParam {
     private String username;
     private String sms;
+
+    public SMSLoginParam(String loginType, String username, String sms) {
+        super(loginType);
+        this.username = username;
+        this.sms = sms;
+    }
 }

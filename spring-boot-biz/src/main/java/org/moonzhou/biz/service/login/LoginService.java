@@ -11,10 +11,10 @@ public abstract class LoginService {
 
     /**
      * 是否为此种登录方式
-     * @param loginType 登录方式
+     * @param loginParam 登录方式
      * @return 返回是否为此登录方式
      */
-    protected abstract boolean isThisLogin(String loginType);
+    protected abstract boolean isThisLogin(LoginParam loginParam);
 
     /**
      * 认证登录，根据不同的登录方式，进行不同的数据验证
@@ -79,7 +79,7 @@ public abstract class LoginService {
             return loginResult;
         }
 
-        if (isThisLogin(loginParam.getLoginType())) {
+        if (isThisLogin(loginParam)) {
             // 事中风控
             if (loginRiskProbe(loginParam)) {
                 return "-2";
