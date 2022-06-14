@@ -10,6 +10,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
+/**
+ * 单元测试
+ * https://www.cnblogs.com/myitnews/p/12330297.html
+ */
 @SpringBootTest
 public class LoginServiceTest {
 
