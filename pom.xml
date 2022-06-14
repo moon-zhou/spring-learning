@@ -45,6 +45,9 @@
         <module>spring-boot-transaction</module>
         <!-- springboot file -->
         <module>spring-boot-file</module>
+        <!-- springboot threadpool demo -->
+        <module>spring-boot-threadpool</module>
+
         <!-- springboot 使用http示例 -->
         <module>spring-boot-httputil</module>
 
