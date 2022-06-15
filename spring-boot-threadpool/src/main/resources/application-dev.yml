@@ -1,2 +1,24 @@
 server:
   port: 8081
+
+# spring default thread pool config
+spring:
+  task:
+    execution:
+      pool:
+        core-size: 8
+        max-size: 16
+        keep-alive: 60s
+        queue-capacity: 100
+      shutdown:
+        await-termination: true
+        await-termination-period: 60s
+      thread-name-prefix: default-thread-pool-
+
+
+# customized thread pool config
+moon:
+  thread-pool:
+    corePoolSize: 4
+    maxPoolSize: 7
+    queueCapacity: 100
