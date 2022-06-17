@@ -99,7 +99,7 @@
         <hutool-all.version>5.3.7</hutool-all.version>
         <commons-lang3.version>3.10</commons-lang3.version>
         <commons-collections4.version>4.4</commons-collections4.version>
-        <fastjson.version>1.2.79</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
         <druid-spring-boot-starter.version>1.1.23</druid-spring-boot-starter.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
