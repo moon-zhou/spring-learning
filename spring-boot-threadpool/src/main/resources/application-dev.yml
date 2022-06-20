@@ -13,7 +13,7 @@ spring:
       shutdown:
         await-termination: true
         await-termination-period: 60s
-      thread-name-prefix: default-thread-pool-
+      thread-name-prefix: default-
 
 
 # customized thread pool config

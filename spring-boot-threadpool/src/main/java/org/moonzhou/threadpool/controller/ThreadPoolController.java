@@ -103,4 +103,38 @@ public class ThreadPoolController {
 
         return "success";
     }
+
+    /**
+     * http://localhost:8081/threadpool/testMessageThreadPool
+     *
+     * @return
+     */
+    @RequestMapping("/testMessageThreadPool")
+    public String testMessageThreadPool(HttpServletResponse response) {
+
+        log.info("controller testMessageThreadPool in.");
+
+        threadPoolService.testMessageThreadPool();
+
+        log.info("controller testMessageThreadPool out. and return fixed value.");
+
+        return "success";
+    }
+
+    /**
+     * http://localhost:8081/threadpool/testMessageThreadPoolWithResult
+     *
+     * @return
+     */
+    @RequestMapping("/testMessageThreadPoolWithResult")
+    public String testMessageThreadPoolWithResult(HttpServletResponse response) throws ExecutionException, InterruptedException {
+
+        log.info("controller testMessageThreadPoolWithResult in.");
+
+        Boolean asyncResult = threadPoolService.testMessageThreadPool().get();
+
+        log.info("controller testMessageThreadPoolWithResult out. and return runtime value: {}.", asyncResult);
+
+        return "success";
+    }
 }

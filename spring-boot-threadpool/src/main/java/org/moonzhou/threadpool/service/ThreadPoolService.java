@@ -19,4 +19,10 @@ public interface ThreadPoolService {
      * @return true: biz success
      */
     Future<Boolean> testCustomizedThreadPool();
+
+    /**
+     * test {@link org.springframework.scheduling.annotation.Async} customized thread pool
+     * @return true: biz success
+     */
+    Future<Boolean> testMessageThreadPool();
 }
