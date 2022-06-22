@@ -67,9 +67,10 @@ public class TestController {
             response.setContentType("application/pdf");
             response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("application.pdf", "utf-8"));
 
-            String resourcePath = this.getClass().getClassLoader().getResource("").getPath();
-//            String templatePath = resourcePath + "/pdf/pdfTemplate.pdf";
-            String fontPath = resourcePath + "pdf/font/Alibaba-PuHuiTi-Regular.ttf";
+            //使用该方式，在打成jar包运行时，会找不到字体文件
+            /*String resourcePath = this.getClass().getClassLoader().getResource("").getPath();
+            String fontPath = resourcePath + "pdf/font/Alibaba-PuHuiTi-Regular.ttf";*/
+            String fontPath = new ClassPathResource("pdf/font/Alibaba-PuHuiTi-Regular.ttf").getPath();
 
 //            InputStream pdfTemplateInputStream = this.getClass().getClassLoader().getResourceAsStream("pdf/pdfTemplate.pdf");
 
