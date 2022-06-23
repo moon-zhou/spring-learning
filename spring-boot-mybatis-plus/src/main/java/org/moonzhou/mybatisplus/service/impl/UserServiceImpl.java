@@ -2,7 +2,7 @@ package org.moonzhou.mybatisplus.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.moonzhou.mybatisplus.dao.UserMapper;
-import org.moonzhou.mybatisplus.model.po.User;
+import org.moonzhou.mybatisplus.model.entity.User;
 import org.moonzhou.mybatisplus.service.IUserService;
 import org.springframework.stereotype.Service;
 

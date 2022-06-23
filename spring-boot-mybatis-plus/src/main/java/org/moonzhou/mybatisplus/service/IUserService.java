@@ -1,7 +1,7 @@
 package org.moonzhou.mybatisplus.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.moonzhou.mybatisplus.model.po.User;
+import org.moonzhou.mybatisplus.model.entity.User;
 
 /**
  * @description

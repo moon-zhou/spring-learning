@@ -1,4 +1,4 @@
-package org.moonzhou.mybatisplus.model.po;
+package org.moonzhou.mybatisplus.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

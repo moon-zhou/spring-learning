@@ -10,5 +10,6 @@ spring:
     password:
 
 mybatis-plus:
+  mapper-locations: classpath*:/sql/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #开启SQL语句打印

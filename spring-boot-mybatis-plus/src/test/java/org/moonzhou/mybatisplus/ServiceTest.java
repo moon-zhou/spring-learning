@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.moonzhou.mybatisplus.model.po.User;
+import org.moonzhou.mybatisplus.model.entity.User;
 import org.moonzhou.mybatisplus.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

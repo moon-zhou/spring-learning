@@ -1,7 +1,7 @@
 package org.moonzhou.mybatisplus.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.moonzhou.mybatisplus.model.po.UserInfo;
+import org.moonzhou.mybatisplus.model.entity.UserInfo;
 
 /**
  * @author moon zhou
