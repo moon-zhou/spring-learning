@@ -24,16 +24,17 @@
 18. `spring-boot-threadpool`：TODO 添加线程池使用示例
 19. `spring-boot-httputil`：TODO http工具使用，httpclient调用httpserver接口
 20. `spring-boot-activiti`：springboot集成activiti
-21. `spring-boot-biz`： spring boot 验证biz上的一些best practice
-22. 安全问题：
+21. `spring-boot-redis`：springboot集成redis
+22. `spring-boot-biz`： spring boot 验证biz上的一些best practice
+23. 安全问题：
      * `spring-boot-sql-injection`:sql注入
      * `spring-boot-xss`:xss注入
      * `spring-boot-csrf`:csrf注入
      * `spring-boot-log4j-jndi-bug`: `log4j jndi`漏洞演示及修复
-23. spring学习:
+24. spring学习:
      * `spring-ioc`
      * `spring-aop`
      * `spring-transaction`:TODO 尚未开始
      * `spring-event`:spring事件
-24. 公共组件类
+25. 公共组件类
      * `spring-boot-offline`：基于aspectJ的http接口下线组件
