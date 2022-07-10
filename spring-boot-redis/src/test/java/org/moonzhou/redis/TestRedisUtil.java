@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.moonzhou.redis.util.RedisUtil;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.Duration;
+
 /**
  * @author moonzhou
  */
@@ -16,8 +18,8 @@ public class TestRedisUtil {
         String key = "redisUtil";
         String value = "test";
 
-        boolean setResult = RedisUtil.set(key, value, 30L);
-        Assertions.assertTrue(setResult);
+
+        RedisUtil.set(key, value, Duration.ofSeconds(30));
 
         Long expire = RedisUtil.getExpire(key);
         Assertions.assertNotNull(expire);
@@ -25,6 +27,27 @@ public class TestRedisUtil {
         String outValue = (String)RedisUtil.get(key);
         Assertions.assertEquals(outValue, value);
 
-        RedisUtil.del(key);
+        Boolean del = RedisUtil.del(key);
+        Assertions.assertTrue(del);
+    }
+
+    @Test
+    public void testIncr() {
+        String key = "testIncr";
+
+        Long incr = RedisUtil.increment(key);
+        Assertions.assertEquals(1L, incr);
+
+        incr = RedisUtil.increment(key);
+        Assertions.assertEquals(2L, incr);
+
+        incr = RedisUtil.incr(key, 3L);
+        Assertions.assertEquals(5L, incr);
+
+        incr = RedisUtil.incr(key, -2L);
+        Assertions.assertEquals(3L, incr);
+
+        Boolean del = RedisUtil.del(key);
+        Assertions.assertTrue(del);
     }
 }
