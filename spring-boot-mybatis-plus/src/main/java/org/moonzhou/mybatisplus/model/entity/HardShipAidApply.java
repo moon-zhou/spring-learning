@@ -9,6 +9,7 @@ import org.moonzhou.mybatisplus.model.base.BaseEntity;
 
 /**
  * 困难描述
+ * 测试TableField，必须使用lambda方式，或者自定义sql时使用别名或者resultMap指定字段
  * @author moonzhou
  */
 @Data

@@ -59,3 +59,21 @@ CREATE TABLE `hardship_aid_apply` (
                                       `deleted` tinyint(1) NOT NULL,
                                       PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- 测试字段加密
+DROP TABLE IF EXISTS `user_wage_encryption_annotation`;
+CREATE TABLE `user_wage_encryption_annotation` (
+                                                  `id` bigint NOT NULL COMMENT '主键ID',
+                                                  `money` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '工资',
+                                                  `remark` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
+                                                  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+DROP TABLE IF EXISTS `user_wage_encryption_resultmap`;
+CREATE TABLE `user_wage_encryption_resultmap` (
+                                                 `id` bigint NOT NULL COMMENT '主键ID',
+                                                 `money` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '工资',
+                                                 `remark` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
+                                                 PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

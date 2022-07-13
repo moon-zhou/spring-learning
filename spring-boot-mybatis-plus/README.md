@@ -16,7 +16,8 @@ com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
 
 ### 条件构造器
 
-
+### 字段加密
+思路：实现加密的BaseTypeHandler
 
 
 ### 参考
@@ -25,4 +26,4 @@ com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
 3. [awesome-mybatis-plus](https://github.com/baomidou/awesome-mybatis-plus)
 4. [mybatis-plus-doc](https://github.com/baomidou/mybatis-plus-doc)
 5. [MyBatis-Plus + SpringBoot实现简单权限管理](https://www.imooc.com/learn/1294)
-6. 
+6. [基于Mybatis-Plus的字段加密方案](https://juejin.cn/post/7076350146660794381)
