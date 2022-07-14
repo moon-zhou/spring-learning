@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.moonzhou.mybatisplus.dao.UserDuplicateFieldMapper">
+
+    <!-- 字段重名，以第一个为准，后一个会被拼接(1) -->
+    <select id="selectList" resultType="org.moonzhou.mybatisplus.model.entity.UserDuplicateField"
+            parameterType="java.lang.String">
+        SELECT concat(name, '2') name, t.* FROM user t WHERE t.name like concat('%', #{name,jdbcType=VARCHAR}, '%')
+    </select>
+
+</mapper>
