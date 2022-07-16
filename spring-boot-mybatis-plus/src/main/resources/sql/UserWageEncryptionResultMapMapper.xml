@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.moonzhou.mybatisplus.dao.UserWageEncryptionResultMapMapper">
+
+    <resultMap id="userWageEncryptionResultMap" type="org.moonzhou.mybatisplus.model.entity.UserWageEncryptionResultMap">
+        <id column="id" property="id"/>
+        <result column="money" property="money" typeHandler="org.moonzhou.mybatisplus.model.handler.EncryptionHandler"></result>
+        <result column="remark" property="remark" typeHandler="org.moonzhou.mybatisplus.model.handler.EncryptionHandler"></result>
+    </resultMap>
+
+    <insert id="insertSelf">
+        insert into user_wage_encryption_resultmap (id, money, remark)
+        values(#{id}, #{money, typeHandler=org.moonzhou.mybatisplus.model.handler.EncryptionHandler},
+               #{remark, typeHandler=org.moonzhou.mybatisplus.model.handler.EncryptionHandler})
+    </insert>
+
+    <select id="selectAll" resultMap="userWageEncryptionResultMap">
+        SELECT * from user_wage_encryption_resultmap
+    </select>
+
+</mapper>

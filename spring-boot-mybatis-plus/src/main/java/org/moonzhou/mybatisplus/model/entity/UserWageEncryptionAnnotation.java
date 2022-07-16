@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import org.moonzhou.mybatisplus.model.handler.EncryptionHandler;
 
 /**
  * 测试注解方式，字段加密
@@ -15,15 +16,15 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@TableName("user_wage_encryption_annotation")
+@TableName(value = "user_wage_encryption_annotation", autoResultMap = true)
 public class UserWageEncryptionAnnotation {
 
     @TableField("id")
     private Long id;
 
-    @TableField("money")
+    @TableField(value = "money", typeHandler = EncryptionHandler.class)
     private String money;
 
-    @TableField("remark")
+    @TableField(value = "remark", typeHandler = EncryptionHandler.class)
     private String remark;
 }
