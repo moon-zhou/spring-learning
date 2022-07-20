@@ -31,3 +31,4 @@ com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
 5. [MyBatis-Plus + SpringBoot实现简单权限管理](https://www.imooc.com/learn/1294)
 6. [基于Mybatis-Plus的字段加密方案](https://juejin.cn/post/7076350146660794381)
 7. [mybatis](https://mybatis.org/mybatis-3/zh/configuration.html#typeHandlers)
+8. [MyBatis-Plus 的进阶](https://juejin.cn/post/7028953797317623816)

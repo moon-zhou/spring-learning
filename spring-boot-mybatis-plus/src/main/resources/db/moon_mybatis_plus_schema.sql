@@ -43,6 +43,7 @@ CREATE TABLE `user_info` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- test annotation TableField
 DROP TABLE IF EXISTS `hardship_aid_apply`;
 CREATE TABLE `hardship_aid_apply` (
                                       `id` bigint NOT NULL COMMENT '主键ID',
@@ -61,7 +62,7 @@ CREATE TABLE `hardship_aid_apply` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- 测试字段加密
+-- test field encrypt
 DROP TABLE IF EXISTS `user_wage_encryption_annotation`;
 CREATE TABLE `user_wage_encryption_annotation` (
                                                    `id` bigint NOT NULL COMMENT '主键ID',
@@ -76,4 +77,21 @@ CREATE TABLE `user_wage_encryption_resultmap` (
                                                   `money` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '工资',
                                                   `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '备注',
                                                   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- test common field and logic delete
+DROP TABLE IF EXISTS `account`;
+CREATE TABLE `account` (
+                             `id` bigint NOT NULL COMMENT '主键ID',
+                             `user_no` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '户头号',
+                             `name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '姓名',
+                             `age` int DEFAULT NULL COMMENT '年龄',
+                             `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '邮箱',
+                             `dept` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '部门',
+                             `create_time` timestamp NOT NULL COMMENT '创建时间',
+                             `create_user` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '创建人',
+                             `update_time` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+                             `update_user` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人',
+                             `deleted` tinyint(1) NOT NULL,
+                             PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
