@@ -3,6 +3,7 @@ package org.moonzhou.mybatisplus.ocnfig;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+import org.moonzhou.mybatisplus.method.MySqlInjector;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -22,5 +23,10 @@ public class MybatisPlusAutoConfiguration {
         plusInterceptor.addInnerInterceptor(new PaginationInnerInterceptor());
         plusInterceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
         return plusInterceptor;
+    }
+
+    @Bean
+    public MySqlInjector sqlInjector() {
+        return new MySqlInjector();
     }
 }

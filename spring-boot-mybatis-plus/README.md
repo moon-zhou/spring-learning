@@ -16,12 +16,65 @@ com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
 
 ### 条件构造器
 
+
 ### 字段加密
 核心思路：实现加密的`BaseTypeHandler`
 1. 编写AES加密方法，秘钥可配置（后续可扩张加密方法RAS等）
 2. 实现`BaseTypeHandler`的相关接口，相关接口里包含入库和查询，调用对应的加密和解密方法
 3. 后期可以扩展不同的加密方式，通过配置自定义
 整体的设计思路，与传输层加密类似，传输层加密是去继承`HttpServletRequestWrapper`,重写里面获取参数的方法（`OncePerRequestFilter`）。
+
+
+### 乐观锁 & 悲观锁
+#### 乐观锁
+乐观锁往往不需要通过数据库的锁机制，乐观锁更多的是一种通用的设计思想。在mybatis-plus里的体现，是持久层（大方向上还是属于业务层面）的数据防止并发，数据一致性的解决方案。 适用场景就是乐观锁的通用场景，读多写少。
+
+乐观锁假设数据一般情况下不会造成冲突，所以在数据进行提交更新的时候，才会正式对数据的冲突与否进行检测，如果发现冲突了，则让返回用户错误的信息，让用户决定如何去做。
+所以乐观锁的核心就是：**冲突检测**和**数据更新**，是一种典型的**Compare and Swap(CAS)技术**。
+
+对于CAS，典型的就是ABA问题，所以可以在业务通过version顺序递增来进行避免。
+
+具体实现：每次在执行数据的修改操作时，都会带上一个版本号，一旦版本号和数据的版本号一致就可以执行修改操作并对版本号执行+1操作，否则就执行失败。因为每次操作的版本号都会随之增加，所以不会出现ABA问题，因为版本号只会增加不会减少。
+```
+//查询出商品信息，version = 1
+select version from items where id=1
+//修改商品库存为2
+update items set quantity=2,version = 3 where id=1 and version = 2;
+```
+以上SQL其实还是有一定的问题的，就是一旦高并发的时候，就只有一个线程可以修改成功，那么就会存在大量的失败。
+
+对于像淘宝这样的电商网站，高并发是常有的事，总让用户感知到失败显然是不合理的。所以，还是要想办法减小乐观锁的粒度的。
+有一条比较好的建议，可以减小乐观锁力度，最大程度的提升吞吐率，提高并发能力！如下：
+```
+//修改商品库存
+update item
+set quantity=quantity - 1
+where id = 1 and quantity - 1 > 0
+```
+
+在 `mybatis-plus` 中的使用：
+1. 数据库表创建`version`字段
+2. `@Version`注解对应实体上
+3. 高并发模拟测试
+
+#### 悲观锁
+具有强烈的独占和排他特性。它指的是对数据被外界（包括本系统当前的其他事务，以及来自外部系统的事务处理）修改持保守态度，因此，在整个数据处理过程中，将数据处于锁定状态。实现方式往往依靠数据库提供的锁机制。
+
+悲观锁的实现方式有两种：共享锁(读锁)和排它锁(写锁)。
+- 共享锁又称为读锁，简称S锁，顾名思义，共享锁就是多个事务对于同一数据可以共享一把锁，都能访问到数据，但是只能读不能修改。e.g.`sql后加LOCK IN SHARE MODE，比如SELECT ... LOCK IN SHARE MODE`
+- 排他锁又称为写锁，简称X锁，顾名思义，排他锁就是不能与其他所并存，如一个事务获取了一个数据行的排他锁，其他事务就不能再获取该行的其他锁，包括共享锁和排他锁，但是获取排他锁的事务是可以对数据就行读取和修改。e.g.`sql后加FOR UPDATE，比如SELECT ... FOR UPDATE`
+
+使用悲观锁时，我们必须关闭mysql数据库中自动提交的属性，命令set autocommit=0;即可关闭，因为MySQL默认使用autocommit模式，也就是说，当你执行一个更新操作后，MySQL会立刻将结果进行提交。
+```
+//0.开始事务
+begin; 
+//1.查询出商品库存信息
+select quantity from items where id=1 for update;
+//2.修改商品库存为2
+update items set quantity=2 where id = 1;
+//3.提交事务
+commit;
+```
 
 ### 参考
 1. [SpringBoot整合mybatis-plus--入门超详细](https://www.jianshu.com/p/28d6d9a56b62)
@@ -32,3 +85,5 @@ com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
 6. [基于Mybatis-Plus的字段加密方案](https://juejin.cn/post/7076350146660794381)
 7. [mybatis](https://mybatis.org/mybatis-3/zh/configuration.html#typeHandlers)
 8. [MyBatis-Plus 的进阶](https://juejin.cn/post/7028953797317623816)
+9. [数据库中的乐观锁与悲观锁](https://www.cnblogs.com/kyoner/p/11318979.html)
+10. [面试必备的数据库悲观锁与乐观锁](https://zhuanlan.zhihu.com/p/62663560)
