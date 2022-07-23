@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -129,6 +130,37 @@ public class CommonFieldTest {
         // delete all
         int deleteAllResult = accountPhysicalMapper.deleteAll();
         Assert.assertEquals(2, deleteAllResult);
+    }
+
+
+    @Test
+    public void testOfficialMethod() {
+        AccountPhysical accountPhysical = new AccountPhysical();
+        accountPhysical.setName("moon020").setId(1L);
+
+        // insert one
+        int insertResult = accountPhysicalMapper.myInsertAll(accountPhysical);
+        Assert.assertEquals(1, insertResult);
+
+
+        List<AccountPhysical> list = new ArrayList<>();
+
+        AccountPhysical accountPhysical1 = new AccountPhysical();
+        accountPhysical1.setName("moon100").setId(100L);
+        list.add(accountPhysical1);
+
+        AccountPhysical accountPhysical2 = new AccountPhysical();
+        accountPhysical2.setName("moon200").setId(200L);
+        list.add(accountPhysical2);
+
+        // batch save
+        int batchResult = accountPhysicalMapper.mysqlInsertAllBatch(list);
+        Assert.assertEquals(2, batchResult);
+
+
+        // delete all
+        int deleteAllResult = accountPhysicalMapper.deleteAll();
+        Assert.assertTrue(deleteAllResult > 0);
     }
 
 }

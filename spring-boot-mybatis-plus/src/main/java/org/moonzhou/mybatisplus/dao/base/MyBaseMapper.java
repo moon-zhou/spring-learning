@@ -21,7 +21,7 @@ public interface MyBaseMapper<T> extends BaseMapper<T> {
     int alwaysUpdateSomeColumnById(@Param(Constants.ENTITY) T entity);
 
     /**
-     * MP method implementation
+     * MP method implementation: insert list
      * @param entityList save entity list
      * @return save successful count
      */
@@ -38,4 +38,19 @@ public interface MyBaseMapper<T> extends BaseMapper<T> {
      * @return the count of data deleted
      */
     int deleteAll();
+
+    /**
+     * official demo
+     * @param entity
+     * @return
+     */
+    int myInsertAll(T entity);
+
+    /**
+     * 如果要自动填充，@{@code Param}(xx) xx参数名必须是 list/collection/array 3个的其中之一
+     *
+     * @param batchList
+     * @return
+     */
+    int mysqlInsertAllBatch(@Param("list") List<T> batchList);
 }

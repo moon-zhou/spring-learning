@@ -29,6 +29,10 @@ public class MySqlInjector extends DefaultSqlInjector {
         methodList.add(new FindAll("findAll"));
         methodList.add(new DeleteAll("deleteAll"));
 
+        // official website demo
+        methodList.add(new MyInsertAll("myInsertAll"));
+        methodList.add(new MysqlInsertAllBatch("mysqlInsertAllBatch"));
+
         return methodList;
 
     }
