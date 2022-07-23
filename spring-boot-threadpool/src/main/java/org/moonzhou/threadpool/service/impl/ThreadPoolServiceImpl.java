@@ -16,6 +16,10 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Service
 public class ThreadPoolServiceImpl implements ThreadPoolService {
+    /**
+     * spring default thread pool
+     * @return
+     */
     @Async
     @Override
     public Future<Boolean> testDefaultThreadPool() {
