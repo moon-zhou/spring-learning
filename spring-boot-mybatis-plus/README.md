@@ -15,7 +15,7 @@ com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
 ```
 
 ### 条件构造器
-
+TODO
 
 ### 字段加密
 核心思路：实现加密的`BaseTypeHandler`
@@ -56,6 +56,8 @@ where id = 1 and quantity - 1 > 0
 1. 数据库表创建`version`字段
 2. `@Version`注解对应实体上
 3. 高并发模拟测试
+TODO
+
 
 #### 悲观锁
 具有强烈的独占和排他特性。它指的是对数据被外界（包括本系统当前的其他事务，以及来自外部系统的事务处理）修改持保守态度，因此，在整个数据处理过程中，将数据处于锁定状态。实现方式往往依靠数据库提供的锁机制。
@@ -76,6 +78,39 @@ update items set quantity=2 where id = 1;
 commit;
 ```
 
+### 自定义方法
+1. 继承`BaseMapper`，定义自己的方法：`org.moonzhou.mybatisplus.dao.base.MyBaseMapper`
+2. 继承`AbstractMethod`，实现`injectMappedStatement`方法，即自定义方法的sql拼接。
+3. 继承`DefaultSqlInjector`，将实现的方法进行注入：`org.moonzhou.mybatisplus.method.MySqlInjector`
+4. 将注入器交给`spring`管理（实例化bean）
+
+
+### 日志
+正常添加配置：`mybatis-plus.configuration.log-impl=org.apache.ibatis.logging.stdout.StdOutImpl`，但是打开该实现类，就回发现，里面的打印均是通过`System.err/System.out`来实现的。
+所以如果真正上生产，在本身springboot的应用下，logback如果未配置输出控制台的日志到文件（通常不配置），此方法配置的日志就没有办法打印。
+
+除了控制台输出的日志实现，还有`org.apache.ibatis.logging.slf4j.Slf4jImpl`等实现方式，具体可看源码：`org.apache.ibatis.logging`
+
+最简单的方法就是模仿如上实现类，编写自己的日志处理类，直接将里面的`System.err/System.out`替换为`log`输出即可。e.g.`org.moonzhou.mybatisplus.logging.MySqlLogImpl`。
+基本上实现之后，依赖父类项目里的`logback`统一配置。
+
+关闭日志配置为：`mybatis-plus.configuration.log-impl=org.apache.ibatis.logging.nologging.NoLoggingImpl`
+
+
+
+### 分页
+TODO
+
+
+### 监控(TODO)
+数据库连接线程池管理
+#### Hikara
+JMX
+
+#### Druid
+
+#### p6spy
+
 ### 参考
 1. [SpringBoot整合mybatis-plus--入门超详细](https://www.jianshu.com/p/28d6d9a56b62)
 2. [MyBatis-Plus](https://baomidou.com/)
@@ -87,3 +122,6 @@ commit;
 8. [MyBatis-Plus 的进阶](https://juejin.cn/post/7028953797317623816)
 9. [数据库中的乐观锁与悲观锁](https://www.cnblogs.com/kyoner/p/11318979.html)
 10. [面试必备的数据库悲观锁与乐观锁](https://zhuanlan.zhihu.com/p/62663560)
+11. [mybatis plus sql injector demo](https://gitee.com/baomidou/mybatis-plus-samples/tree/master/mybatis-plus-sample-deluxe)
+12. [MyBatisPlus(SpringBoot版)--2022](https://www.cnblogs.com/manmanblogs/p/16041169.html)
+13. [mybatis plus 看这篇就够了，一发入魂](https://juejin.cn/post/6961721367846715428)
