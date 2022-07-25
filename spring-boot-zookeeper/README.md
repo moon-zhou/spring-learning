@@ -68,10 +68,46 @@ $ more defaults
    zkServer start
    zkServer stop
    ```
-2. 通过`homebrew`启动
+2. 通过`homebrew`启动，启动后查看启动状态及对应配置文件：
    ```
    brew services start zookeeper
    brew services stop zookeeper
+   ```
+   ```
+   $ brew services list
+   Name       Status  User     File
+   zookeeper  started u0041600 ~/Library/LaunchAgents/homebrew.mxcl.zookeeper.plist
+   ```
+   配置文件详细：
+   ```
+   $ more homebrew.mxcl.zookeeper.plist
+   <?xml version="1.0" encoding="UTF-8"?>
+   <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+   <plist version="1.0">
+   <dict>
+           <key>EnvironmentVariables</key>
+           <dict>
+                   <key>SERVER_JVMFLAGS</key>
+                   <string>-Dapple.awt.UIElement=true</string>
+           </dict>
+           <key>KeepAlive</key>
+           <dict>
+                   <key>SuccessfulExit</key>
+                   <false/>
+           </dict>
+           <key>Label</key>
+           <string>homebrew.mxcl.zookeeper</string>
+           <key>ProgramArguments</key>
+           <array>
+                   <string>/opt/homebrew/opt/zookeeper/bin/zkServer</string>
+                   <string>start-foreground</string>
+           </array>
+           <key>RunAtLoad</key>
+           <true/>
+           <key>WorkingDirectory</key>
+           <string>/opt/homebrew/var</string>
+   </dict>
+   </plist>
    ```
 3. macos本地部署伪集群
    1. 配置多个（3个）配置文件
@@ -82,7 +118,25 @@ $ more defaults
    zkServer start/stop zoo3.cfg
    ```
 
+### 基本操作
+#### ls 查看
+```
+localhost:2181	$	ls /
+[cluster, controller_epoch, controller, brokers, zookeeper, feature, admin, isr_change_notification, consumers, log_dir_event_notification, latest_producer_id_block, config]
+localhost:2181	$	ls /zookeeper
+[config, quota]
+```
+
+### get 获取节点数据和更新信息
+
+
+### 代码操作
+#### JAVA
+#### 集成`spring boot`
+
+
 ### 客户端
 [PrettyZoo,下载地址](https://github.com/vran-dev/PrettyZoo/releases)，github很慢，可以找些加速方法。
 
 ### 参考
+1. [Zookeeper系列一：Zookeeper基础命令操作](https://juejin.cn/post/6844903615992168461)

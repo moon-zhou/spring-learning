@@ -71,7 +71,7 @@ brew services start kafka
 ```
 
 启动时，没查到运行进程：`ps -ef | grep kafka`，使用homebrew查看服务情况：`brew services list`，发现状态是error。
-进入kafka配置目录：`/opt/homebrew/var/log/kafka`，此处日志与实际配置不一致，待排查（TODO）。
+进入kafka配置目录：`/opt/homebrew/var/log/kafka`。
 ```
 /opt/homebrew/Cellar/kafka/3.2.0/libexec/bin/kafka-run-class.sh: line 342: /opt/homebrew/@@HOMEBREW_JAVA@@/bin/java: No such file or directory
 /opt/homebrew/Cellar/kafka/3.2.0/libexec/bin/kafka-run-class.sh: line 342: exec: /opt/homebrew/@@HOMEBREW_JAVA@@/bin/java: cannot execute: No such file or directory
@@ -83,6 +83,94 @@ ps -ef | grep kafka
 brew services list
 jps
 ```
+
+实际的日志输出位置，与配置文件的日志位置不一致，通过`brew services list`，启动时的配置文件位置：
+```
+$ brew services list
+Name       Status  User     File
+kafka      started u0041600 ~/Library/LaunchAgents/homebrew.mxcl.kafka.plist
+```
+打开对应配置文件，发现其配置输出位置与实际一致，说明是此处的配置生效了：
+```
+$ more homebrew.mxcl.kafka.plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+        <key>KeepAlive</key>
+        <true/>
+        <key>Label</key>
+        <string>homebrew.mxcl.kafka</string>
+        <key>LimitLoadToSessionType</key>
+        <array>
+                <string>Aqua</string>
+                <string>Background</string>
+                <string>LoginWindow</string>
+                <string>StandardIO</string>
+                <string>System</string>
+        </array>
+        <key>ProgramArguments</key>
+        <array>
+                <string>/opt/homebrew/opt/kafka/bin/kafka-server-start</string>
+                <string>/opt/homebrew/etc/kafka/server.properties</string>
+        </array>
+        <key>RunAtLoad</key>
+        <true/>
+        <key>StandardErrorPath</key>
+        <string>/opt/homebrew/var/log/kafka/kafka_output.log</string>
+        <key>StandardOutPath</key>
+        <string>/opt/homebrew/var/log/kafka/kafka_output.log</string>
+        <key>WorkingDirectory</key>
+        <string>/opt/homebrew</string>
+</dict>
+</plist>
+```
+
+### 基本操作
+#### Topic
+创建Topic，使用老的创建方式报错：
+```
+// 命令
+$ kafka-topics --zookeeper 127.0.0.1:2181 --create --topic test-topic --partitions 3 --replication-factor 3
+Exception in thread "main" joptsimple.UnrecognizedOptionException: zookeeper is not a recognized option
+	at joptsimple.OptionException.unrecognizedOption(OptionException.java:108)
+	at joptsimple.OptionParser.handleLongOptionToken(OptionParser.java:510)
+	at joptsimple.OptionParserState$2.handleArgument(OptionParserState.java:56)
+	at joptsimple.OptionParser.parse(OptionParser.java:396)
+	at kafka.admin.TopicCommand$TopicCommandOptions.<init>(TopicCommand.scala:567)
+	at kafka.admin.TopicCommand$.main(TopicCommand.scala:47)
+	at kafka.admin.TopicCommand.main(TopicCommand.scala)
+```
+修正后：
+```
+kafka-topics --create --topic test-topic --bootstrap-server localhost:9092  --partitions 1 --replication-factor 1
+
+// 分片数和副本数为1可省略
+kafka-topics --create --topic test-topic --bootstrap-server localhost:9092
+```
+需要注意参数，以及集群机器，副本数等：
+```
+$ kafka-topics --create --topic test-topic --bootstrap-server localhost:9092  --partitions 3 --replication-factor 3
+Error while executing topic command : Replication factor: 3 larger than available brokers: 1.
+[2022-07-25 21:08:47,112] ERROR org.apache.kafka.common.errors.InvalidReplicationFactorException: Replication factor: 3 larger than available brokers: 1.
+ (kafka.admin.TopicCommand$)
+```
+
+查看Topic列表：`kafka-topics --list --bootstrap-server localhost:9092`
+删除Topic：`kafka-topics --delete --topic test-topic2 --bootstrap-server localhost:9092`
+
+#### 生产者
+重新打开一个终端：
+```
+kafka-console-producer --topic test-topic --bootstrap-server 127.0.0.1:9092
+```
+
+#### 消费者
+再重新打开一个终端：
+```
+kafka-console-consumer --topic test-topic --bootstrap-server 127.0.0.1:9092 --from-beginning
+```
+
 
 
 ### 关于使用kafka自带zk还是自己安装zk
@@ -101,3 +189,6 @@ jps
 ### 参考
 1. [Mac OS 安装 Kafka](https://juejin.cn/post/7100071216727195684)
 2. [Kafka——关于Kafka自带的ZooKeeper和自己安装的ZooKeeper的使用问题](https://www.cnblogs.com/zuiyue_jing/p/12781668.html)
+3. [SpringBoot集成Kafka——如此简单](https://juejin.cn/post/7111966495273386015)
+4. [Mac OS 安装 Kafka](https://juejin.cn/post/7100071216727195684)
+5. [在 MacOS 上安装 Kafka](https://colobu.com/2019/09/27/install-Kafka-on-Mac/)（该文章因为kafka版本过老，命令在新版本上不能执行）
