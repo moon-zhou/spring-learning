@@ -4,8 +4,8 @@
 
     <resultMap id="userWageEncryptionResultMap" type="org.moonzhou.mybatisplus.model.entity.UserWageEncryptionResultMap">
         <id column="id" property="id"/>
-        <result column="money" property="money" typeHandler="org.moonzhou.mybatisplus.model.handler.EncryptionHandler"></result>
-        <result column="remark" property="remark" typeHandler="org.moonzhou.mybatisplus.model.handler.EncryptionHandler"></result>
+        <result column="money" property="money" typeHandler="org.moonzhou.mybatisplus.model.handler.EncryptionHandler" />
+        <result column="remark" property="remark" typeHandler="org.moonzhou.mybatisplus.model.handler.EncryptionHandler" />
     </resultMap>
 
     <insert id="insertSelf">
