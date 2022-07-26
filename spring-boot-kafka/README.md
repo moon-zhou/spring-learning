@@ -88,7 +88,7 @@ jps
 ```
 $ brew services list
 Name       Status  User     File
-kafka      started u0041600 ~/Library/LaunchAgents/homebrew.mxcl.kafka.plist
+kafka      started xxxxxxxx ~/Library/LaunchAgents/homebrew.mxcl.kafka.plist
 ```
 打开对应配置文件，发现其配置输出位置与实际一致，说明是此处的配置生效了：
 ```
@@ -171,7 +171,20 @@ kafka-console-producer --topic test-topic --bootstrap-server 127.0.0.1:9092
 kafka-console-consumer --topic test-topic --bootstrap-server 127.0.0.1:9092 --from-beginning
 ```
 
-
+### 集成 Springboot
+#### 集成步骤
+1. 引入依赖: `spring-boot-kafka/pom.xml`
+2. 修改yml配置: `spring-boot-kafka/src/main/resources/application.yml`
+3. 编写生产者: `spring-boot-kafka/src/main/java/org/moonzhou/kafka/producer/MoonKafkaProducer.java`
+4. 编写消费者: `spring-boot-kafka/src/main/java/org/moonzhou/kafka/consumer/MoonKafkaConsumer.java`
+5. 启动应用，测试
+   ```
+   spring-boot-kafka/src/main/java/org/moonzhou/kafka/SpringBootKafkaApplication.java
+   
+   http://localhost:8081/test/sendKafka/001
+   ```
+#### 集成注意点
+1. consumer类上如果不指定groupId，则使用yml里配置的groupId：`spring.kafka.consumer.group-id`
 
 ### 关于使用kafka自带zk还是自己安装zk
 建议分离，使用自己安装的zk。如果自己本地测试，方便起见可以直接使用kafka自带的zk，无需再额外下载。但是启动步骤，都需要先启动zk，再启动kafka。
