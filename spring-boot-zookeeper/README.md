@@ -76,7 +76,7 @@ $ more defaults
    ```
    $ brew services list
    Name       Status  User     File
-   zookeeper  started u0041600 ~/Library/LaunchAgents/homebrew.mxcl.zookeeper.plist
+   zookeeper  started xxxxxxxx ~/Library/LaunchAgents/homebrew.mxcl.zookeeper.plist
    ```
    配置文件详细：
    ```
