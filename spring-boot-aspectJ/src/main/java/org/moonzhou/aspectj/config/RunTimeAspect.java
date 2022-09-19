@@ -50,7 +50,24 @@ public class RunTimeAspect {
 
         Object result = null;
         try {
+            // print param in
+            /*Object[] args = proceedingJoinPoint.getArgs();
+            for (Object arg : args) {
+                if (arg instanceof Map) {
+                    // json
+                } else {
+
+                }
+            }*/
+
             result = proceedingJoinPoint.proceed();
+
+            // print result
+            /*if (result instanceof Map) {
+                // json
+            } else {
+
+            } */
         } catch (Throwable e) {
             log.error("monitor error: ", e);
         } finally {
