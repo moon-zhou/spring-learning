@@ -36,6 +36,8 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * 统一异常处理
  *
+ * @RestControllerAdvice其实就是在@ControllerAdvice加了一个@ResponseBody注解，用来将返回值写入到响应体
+ *
  * @author moon-zhou <ayimin1989@163.com>
  * @version V1.0.0
  * @Slf4j为lombok的，因为springboot默认已经关联了，直接依赖使用即可
