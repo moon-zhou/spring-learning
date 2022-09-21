@@ -1,0 +1,38 @@
+{
+	"info": {
+		"_postman_id": "2ce69514-5040-41e5-b172-516d52c2b7d8",
+		"name": "validation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "test id num",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"123\",\n    \"name\": \"moon\",\n    \"phoneNumber\":\"12312312312\",\n    \"email\":\"123@123.123\",\n    \"idNum\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/test/testIdNum",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"test",
+						"testIdNum"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
