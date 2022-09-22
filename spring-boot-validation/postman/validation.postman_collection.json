@@ -6,7 +6,36 @@
 	},
 	"item": [
 		{
-			"name": "test id num",
+			"name": "test no valid",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"12\",\n    \"name\": \"moon\",\n    \"phoneNumber\":\"12312312312\",\n    \"email\":\"123@123.123\",\n    \"idNum\": \"12\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/testMethod/testNoValid",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"testMethod",
+						"testNoValid"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test valid",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -20,15 +49,164 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/test/testIdNum",
+					"raw": "http://localhost:8080/testMethod/testValid",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"test",
-						"testIdNum"
+						"testMethod",
+						"testValid"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test validated",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"123\",\n    \"name\": \"moon\",\n    \"phoneNumber\":\"12312312312\",\n    \"email\":\"123@123.123\",\n    \"idNum\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/testMethod/testValidated",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"testMethod",
+						"testValidated"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "tes class valid",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "userId",
+							"value": "1",
+							"type": "default",
+							"disabled": true
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/testClass/test1/12",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"testClass",
+						"test1",
+						"12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "tes class valid2",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "userId",
+							"value": "1",
+							"type": "default",
+							"disabled": true
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/testClass/test2/123",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"testClass",
+						"test2",
+						"123"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "tes path variable",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "userId",
+							"value": "1",
+							"type": "default",
+							"disabled": true
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/testPathVariable/user/123",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"testPathVariable",
+						"user",
+						"123"
 					]
 				}
 			},
