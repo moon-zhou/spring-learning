@@ -82,6 +82,9 @@ private BigDecimal wage;
 1. 自定义对应校验的注解：`org.moonzhou.validation.annotation.IdNum`和`org.moonzhou.validation.annotation.MobilePhoneNumber`
 2. 如果逻辑不复杂，自定义注解里面，`@Constraint`无需配置，只需要添加正则`@Pattern`配置
 3. 如果逻辑复杂，`@Constraint`配置具体的验证器，比如`org.moonzhou.validation.validator.IdNumValidator`
+   ```
+   这个自定义注解逻辑处理类由于实现了ConstraintValidator接口，所以它默认被spring管理成bean,所以可以在这个逻辑处理类里面用@Autowiredu或者@Resources注入别的服务，而且不用在类上面用@Compent注解成spring的bean.
+   ```
 4. 实现具体的验证器逻辑：实现`ConstraintValidator`接口，实现其`isValid`的方法，返回`true`表示验证通过。
 
 #### `@Valid` 和 `@Validated`

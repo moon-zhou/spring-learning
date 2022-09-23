@@ -7,6 +7,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
  
 /**
+ * 这个自定义注解逻辑处理类由于实现了ConstraintValidator接口，所以它默认被spring管理成bean,所以可以在这个逻辑处理类里面用@Autowiredu或者@Resources注入别的服务，而且不用在类上面用@Compent注解成spring的bean.
  * @ClassName IdNumValidator
  * @Description 身份证校验器
  * 通过实现ConstraintValidator，来实现自定义校验逻辑
