@@ -45,11 +45,12 @@ public class FileTypeValidator implements ConstraintValidator<FileTypeCheck, Mul
     public boolean isValid(MultipartFile file, ConstraintValidatorContext constraintValidatorContext) {
 
         try {
-            // 文件名和后缀文件类型
+            // 文件名和后缀文件类型（后缀类型名称不带点）
             String filename = file.getOriginalFilename();
-            String fileType = filename.substring(filename.lastIndexOf("."));
+            String fileType = filename.substring(filename.lastIndexOf(".") + 1);
 
             // 根据文件，获取的文件头二进制实际对应的文件类型
+            // 本身type支持类型不足，可以通过继承实现子类的方式进行扩展：cn.hutool.core.io.FileTypeUtil.putFileType
             String realType = FileTypeUtil.getType(file.getInputStream());
 
             // 文件类型是否被篡改

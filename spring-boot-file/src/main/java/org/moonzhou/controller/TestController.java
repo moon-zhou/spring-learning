@@ -29,7 +29,7 @@ public class TestController {
      * 文件存储路径，本地必须为全路径，不能使用~/tmp
      * TODO 测试时修改此路径
      */
-    public static final String FILE_FOLDER = "/Users/xxx/tmp/";
+    public static final String FILE_FOLDER = "/Users/XXX/tmp/";
 
     /**
      * http://localhost:8081/test/index

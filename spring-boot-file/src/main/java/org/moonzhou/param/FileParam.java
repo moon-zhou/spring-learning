@@ -1,6 +1,7 @@
 package org.moonzhou.param;
 
 import lombok.Data;
+import org.moonzhou.annotation.FileTypeCheck;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -20,5 +21,6 @@ public class FileParam {
     /**
      * 文件
      */
+    @FileTypeCheck(include = {"jpg", "xls"})
     private MultipartFile file;
 }

@@ -19,7 +19,7 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "/Users/xxx/Downloads/1.jpg"
+									"src": "/Users/XXX/tmp/test/1.jpg"
 								}
 							]
 						},
@@ -47,14 +47,19 @@
 							"mode": "formdata",
 							"formdata": [
 								{
-									"key": "file",
+									"key": "files",
 									"type": "file",
-									"src": "/Users/xxx/Downloads/1.jpg"
+									"src": "/Users/XXX/Downloads/1.jpg"
+								},
+								{
+									"key": "files",
+									"type": "file",
+									"src": "/Users/XXX/Downloads/2.jpg"
 								}
 							]
 						},
 						"url": {
-							"raw": "http://localhost:8081/test/uploadFile",
+							"raw": "http://localhost:8081/test/uploadBatchFile",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -62,7 +67,7 @@
 							"port": "8081",
 							"path": [
 								"test",
-								"uploadFile"
+								"uploadBatchFile"
 							]
 						}
 					},
@@ -144,6 +149,166 @@
 							"path": [
 								"test",
 								"index"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "upload not support png",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/XXX/tmp/test/not support.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8081/test/uploadFile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"test",
+								"uploadFile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "not support png 2 jpg",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/XXX/tmp/test/not support png 2 jpg.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8081/test/uploadFile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"test",
+								"uploadFile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "http",
+			"item": [
+				{
+					"name": "test post service",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 3000,\n    \"name\": \"moon\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/http/service/postParam",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"http",
+								"service",
+								"postParam"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Thread pool",
+			"item": [
+				{
+					"name": "customized thread pool no block",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/threadpool/testCustomizedThreadPool",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"threadpool",
+								"testCustomizedThreadPool"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "default thread pool no block Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/threadpool/testDefaultThreadPool",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"threadpool",
+								"testDefaultThreadPool"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "message thread pool no block",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/threadpool/testMessageThreadPool",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"threadpool",
+								"testMessageThreadPool"
 							]
 						}
 					},
