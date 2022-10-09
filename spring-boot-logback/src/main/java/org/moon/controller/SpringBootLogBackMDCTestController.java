@@ -14,8 +14,11 @@ package org.moon.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.concurrent.Executor;
 
 /**
  * 功能描述:<br>
@@ -29,9 +32,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("springBootLogBackMDCTest")
 public class SpringBootLogBackMDCTestController {
 
+    @Autowired
+    private Executor asyncTaskExecutor;
+
     /**
      * log in file with mdc
      * http://localhost/springBootLogBackMDCTest/logFileMdc
+     *
      * @return
      */
     @RequestMapping("logFileMdc")
@@ -44,6 +51,12 @@ public class SpringBootLogBackMDCTestController {
         log.info("this is info log...");
         log.warn("this is warn log...");
         log.error("this is error log...");
+
+        asyncTaskExecutor.execute(() -> {
+            log.info("sub thread info log...");
+            log.warn("sub thread warn log...");
+            log.error("sub thread error log...");
+        });
 
         return "success";
     }

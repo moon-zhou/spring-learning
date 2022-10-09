@@ -65,10 +65,21 @@
 ### MDC自定义参数
 MDC自定义参数，一般用于在一个请求到达服务端之后，在当前线程执行的整个过程中，任何日志的打印，均会通过日志的格式化，默认打印设置的参数。在logback里除了默认的自定义参数之外，还可以设置自定义的字段。比如用户id，请求id等，方便业务定位问题时，能够高效的进行日志的筛选。
 
+用`%X{key}`来作标识符进行输出，`key为`MDC设置的字段名称。
+
 在实际的使用场景中，往往是一进入服务端，就设置相关的参数，那么后续的日志打印时，日志的格式化里面就回有对应的值，因此一般是通过`Filter`或者`Interceptor`进行实现。本示例使用第二种方式。
 1. 编写拦截器，拦截方法进入时通过`MDC`进行相关参数的设置
 2. 编写拦截器，因为http请求在容器层面依然是通过线程池进行管理的，为了避免不同的请求，使用的参数存在并发问题，因此在拦截方法执行完成之后，需要将`MDC`里的值进行清空。（MDC底层实现依然是`ThreadLocal`）
 示例：`org.moon.config.LogBackOptimizeInterceptor`
+3. 如果出现当前http请求过程中，出现异步线程处理时（子线程），则会出现异步线程中（子线程）丢失当前线程动态参数。
+   > 工作线程不能总是从发起线程继承映射的诊断上下文的副本。这就是java.util.concurrent. executor用于线程管理时的情况。
+   > 例如，newCachedThreadPool方法创建了一个ThreadPoolExecutor，和其他线程池代码一样，它有复杂的线程创建逻辑。
+   > 在这种情况下，建议在将任务提交给执行器之前在原始(主)线程上调用MDC.getCopyOfContextMap()。
+   > 当任务运行时，作为它的第一个操作，它应该调用MDC. setcontextmapvalues()来将原始MDC值的存储副本与新的Executor托管线程关联起来。
+   > 
+   > 在springboot下，使用TaskExecutorBuilder(ThreadPoolTaskExecutor)创建线程池，调用taskDecorator方法，拷贝MDC上下文：org.moon.config.ContextCopyingDecorator。
+   > 如果是原生线程池，则可以利用如上思想，进行线程池的包装，线程执行前后做好MDC的拷贝和清除。
+
 
 
 ### 分层打印
@@ -96,6 +107,9 @@ MDC自定义参数，一般用于在一个请求到达服务端之后，在当�
 ### best practise
 1. logger的name，往往可以采用类路径的方式，因为其支持xpath进行匹配。越精准的类路径名称的logger放在前面，越模糊的放在后面进行兜底，最终没有匹配上的进入root。
 2. 采用动态配置方式，将配置放到**分布式配置中心**中，可以实时调整配置。比如大促时，只保留核心接口的日志，非核心日志需要进行降级比如只保留warn和error日志。
+3. 日志异步
 
 ### 参考
 1. [看完这个不会配置 logback ，请你吃瓜！](https://juejin.cn/post/6844903641535479821)
+2. [springboot+logback 日志输出企业实践（上）](http://t.cn/AigXlD6Q)
+3. [Spring boot+LogBack+MDC实现链路追踪](https://juejin.cn/post/7074461710030995492)
