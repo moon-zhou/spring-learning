@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: spring-boot-event
+  task:
+    execution:
+      pool:
+        core-size: 8
+        max-size: 16
+        keep-alive: 60s
+        queue-capacity: 100
+      shutdown:
+        await-termination: true
+        await-termination-period: 60s
+      thread-name-prefix: moon-thread-
+server:
+  port: 8080
