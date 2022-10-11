@@ -1,4 +1,4 @@
-package org.moonzhou.event;
+package org.moonzhou.event.param;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

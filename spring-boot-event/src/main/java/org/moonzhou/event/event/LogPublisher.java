@@ -1,5 +1,6 @@
-package org.moonzhou.event;
+package org.moonzhou.event.event;
 
+import org.moonzhou.event.param.LogParam;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Component;

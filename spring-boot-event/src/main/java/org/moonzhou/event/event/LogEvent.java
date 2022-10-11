@@ -1,6 +1,7 @@
-package org.moonzhou.event;
+package org.moonzhou.event.event;
 
 import lombok.Getter;
+import org.moonzhou.event.param.LogParam;
 import org.springframework.context.ApplicationEvent;
 
 /**

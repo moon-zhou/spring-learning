@@ -1,4 +1,4 @@
-package org.moonzhou.event;
+package org.moonzhou.event.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
