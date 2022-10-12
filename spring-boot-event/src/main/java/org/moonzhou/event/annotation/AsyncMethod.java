@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * @author moon zhou
  * @version 1.0
- * @description: after wards， async
+ * @description: async event, after or before, etc...
  * @date 2022/10/11 17:20
  */
 @Target(ElementType.METHOD)

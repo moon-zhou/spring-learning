@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class LogListener {
 
     @EventListener
-    @Async
+    @Async("asyncExecutor")
     public void asyncLog(LogEvent logEvent) {
         log.info("async log...");
         log.info(JsonUtils.toJson(logEvent.getLogParam()));
