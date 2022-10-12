@@ -11,7 +11,7 @@ import lombok.experimental.Accessors;
  */
 @Accessors(chain = true)
 @Data
-public class LogParam {
+public class LogParam extends BaseParam {
     private String requestId;
     private String param;
     private String operateTime;

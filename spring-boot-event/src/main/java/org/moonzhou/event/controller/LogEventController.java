@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.moonzhou.event.event.LogEvent;
 import org.moonzhou.event.event.LogPublisher;
 import org.moonzhou.event.param.LogParam;
+import org.moonzhou.event.service.LogService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,6 +42,8 @@ public class LogEventController {
 
     private final LogPublisher logPublisher;
 
+    private final LogService logService;
+
     /**
      * 测试请求：http://localhost:8080/log/event/index
      *
@@ -62,6 +65,24 @@ public class LogEventController {
         log.info("-------------------------");
 
         logPublisher.sendEvent(logParam);
+
+        return "success!";
+    }
+
+
+    /**
+     * 测试请求：http://localhost:8080/log/event/async
+     *
+     * @return
+     */
+    @RequestMapping("async")
+    String async() {
+        LogParam logParam = new LogParam();
+        logParam.setRequestId(UUID.randomUUID().toString())
+                .setParam("{\"test\":\"test\"}")
+                .setOperateTime(LocalDateTime.now().toString());
+
+        logService.async(logParam);
 
         return "success!";
     }
