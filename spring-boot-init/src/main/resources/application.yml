@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: spring-boot-init
+  profiles:
+    active: prod
