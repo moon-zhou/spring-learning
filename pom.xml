@@ -74,6 +74,9 @@
 
         <!-- spring boot init -->
         <module>spring-boot-init</module>
+        <!--spring boot netty-->
+        <module>spring-boot-netty</module>
+
 
         <!-- springboot 集成接口文档测试组件-->
         <module>spring-boot-doc</module>

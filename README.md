@@ -28,15 +28,16 @@
 22. `spring-boot-biz`： spring boot 验证biz上的一些best practice
 23. `spring-boot-event`：spring boot 集成event
 24. `spring-boot-init`：spring boot 应用启动过程中，本身的一些配置或者触发事件
-25. 安全问题：
+25. `spring-boot-netty`：spring boot集成netty，使用netty实现消息推送
+26. 安全问题：
      * `spring-boot-sql-injection`:sql注入
      * `spring-boot-xss`:xss注入
      * `spring-boot-csrf`:csrf注入
      * `spring-boot-log4j-jndi-bug`: `log4j jndi`漏洞演示及修复
-26. spring学习:
+27. spring学习:
      * `spring-ioc`
      * `spring-aop`
      * `spring-transaction`:TODO 尚未开始
      * `spring-event`:spring事件
-27. 公共组件类
+28. 公共组件类
      * `spring-boot-offline`：基于aspectJ的http接口下线组件
