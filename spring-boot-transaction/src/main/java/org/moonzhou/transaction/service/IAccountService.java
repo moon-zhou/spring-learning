@@ -1,6 +1,7 @@
 package org.moonzhou.transaction.service;
 
 import org.moonzhou.transaction.constant.ConditionEnum;
+import org.moonzhou.transaction.constant.ExceptionHandleEnum;
 import org.moonzhou.transaction.entity.Account;
 import org.moonzhou.transaction.param.AccountParam;
 
@@ -37,4 +38,12 @@ public interface IAccountService {
      * @return
      */
     Long saveAccountTransAction(AccountParam accountParam, ConditionEnum condition);
+
+    /**
+     * 不正确的使用TransAction注解
+     * 1. 内部捕获异常之后，直接吞掉（只输出日志及其他处理），未继续网上抛出异常
+     * @param accountParam
+     * @param exceptionHandleEnum
+     */
+    void saveAccountIncorrectTransAction(AccountParam accountParam, ExceptionHandleEnum exceptionHandleEnum);
 }

@@ -5,7 +5,10 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.moonzhou.transaction.constant.ConditionEnum;
+import org.moonzhou.transaction.constant.ExceptionHandleEnum;
 import org.moonzhou.transaction.entity.Account;
+import org.moonzhou.transaction.exception.AccountBiz1RuntimeException;
+import org.moonzhou.transaction.exception.AccountBiz2RuntimeException;
 import org.moonzhou.transaction.mapper.AccountMapper;
 import org.moonzhou.transaction.param.AccountParam;
 import org.moonzhou.transaction.service.IAccountService;
@@ -47,6 +50,41 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     public Long saveAccountTransAction(AccountParam accountParam, ConditionEnum condition) {
         Account account = getAccount(accountParam, condition);
         return account.getId();
+    }
+
+    @Transactional
+    @Override
+    public void saveAccountIncorrectTransAction(AccountParam accountParam, ExceptionHandleEnum exceptionHandleEnum) {
+        try {
+            Account account = new Account();
+            BeanUtils.copyProperties(accountParam, account);
+
+            boolean saveResult = super.save(account);
+            log.info("AccountServiceImpl save result: {}.", saveResult);
+
+            throw new RuntimeException("runtime exception after saving...");
+        } catch (Exception e) {
+
+            switch (exceptionHandleEnum) {
+                // 默认走log
+                default:
+                case LOG:
+                    // 处理异常但不继续往上抛出异常
+                    log.error("incorrect transaction annotation, test exception: ", e);
+                    break;
+                case BIZ_NO_EXCEPTION:
+                    // 处理业务，不往上抛异常
+                    log.error("biz handle, test exception: ", e);
+                    break;
+                case THROW_RUNTIME_EXCEPTION:
+                    throw new RuntimeException("test saveAccountIncorrectTransAction runtime exception!");
+                case THROW_CUSTOM_RUNTIME_EXCEPTION:
+                    throw new AccountBiz1RuntimeException("custom run time exception!");
+                case THROW_THE_SAME_EXCEPTION:
+                    throw new AccountBiz2RuntimeException(e);
+            }
+
+        }
     }
 
     private Account getAccount(AccountParam accountParam, ConditionEnum condition) {

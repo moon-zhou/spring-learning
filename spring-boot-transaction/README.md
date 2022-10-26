@@ -10,11 +10,12 @@
 
 
 ### 失效场景
-1. `@Transactional` 应用在非 `public` 修饰的方法上
-1. `@Transactional` 注解属性 `propagation` 设置错误
-1. `@Transactional` 注解属性 `rollbackFor` 设置错误
-1. 同一个类中方法调用，导致`@Transactional`失效
-1. 异常被`catch`捕获导致`@Transactional`失效
+1. `@Transactional` 应用在接口的方法上（==>应当配置在实现类的方法上）
+2. `@Transactional` 应用在非 `public` 修饰的方法上
+3. `@Transactional` 注解属性 `propagation` 设置错误
+4. `@Transactional` 注解属性 `rollbackFor` 设置错误
+5. 同一个类中方法调用，导致`@Transactional`失效（事务的管理是通过代理执行的方式生效的，如果是方法内部调用，将不会走代理逻辑，也就调用不到了。）
+6. 异常被`catch`捕获导致`@Transactional`失效
 
 
 ### 注意点
