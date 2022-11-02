@@ -8,7 +8,7 @@ import java.util.Arrays;
 /**
  * @author moon zhou
  * @version 1.0
- * @description 状态枚举
+ * @description catch exception处理方式枚举
  * @date 2022/10/26 11:26
  */
 @Getter

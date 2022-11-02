@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.moonzhou.transaction.constant.ConditionEnum;
 import org.moonzhou.transaction.constant.ExceptionHandleEnum;
+import org.moonzhou.transaction.constant.RollbackExceptionEnum;
 import org.moonzhou.transaction.entity.Account;
 import org.moonzhou.transaction.exception.AccountBiz1RuntimeException;
 import org.moonzhou.transaction.exception.AccountBiz2RuntimeException;
@@ -84,6 +85,26 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
                     throw new AccountBiz2RuntimeException(e);
             }
 
+        }
+    }
+
+    @Transactional(rollbackFor = {AccountBiz1RuntimeException.class})
+    @Override
+    public void saveAccountRollbackBizException(AccountParam accountParam, RollbackExceptionEnum rollbackExceptionEnum) {
+        Account account = new Account();
+        BeanUtils.copyProperties(accountParam, account);
+
+        boolean saveResult = super.save(account);
+        log.info("AccountServiceImpl - saveAccountRollbackBizException save result: {}.", saveResult);
+
+        switch (rollbackExceptionEnum) {
+            case ACCOUNT_BIZ_ONE_EXCEPTION:
+                throw new AccountBiz1RuntimeException("saveAccountRollbackBizException - biz1");
+            case ACCOUNT_BIZ_TWO_EXCEPTION:
+                throw new AccountBiz2RuntimeException("saveAccountRollbackBizException - biz1");
+            default:
+                log.info("no exception.");
+                break;
         }
     }
 

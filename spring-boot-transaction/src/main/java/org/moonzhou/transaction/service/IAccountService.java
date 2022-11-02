@@ -2,6 +2,7 @@ package org.moonzhou.transaction.service;
 
 import org.moonzhou.transaction.constant.ConditionEnum;
 import org.moonzhou.transaction.constant.ExceptionHandleEnum;
+import org.moonzhou.transaction.constant.RollbackExceptionEnum;
 import org.moonzhou.transaction.entity.Account;
 import org.moonzhou.transaction.param.AccountParam;
 
@@ -46,4 +47,11 @@ public interface IAccountService {
      * @param exceptionHandleEnum
      */
     void saveAccountIncorrectTransAction(AccountParam accountParam, ExceptionHandleEnum exceptionHandleEnum);
+
+    /**
+     * 针对具体的业务异常进行rollback
+     * @param accountParam
+     * @param rollbackExceptionEnum
+     */
+    void saveAccountRollbackBizException(AccountParam accountParam, RollbackExceptionEnum rollbackExceptionEnum);
 }

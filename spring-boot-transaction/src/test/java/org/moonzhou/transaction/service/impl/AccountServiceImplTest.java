@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.moonzhou.transaction.constant.ConditionEnum;
 import org.moonzhou.transaction.constant.ExceptionHandleEnum;
+import org.moonzhou.transaction.constant.RollbackExceptionEnum;
 import org.moonzhou.transaction.entity.Account;
 import org.moonzhou.transaction.param.AccountParam;
 import org.moonzhou.transaction.service.IAccountService;
@@ -90,5 +91,18 @@ public class AccountServiceImplTest {
         // 断言事务回滚，数据未入库
         Account exceptionAccount = accountService.getOneByParam(exceptionAccountParam);
         assertNull(exceptionAccount);
+    }
+
+    @Order(4)
+    @Test
+    void saveAccountRollbackBizException() {
+        // 保存数据，抛出AccountBiz1RuntimeException，且符合rollback里配置的具体异常，会回滚，数据不保存
+        AccountParam biz1ExceptionAccountParam = new AccountParam("001", "moon", 18, "ayimin1989@163.com", "Financial member");
+        accountService.saveAccountRollbackBizException(biz1ExceptionAccountParam, RollbackExceptionEnum.ACCOUNT_BIZ_ONE_EXCEPTION);
+        // 断言数据未入库
+        Account biz1ExceptionAccount = accountService.getOneByParam(biz1ExceptionAccountParam);
+
+        // 保存数据，抛出AccountBiz2RuntimeException，不在rollback异常里，不会回滚，数据存在
+        AccountParam biz2ExceptionAccountParam = new AccountParam("002", "moon", 19, "ayimin1989@163.com", "Bank member");
     }
 }
