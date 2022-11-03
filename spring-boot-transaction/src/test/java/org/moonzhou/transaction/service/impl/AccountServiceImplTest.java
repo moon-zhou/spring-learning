@@ -13,6 +13,8 @@ import org.moonzhou.transaction.service.IAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
@@ -104,5 +106,39 @@ public class AccountServiceImplTest {
 
         // 保存数据，抛出AccountBiz2RuntimeException，不在rollback异常里，不会回滚，数据存在
         AccountParam biz2ExceptionAccountParam = new AccountParam("002", "moon", 19, "ayimin1989@163.com", "Bank member");
+    }
+
+    @Order(5)
+    @Test
+    void saveAccountInnerPublicMethod() {
+        AccountParam saveInnerAccountParam = new AccountParam("001", "moon", 18, "ayimin1989@163.com", "Financial member");
+        accountService.saveAccountInnerPublicMethod(saveInnerAccountParam, ConditionEnum.NORMAL);
+        List<Account> normalList = accountService.getListByParam(saveInnerAccountParam);
+        assertEquals(2, normalList.size());
+
+        // 运行时异常，因为是通过内部方法调用了加注解的公共方法（入口方法无事务注解），所以事务不会生效，抛出异常时原方法和被调用的方法数据都会保存下来。
+        AccountParam exceptionAccountParam = new AccountParam("002", "moon", 19, "ayimin1989@163.com", "Bank member");
+        assertThrows(RuntimeException.class, () -> {
+            accountService.saveAccountInnerPublicMethod(exceptionAccountParam, ConditionEnum.RUNTIME_EXCEPTION);
+        });
+        List<Account> exceptionList = accountService.getListByParam(exceptionAccountParam);
+        assertEquals(2, exceptionList.size());
+    }
+
+    @Order(6)
+    @Test
+    void saveAccountTransactionInnerPublicMethod() {
+        AccountParam saveInnerAccountParam = new AccountParam("001", "moon", 18, "ayimin1989@163.com", "Financial member");
+        accountService.saveAccountTransactionInnerPublicMethod(saveInnerAccountParam, ConditionEnum.NORMAL);
+        List<Account> normalList = accountService.getListByParam(saveInnerAccountParam);
+        assertEquals(2, normalList.size());
+
+        // 运行时异常，因为是通过内部方法调用了加注解的公共方法（入口方法有事务注解），所以事务生效，抛出异常时原方法和被调用的方法不会保存下来。此处是事务传播特性。
+        AccountParam exceptionAccountParam = new AccountParam("002", "moon", 19, "ayimin1989@163.com", "Bank member");
+        assertThrows(RuntimeException.class, () -> {
+            accountService.saveAccountTransactionInnerPublicMethod(exceptionAccountParam, ConditionEnum.RUNTIME_EXCEPTION);
+        });
+        List<Account> exceptionList = accountService.getListByParam(exceptionAccountParam);
+        assertEquals(0, exceptionList.size());
     }
 }

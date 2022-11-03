@@ -17,6 +17,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @author moon zhou
  * @version 1.0
@@ -33,6 +35,12 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
 
         return super.getOne(Wrappers.<Account>lambdaQuery().eq(Account::getName, accountParam.getName())
                 .eq(Account::getAge, accountParam.getAge()));
+    }
+
+    @Override
+    public List<Account> getListByParam(AccountParam accountParam) {
+        return super.list(Wrappers.<Account>lambdaQuery().likeRight(Account::getName, accountParam.getName())
+                .likeRight(Account::getUserNo, accountParam.getUserNo()));
     }
 
     @Override
@@ -108,6 +116,59 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
         }
     }
 
+    @Override
+    public Long saveAccountInnerPublicMethod(AccountParam accountParam, ConditionEnum condition) {
+        log.info("save account, direct method without transaction, invoke inner public annotation method start...");
+
+        Account account = new Account();
+        BeanUtils.copyProperties(accountParam, account);
+        account.setUserNo(account.getUserNo() + " - 000:0");
+        account.setAge(account.getAge() - 1);
+        boolean saveResult = super.save(account);
+
+        Long id = innerSave(accountParam, condition);
+
+        log.info("save account, direct method without transaction, invoke inner public annotation method end.");
+
+        return id;
+    }
+
+    @Transactional
+    @Override
+    public Long saveAccountTransactionInnerPublicMethod(AccountParam accountParam, ConditionEnum condition) {
+        log.info("save account, direct method with transaction, invoke inner public annotation method start...");
+
+        Account account = new Account();
+        BeanUtils.copyProperties(accountParam, account);
+        account.setUserNo(account.getUserNo() + " - 000:1");
+        account.setAge(account.getAge() - 1);
+        boolean saveResult = super.save(account);
+
+        Long id = innerSave(accountParam, condition);
+
+        log.info("save account, direct method with transaction, invoke inner public annotation method end.");
+
+        return id;
+    }
+
+    @Transactional
+    public Long innerSave(AccountParam accountParam, ConditionEnum condition) {
+        Account account = new Account();
+        BeanUtils.copyProperties(accountParam, account);
+
+        boolean saveResult = super.save(account);
+        log.info("AccountServiceImpl save result: {}.", saveResult);
+
+        // 如果需要运行时异常
+        if (ConditionEnum.isRuntimeException(condition)) {
+            log.error("throw runtime exception, simulation biz exception...");
+            throw new RuntimeException("runtime exception after saving...");
+        }
+        return account.getId();
+    }
+
+
+
     private Account getAccount(AccountParam accountParam, ConditionEnum condition) {
         Account account = new Account();
         BeanUtils.copyProperties(accountParam, account);
@@ -117,6 +178,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
 
         // 如果需要运行时异常
         if (ConditionEnum.isRuntimeException(condition)) {
+            log.error("throw runtime exception, simulation biz exception...");
             throw new RuntimeException("runtime exception after saving...");
         }
         return account;
