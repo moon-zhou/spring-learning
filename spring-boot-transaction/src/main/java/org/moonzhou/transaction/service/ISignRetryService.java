@@ -21,10 +21,18 @@ public interface ISignRetryService {
     boolean deleteAll();
 
     /**
-     * save
+     * save without transaction
      * @param signRetryParam
      * @param condition
      * @return
      */
     Long saveSignRetry(SignRetryParam signRetryParam, ConditionEnum condition);
+
+    /**
+     * save with transaction
+     * @param signRetryParam
+     * @param condition
+     * @return
+     */
+    Long saveSignRetryTransaction(SignRetryParam signRetryParam, ConditionEnum condition);
 }

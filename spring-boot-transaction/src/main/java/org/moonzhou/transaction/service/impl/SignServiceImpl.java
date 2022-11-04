@@ -40,9 +40,25 @@ public class SignServiceImpl extends ServiceImpl<SignMapper, Sign> implements IS
         return super.remove(new QueryWrapper<>());
     }
 
-    @Transactional
     @Override
     public Long saveSign(SignParam signParam, ConditionEnum condition) {
+        Sign sign = new Sign();
+        BeanUtils.copyProperties(signParam, sign);
+        boolean save = super.save(sign);
+
+        log.info("save sign without transaction result: {}.", save);
+
+        if (ConditionEnum.isRuntimeException(condition)) {
+            log.error("throw runtime exception, simulation biz exception...");
+            throw new RuntimeException("runtime exception after saving...");
+        }
+
+        return save ? 1L : 0L;
+    }
+
+    @Transactional
+    @Override
+    public Long saveSignTransaction(SignParam signParam, ConditionEnum condition) {
         Sign sign = new Sign();
         BeanUtils.copyProperties(signParam, sign);
         boolean save = super.save(sign);

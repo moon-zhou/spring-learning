@@ -40,9 +40,25 @@ public class SignRetryServiceImpl extends ServiceImpl<SignRetryMapper, SignRetry
         return super.remove(new QueryWrapper<>());
     }
 
-    @Transactional
     @Override
     public Long saveSignRetry(SignRetryParam signRetryParam, ConditionEnum condition) {
+        SignRetry signRetry = new SignRetry();
+        BeanUtils.copyProperties(signRetryParam, signRetry);
+        boolean save = super.save(signRetry);
+
+        log.info("save sign retry without transaction result: {}.", save);
+
+        if (ConditionEnum.isRuntimeException(condition)) {
+            log.error("throw runtime exception, simulation biz exception...");
+            throw new RuntimeException("runtime exception after saving...");
+        }
+
+        return save ? 1L : 0L;
+    }
+
+    @Transactional
+    @Override
+    public Long saveSignRetryTransaction(SignRetryParam signRetryParam, ConditionEnum condition) {
 
         SignRetry signRetry = new SignRetry();
         BeanUtils.copyProperties(signRetryParam, signRetry);

@@ -33,9 +33,9 @@ public class SignBizServiceImpl implements ISignBizService {
     @Override
     public void sign(SignBizParam signBizParam, ConditionEnum mainCondition, ConditionEnum signCondition, ConditionEnum signRetryCondition) {
 
-        Long signResult = signService.saveSign(signBizParam.getSignParam(), signCondition);
+        Long signResult = signService.saveSignTransaction(signBizParam.getSignParam(), signCondition);
 
-        Long signRetryResult = signRetryService.saveSignRetry(signBizParam.getSignRetryParam(), signRetryCondition);
+        Long signRetryResult = signRetryService.saveSignRetryTransaction(signBizParam.getSignRetryParam(), signRetryCondition);
 
         if (ConditionEnum.isRuntimeException(mainCondition)) {
             log.error("throw runtime exception, simulation biz exception...");
@@ -46,9 +46,9 @@ public class SignBizServiceImpl implements ISignBizService {
     @Transactional
     @Override
     public void signTransaction(SignBizParam signBizParam, ConditionEnum mainCondition, ConditionEnum signCondition, ConditionEnum signRetryCondition) {
-        Long signResult = signService.saveSign(signBizParam.getSignParam(), signCondition);
+        Long signResult = signService.saveSignTransaction(signBizParam.getSignParam(), signCondition);
 
-        Long signRetryResult = signRetryService.saveSignRetry(signBizParam.getSignRetryParam(), signRetryCondition);
+        Long signRetryResult = signRetryService.saveSignRetryTransaction(signBizParam.getSignRetryParam(), signRetryCondition);
 
         if (ConditionEnum.isRuntimeException(mainCondition)) {
             log.error("throw runtime exception, simulation biz exception...");

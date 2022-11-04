@@ -21,10 +21,18 @@ public interface ISignService {
     boolean deleteAll();
 
     /**
-     * save
+     * save without transaction
      * @param signParam
      * @param condition
      * @return
      */
     Long saveSign(SignParam signParam, ConditionEnum condition);
+
+    /**
+     * save with transaction
+     * @param signParam
+     * @param condition
+     * @return
+     */
+    Long saveSignTransaction(SignParam signParam, ConditionEnum condition);
 }
