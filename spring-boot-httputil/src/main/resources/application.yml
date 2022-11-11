@@ -4,3 +4,9 @@ server:
 spring:
   application:
     name: spring-boot-httputil
+
+
+moon:
+  util:
+    http:
+      okhttp3:
