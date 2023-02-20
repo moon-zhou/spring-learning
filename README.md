@@ -19,9 +19,9 @@
 13. `spring-boot-mybatis-plus`：springboot中集成mybatis-plus
 14. `spring-boot-aspectJ`：业务中使用aspectJ，以及改变返回值验证
 15. `spring-boot-validation`：TODO 验证及自定义验证
-16. `spring-boot-transaction`：TODO 事务使用（正确&错误的使用方式）
+16. `spring-boot-transaction`：事务使用（正确&错误的使用方式导致事务失效）
 17. `spring-boot-file`：TODO 文件上传下载（断点续传等）
-18. `spring-boot-threadpool`：TODO 添加线程池使用示例
+18. `spring-boot-threadpool`：添加线程池使用示例
 19. `spring-boot-httputil`：TODO http工具使用，httpclient调用httpserver接口
 20. `spring-boot-activiti`：springboot集成activiti
 21. `spring-boot-redis`：springboot集成redis
@@ -31,15 +31,16 @@
 25. `spring-boot-netty`：spring boot集成netty，使用netty实现消息推送
 26. `spring-boot-security：spring boot 集成security
 27. `spring-boot-cookie`： spring boot 测试返回cookie的设置
-28. 安全问题：
+28. `spring-boot-jasypt`：jasypt配置加解密
+29. 安全问题：
      * `spring-boot-sql-injection`:sql注入
      * `spring-boot-xss`:xss注入
      * `spring-boot-csrf`:csrf注入
      * `spring-boot-log4j-jndi-bug`: `log4j jndi`漏洞演示及修复
-29. spring学习:
+30. spring学习:
      * `spring-ioc`
      * `spring-aop`
      * `spring-transaction`:TODO 尚未开始
      * `spring-event`:spring事件
-30. 公共组件类
+31. 公共组件类
      * `spring-boot-offline`：基于aspectJ的http接口下线组件

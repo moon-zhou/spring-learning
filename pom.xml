@@ -85,6 +85,8 @@
         <module>spring-boot-doc</module>
         <!-- springboot 集成pdf组件 -->
         <module>spring-boot-pdf</module>
+        <!-- springboot jasypt 示例 -->
+        <module>spring-boot-jasypt</module>
 
         <!-- springboot sql注入 -->
         <module>spring-boot-sql-injection</module>

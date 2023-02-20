@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: spring-boot-jasypt
+
+
+jasypt:
+  encryptor:
+    password: moonzhou
+
+user:
+  name: aaa
+  age: 18
+  desc: ENC(gMO5sPdZBiLetuh3M1fqHnDR6nxilL9p)
