@@ -291,3 +291,4 @@ public class ErrorResponse {
 1. [【每日鲜蘑】Spring Boot 自定义注解进行参数校验](https://juejin.cn/post/6844903904216350727)
 2. [Java中的三种校验注解的使用说明！分析@Valid和@Validated以及@PathVariable的的具体使用](https://juejin.cn/post/7090327624970895397)
 3. [@validate或@valid注解进行数据校验的解决方案](https://www.cnblogs.com/curtinliu/p/14098692.html)
+4. [SpringBoot使用validation-api实现对枚举类参数的校验](https://blog.csdn.net/z981891/article/details/125279215)
