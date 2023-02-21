@@ -211,6 +211,35 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "test enum validate",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"status\":\"1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/testEnumValidation/test",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"testEnumValidation",
+						"test"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
