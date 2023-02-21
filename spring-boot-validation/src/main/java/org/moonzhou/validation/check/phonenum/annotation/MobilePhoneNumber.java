@@ -1,4 +1,4 @@
-package org.moonzhou.validation.annotation;
+package org.moonzhou.validation.check.phonenum.annotation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

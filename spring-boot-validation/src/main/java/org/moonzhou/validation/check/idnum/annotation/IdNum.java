@@ -1,7 +1,7 @@
-package org.moonzhou.validation.annotation;
+package org.moonzhou.validation.check.idnum.annotation;
 
 
-import org.moonzhou.validation.validator.IdNumValidator;
+import org.moonzhou.validation.check.idnum.validator.IdNumValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

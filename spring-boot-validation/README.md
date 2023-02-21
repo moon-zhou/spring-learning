@@ -79,7 +79,7 @@ private BigDecimal wage;
 ```
 
 #### 自定义注解
-1. 自定义对应校验的注解：`org.moonzhou.validation.annotation.IdNum`和`org.moonzhou.validation.annotation.MobilePhoneNumber`
+1. 自定义对应校验的注解：`org.moonzhou.validation.annotation.IdNum`和`org.moonzhou.validation.phonenum.annotation.MobilePhoneNumber`
 2. 如果逻辑不复杂，自定义注解里面，`@Constraint`无需配置，只需要添加正则`@Pattern`配置
 3. 如果逻辑复杂，`@Constraint`配置具体的验证器，比如`org.moonzhou.validation.validator.IdNumValidator`
    ```

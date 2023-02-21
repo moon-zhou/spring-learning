@@ -1,4 +1,4 @@
-package org.moonzhou.validation.util;
+package org.moonzhou.validation.check.idnum.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

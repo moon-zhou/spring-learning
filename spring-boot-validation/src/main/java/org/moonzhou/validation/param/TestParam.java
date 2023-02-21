@@ -1,8 +1,8 @@
 package org.moonzhou.validation.param;
 
 import lombok.Data;
-import org.moonzhou.validation.annotation.IdNum;
-import org.moonzhou.validation.annotation.MobilePhoneNumber;
+import org.moonzhou.validation.check.idnum.annotation.IdNum;
+import org.moonzhou.validation.check.phonenum.annotation.MobilePhoneNumber;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
