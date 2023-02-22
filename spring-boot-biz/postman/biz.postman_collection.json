@@ -1,0 +1,275 @@
+{
+	"info": {
+		"_postman_id": "0245044f-50e9-4d87-b60f-197d54bb127a",
+		"name": "biz",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "gray box test",
+			"item": [
+				{
+					"name": "gray box test biz",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/biz/index",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"biz",
+								"index"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gray box test admin query status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/grayboxtest/status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"grayboxtest",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gray box test admin set status",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/grayboxtest/setStatus/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"grayboxtest",
+								"setStatus",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gray box test admin delete status",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/grayboxtest/delStatus",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"grayboxtest",
+								"delStatus"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gray box test admin query user list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/grayboxtest/userList",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"grayboxtest",
+								"userList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gray box test admin set user",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/grayboxtest/setUser/MU-001",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"grayboxtest",
+								"setUser",
+								"MU-001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gray box test admin set user list",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    \"MU-002\",\n    \"MU-003\"\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/grayboxtest/setUsers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"grayboxtest",
+								"setUsers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gray box test admin remove user list",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    \"MU-001\",\n    \"MU-002\"\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/grayboxtest/removeUsers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"grayboxtest",
+								"removeUsers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gray box test admin delete user list",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/grayboxtest/delUsers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"grayboxtest",
+								"delUsers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gray box test admin clear data",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/grayboxtest/clear",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"grayboxtest",
+								"clear"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
