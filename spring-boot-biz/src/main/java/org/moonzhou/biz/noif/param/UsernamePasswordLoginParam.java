@@ -1,4 +1,4 @@
-package org.moonzhou.biz.param;
+package org.moonzhou.biz.noif.param;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,20 +6,20 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
- * 短信登录
+ * 账密登录参数
  * @author moonzhou
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class SMSLoginParam extends LoginParam {
+public class UsernamePasswordLoginParam extends LoginParam {
     private String username;
-    private String sms;
+    private String password;
 
-    public SMSLoginParam(String loginType, String username, String sms) {
+    public UsernamePasswordLoginParam(String loginType, String username, String password) {
         super(loginType);
         this.username = username;
-        this.sms = sms;
+        this.password = password;
     }
 }

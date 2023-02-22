@@ -1,10 +1,11 @@
-package org.moonzhou.biz.service.login;
+package org.moonzhou.biz.noif.login;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.moonzhou.biz.constant.LoginTypeEnum;
-import org.moonzhou.biz.param.SMSLoginParam;
-import org.moonzhou.biz.param.UsernamePasswordLoginParam;
+import org.moonzhou.biz.noif.constant.LoginTypeEnum;
+import org.moonzhou.biz.noif.service.login.LoginService;
+import org.moonzhou.biz.noif.param.SMSLoginParam;
+import org.moonzhou.biz.noif.param.UsernamePasswordLoginParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 

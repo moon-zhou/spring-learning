@@ -1,6 +1,6 @@
-package org.moonzhou.biz.annotation;
+package org.moonzhou.biz.noif.annotation;
 
-import org.moonzhou.biz.constant.PayEnum;
+import org.moonzhou.biz.noif.constant.PayEnum;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

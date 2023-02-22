@@ -1,7 +1,7 @@
-package org.moonzhou.biz.service.login;
+package org.moonzhou.biz.noif.service.login;
 
 import lombok.extern.slf4j.Slf4j;
-import org.moonzhou.biz.param.LoginParam;
+import org.moonzhou.biz.noif.param.LoginParam;
 
 /**
  * @author moonzhou

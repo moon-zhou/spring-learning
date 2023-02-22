@@ -1,8 +1,8 @@
-package org.moonzhou.biz.service.pay;
+package org.moonzhou.biz.noif.pay;
 
 import org.junit.jupiter.api.Test;
-import org.moonzhou.biz.constant.PayEnum;
-import org.moonzhou.biz.layoutservice.PayService;
+import org.moonzhou.biz.noif.constant.PayEnum;
+import org.moonzhou.biz.noif.layoutservice.PayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 

@@ -1,8 +1,8 @@
-package org.moonzhou.biz.service.pay.impl;
+package org.moonzhou.biz.noif.service.pay.impl;
 
-import org.moonzhou.biz.annotation.PayCode;
-import org.moonzhou.biz.constant.PayEnum;
-import org.moonzhou.biz.service.pay.IPay;
+import org.moonzhou.biz.noif.annotation.PayCode;
+import org.moonzhou.biz.noif.constant.PayEnum;
+import org.moonzhou.biz.noif.service.pay.IPay;
 import org.springframework.stereotype.Service;
 
 @PayCode(value = PayEnum.WE_CHAT_PAY)

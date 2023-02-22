@@ -1,11 +1,11 @@
-package org.moonzhou.biz.service.login.impl;
+package org.moonzhou.biz.noif.service.login.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.moonzhou.biz.constant.LoginTypeEnum;
-import org.moonzhou.biz.param.LoginParam;
-import org.moonzhou.biz.param.UsernamePasswordLoginParam;
-import org.moonzhou.biz.service.login.LoginService;
+import org.moonzhou.biz.noif.constant.LoginTypeEnum;
+import org.moonzhou.biz.noif.param.LoginParam;
+import org.moonzhou.biz.noif.param.UsernamePasswordLoginParam;
+import org.moonzhou.biz.noif.service.login.LoginService;
 import org.springframework.stereotype.Service;
 
 /**

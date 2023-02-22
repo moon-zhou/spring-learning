@@ -1,4 +1,4 @@
-package org.moonzhou.biz.constant;
+package org.moonzhou.biz.noif.constant;
 
 import lombok.Getter;
 

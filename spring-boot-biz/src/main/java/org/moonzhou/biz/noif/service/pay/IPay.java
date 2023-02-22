@@ -1,4 +1,4 @@
-package org.moonzhou.biz.service.pay;
+package org.moonzhou.biz.noif.service.pay;
 
 /**
  * @author moon zhou

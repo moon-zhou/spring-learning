@@ -1,4 +1,4 @@
-package org.moonzhou.biz.param;
+package org.moonzhou.biz.noif.param;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

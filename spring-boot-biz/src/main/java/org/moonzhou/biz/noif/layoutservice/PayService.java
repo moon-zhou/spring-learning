@@ -1,8 +1,8 @@
-package org.moonzhou.biz.layoutservice;
+package org.moonzhou.biz.noif.layoutservice;
 
-import org.moonzhou.biz.annotation.PayCode;
-import org.moonzhou.biz.constant.PayEnum;
-import org.moonzhou.biz.service.pay.IPay;
+import org.moonzhou.biz.noif.annotation.PayCode;
+import org.moonzhou.biz.noif.constant.PayEnum;
+import org.moonzhou.biz.noif.service.pay.IPay;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
