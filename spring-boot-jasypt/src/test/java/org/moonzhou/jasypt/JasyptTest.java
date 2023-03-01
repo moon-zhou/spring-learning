@@ -1,4 +1,4 @@
-package org.moonzhou;
+package org.moonzhou.jasypt;
 
 import org.jasypt.encryption.StringEncryptor;
 import org.junit.jupiter.api.Assertions;
