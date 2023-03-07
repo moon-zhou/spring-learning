@@ -7,7 +7,7 @@ springboot里profile的特性使用
     * 配置在`application.properties`或者`application.yml`
     * 或者在环境变量里配置对应的值即可
     * VM options设置启动参数 `-Dspring.profiles.active=prod`
-    * Program arguments设置 `--spring.profiles.active=prod` ()
+    * Program arguments设置 `--spring.profiles.active=prod` 
 1. 创建对应环境的配置文件：`application-dev.yml`/`application-pre.yml`/`application-prd.yml`
 
 ![profile property](./img/profile-property.png)
@@ -72,7 +72,7 @@ server:
     private Security security;
     ```
 1. 如果配置在springboot的标准配置文件里，比如`application.yml`，直接创建配置bean和通过注解使用，不需要额外配置。
-1. 当然，对于上述的配置，均可以直接使用`@Value`进行直接使用。但是对于具体业务而言，更倾向于使用抽象配置文件以及抽象对应配置bean的方式。配置独立，标准配置文件配置springboot等组件类配置，避免配置内容繁杂，配置项“爆照”，无法维护。
+1. 当然，对于上述的配置，均可以直接使用`@Value`进行直接使用。但是对于具体业务而言，更倾向于使用抽象配置文件以及抽象对应配置bean的方式。配置独立，标准配置文件配置springboot等组件类配置，避免配置内容繁杂，配置项“爆炸”，无法维护。
 
 #### 引申自定义配置
 1. 配置目录下创建yml文件：`duts.yml`
@@ -120,7 +120,8 @@ public class CustomizedConfig {
 1. 创建服务接口：`HelloService`
 2. 针对服务，进行不同环境的实现，同时添加上`@Profile`，值为各个环境的区分值：`PrdHelloServiceImpl`和`DevHelloServiceImpl`
 3. 使用的地方，直接注入即可：`ConditionalServiceController`
-1. 任何`@Component`或`@Configuration`注解的类都可以使用`@Profile`注解
+4. 任何`@Component`或`@Configuration`注解的类都可以使用`@Profile`注解
+5. 典型场景：测试环境接口的mock，压测接口的mock等。
 
 #### maven打包区分环境
 1. maven配置:`spring-boot-profile/pom.xml`
