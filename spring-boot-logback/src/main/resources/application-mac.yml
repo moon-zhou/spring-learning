@@ -1,0 +1,4 @@
+moon:
+  logging:
+    file:
+      path: /Users/XXX/tmp/logs

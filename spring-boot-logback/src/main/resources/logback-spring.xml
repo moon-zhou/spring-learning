@@ -3,8 +3,7 @@
     <contextName>spring-boot-logback</contextName>
 
     <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径 /opt/logs/xxx-->
-    <!--<property name="log.path" value="E:/test/logs"/>-->
-    <property name="log.path" value="/Users/XXX/tmp/logs"/>
+    <springProperty name="log.path" source="moon.logging.file.path"/>
     <!-- 日志输出格式 -->
     <property name="log.pattern"
               value="%d{yyyy-MM-dd HH:mm:ss.SSS} %5level [%15thread] [%40.40logger{40}] [%10method,%line] : %msg%n"/>
