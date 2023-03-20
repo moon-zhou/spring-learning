@@ -10,3 +10,8 @@ server:
 #  level:
 #   root: info
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: loggers,health

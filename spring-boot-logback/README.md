@@ -103,6 +103,43 @@ MDC自定义参数，一般用于在一个请求到达服务端之后，在当�
 
 ### 审计日志
 
+### 动态日志
+#### Spring Boot Actuator
+1. 配置依赖
+   ```
+   <dependency>
+       <groupId>org.springframework.boot</groupId>
+       <artifactId>spring-boot-starter-actuator</artifactId>
+   </dependency>
+   ```
+2. 放开`loggers`的`endpoint`配置
+   ```
+   # 开启全部endpoint
+   management:
+     endpoints:
+       web:
+         exposure:
+           include: "*"
+   
+   # 只开启logger和健康检查    
+   management:
+     endpoints:
+       web:
+         exposure:
+           include: loggers,health
+   ```
+3. 测试
+   1. `GET http://localhost/actuator`: 返回放开的`endpoint`
+   2. `GET http://localhost/actuator/loggers`: 返回当前应用全部的日志级别信息
+   3. `GET http://localhost/actuator/loggers/{name}`: 返回{name}的日志级别，也就是`LoggerFactory.getLogger`的name，满足xpath规则。
+   4. `POST http://localhost/actuator/loggers/{name}`: 配置参数
+      ```
+      {
+          "configuredLevel": "INFO",
+          "effectiveLevel": "INFO"
+      }
+      ```
+   5. 总结：使用postman导入`postman/log.postman_collection.json`，测试顺序为`001 -> 002 -> 003 -> 004 -> 005 -> 003 -> 004`。默认`DEBUG`，通过005设置为`INFO`。
 
 ### best practise
 1. logger的name，往往可以采用类路径的方式，因为其支持xpath进行匹配。越精准的类路径名称的logger放在前面，越模糊的放在后面进行兜底，最终没有匹配上的进入root。

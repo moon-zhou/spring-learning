@@ -1,0 +1,114 @@
+{
+	"info": {
+		"_postman_id": "c8c2bd71-1d85-479e-9a77-4aa45f0027f3",
+		"name": "log",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "001 actuator",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/actuator",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"actuator"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "002 actuator loggers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/actuator/loggers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"actuator",
+						"loggers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "003 loggers name controller",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/actuator/loggers/org.moon.controller",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"actuator",
+						"loggers",
+						"org.moon.controller"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "004 controller biz log level",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/springbootLogBackTest/logLevel",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"springbootLogBackTest",
+						"logLevel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "005 loggers name controller set",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"configuredLevel\": \"INFO\",\n    \"effectiveLevel\": \"INFO\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/actuator/loggers/org.moon.controller",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"actuator",
+						"loggers",
+						"org.moon.controller"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
