@@ -87,6 +87,12 @@ public class ThreadPoolExecutorConfig {
 
         // 修改拒绝策略为使用当前线程执行
         taskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+        /* taskExecutor.setRejectedExecutionHandler(new RejectedExecutionHandler() {
+            @Override
+            public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
+                // ...MQ/kafka等再单独处理等
+            }
+        }); */
 
         // 初始化线程池
         taskExecutor.initialize();
