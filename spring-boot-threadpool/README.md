@@ -70,7 +70,7 @@
 ### 注意点
 1. 自定义线程池名称时，注意命名规则，否则可能不会生效。
 2. 使用线程池时注意**线程池的隔离**，避免并发请求高的场景，影响并发低的场景的业务执行。
-3. 使用默认线程池，注意OOM情况：因为最大线程数为`Integer.MAX_VALUE`，同时拒绝策略为直接丢弃策略`AbortPolicy`。从最大线程数的角度而言，只会oom，不会触发拒绝策略。源码细节(spring 5.2.9)：
+3. 使用`ThreadPoolTaskExecutor`线程池，注意OOM情况：因为最大线程数为`Integer.MAX_VALUE`，同时拒绝策略为直接丢弃策略`AbortPolicy`。从最大线程数的角度而言，只会oom，不会触发拒绝策略。源码细节(spring 5.2.9)：
 ```
 // ThreadPoolTaskExecutor
 
@@ -134,6 +134,9 @@ public void initialize() {
     this.executor = initializeExecutor(this.threadFactory, this.rejectedExecutionHandler);
 }
 ```
+4. `@Async`默认线程池`SimpleAsyncTaskExecutor`：不是真的线程池，这个类不重用线程，每次调用都会创建一个新的线程，没有最大线程数设置。并发大的时候会产生严重的性能问题。
+![spring-threadpool](./img/spring-threadpool.png)
+![SimpleAsyncTaskExecutor-doc](./img/SimpleAsyncTaskExecutor-doc.png)
 
 ### 测试接口
 1. JMeter 压测http接口
