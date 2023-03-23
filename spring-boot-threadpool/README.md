@@ -61,6 +61,12 @@
 
 示例：`org.moonzhou.threadpool.config.AsyncConfiguration`
 
+在无返回值的异步调用中，异步处理抛出异常，`AsyncExceptionHandler`的`getAsyncUncaughtExceptionHandler`会捕获指定异常，原有任务还会继续运行，直到结束。
+捕获的异常与异步线程号一致，依然属于子线程。原有任务依然在主线程不受影响。示例入口：`org.moonzhou.threadpool.controller.ThreadPoolController.testException`
+
+在有返回值的异步调用中，异步处理抛出异常，会直接抛出异常，异步任务结束，原有处理结束执行。`AsyncExceptionHandler`的`getAsyncUncaughtExceptionHandler`不会捕获到异常。
+示例入口：`org.moonzhou.threadpool.controller.ThreadPoolController.testExceptionResult`
+
 ### 注意点
 1. 自定义线程池名称时，注意命名规则，否则可能不会生效。
 2. 使用线程池时注意**线程池的隔离**，避免并发请求高的场景，影响并发低的场景的业务执行。

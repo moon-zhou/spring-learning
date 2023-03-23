@@ -30,4 +30,6 @@ public interface ThreadPoolService {
      * test thread pool exception
      */
     void testException();
+
+    Future<Boolean> testExceptionResult();
 }

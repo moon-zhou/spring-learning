@@ -142,11 +142,9 @@ public class ThreadPoolController {
      * http://localhost:8081/threadpool/testException
      * @param response
      * @return
-     * @throws ExecutionException
-     * @throws InterruptedException
      */
     @RequestMapping("/testException")
-    public String testException(HttpServletResponse response) throws ExecutionException, InterruptedException {
+    public String testException(HttpServletResponse response) {
 
         log.info("controller testException in.");
 
@@ -158,6 +156,29 @@ public class ThreadPoolController {
         }
 
         log.info("controller testException out.");
+
+        return "success";
+    }
+
+    /**
+     * http://localhost:8081/threadpool/testExceptionResult
+     * @param response
+     * @return
+     */
+    @RequestMapping("/testExceptionResult")
+    public String testExceptionResult(HttpServletResponse response) {
+
+        log.info("controller testExceptionResult in.");
+
+        try {
+            Boolean result = threadPoolService.testExceptionResult().get();
+            log.info("testExceptionResult: {}.", result);
+        } catch (Exception e) {
+            log.error("async service exception: ", e);
+            throw new RuntimeException(e);
+        }
+
+        log.info("controller testExceptionResult out.");
 
         return "success";
     }
