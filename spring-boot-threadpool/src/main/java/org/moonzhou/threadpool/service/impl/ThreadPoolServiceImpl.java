@@ -76,4 +76,21 @@ public class ThreadPoolServiceImpl implements ThreadPoolService {
 
         return CompletableFuture.completedFuture(true);
     }
+
+    @Async("asyncMessageExecutor")
+    @Override
+    public void testException() {
+        log.info("test exception in.");
+
+        // mock biz running
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            log.error("testMessageThreadPool error: ", e);
+
+            throw new RuntimeException(e);
+        }
+        log.info("test exception out, will throw runtime exception.");
+        throw new RuntimeException("test exception!!!");
+    }
 }

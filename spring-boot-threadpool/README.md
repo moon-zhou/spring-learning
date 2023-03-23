@@ -56,13 +56,16 @@
 
 所以当想要创建固定大小的线程池时，将 corePoolSize 和 maxPoolSize 设置成一样就行了。
 
+### 异常处理
+重写方法：`org.springframework.scheduling.annotation.AsyncConfigurerSupport.getAsyncUncaughtExceptionHandler`。
 
+示例：`org.moonzhou.threadpool.config.AsyncConfiguration`
 
 ### 注意点
 1. 自定义线程池名称时，注意命名规则，否则可能不会生效。
 2. 使用线程池时注意**线程池的隔离**，避免并发请求高的场景，影响并发低的场景的业务执行。
 3. 使用默认线程池，注意OOM情况：因为最大线程数为`Integer.MAX_VALUE`，同时拒绝策略为直接丢弃策略`AbortPolicy`。从最大线程数的角度而言，只会oom，不会触发拒绝策略。源码细节(spring 5.2.9)：
-```java
+```
 // ThreadPoolTaskExecutor
 
 private int corePoolSize = 1;
@@ -110,7 +113,7 @@ protected ExecutorService initializeExecutor(
 }
 ```
 
-```java
+```
 // ExecutorConfigurationSupport
 
 private RejectedExecutionHandler rejectedExecutionHandler = new ThreadPoolExecutor.AbortPolicy();

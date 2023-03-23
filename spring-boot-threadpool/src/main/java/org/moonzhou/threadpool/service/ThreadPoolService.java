@@ -25,4 +25,9 @@ public interface ThreadPoolService {
      * @return true: biz success
      */
     Future<Boolean> testMessageThreadPool();
+
+    /**
+     * test thread pool exception
+     */
+    void testException();
 }
