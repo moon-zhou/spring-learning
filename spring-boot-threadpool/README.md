@@ -137,6 +137,10 @@ public void initialize() {
 4. `@Async`默认线程池`SimpleAsyncTaskExecutor`：不是真的线程池，这个类不重用线程，每次调用都会创建一个新的线程，没有最大线程数设置。并发大的时候会产生严重的性能问题。
 ![spring-threadpool](./img/spring-threadpool.png)
 ![SimpleAsyncTaskExecutor-doc](./img/SimpleAsyncTaskExecutor-doc.png)
+5. 自定义线程池之后，使用自定义的线程池，即`@Async`必须明确线程池的`bean`，原有默认的线程池配置不生效，但是异步生效了（TODO: 分析源码）。同时有如下提示：
+```
+More than one TaskExecutor bean found within the context, and none is named 'taskExecutor'. Mark one of them as primary or name it 'taskExecutor' (possibly as an alias) in order to use it for async processing: [asyncTaskExecutor, asyncMessageExecutor]
+```
 
 ### 测试接口
 1. JMeter 压测http接口

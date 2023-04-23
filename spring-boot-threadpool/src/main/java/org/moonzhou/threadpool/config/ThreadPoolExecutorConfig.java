@@ -1,24 +1,26 @@
 package org.moonzhou.threadpool.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.task.TaskExecutorCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Executor;
+import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * @author moonzhou
  * @description ThreadPool config for customized async
  **/
+@Slf4j
+@EnableConfigurationProperties(ThreadPoolConfig.class)
 @Configuration
 @EnableAsync
 public class ThreadPoolExecutorConfig {
-
-    @Autowired
-    private ThreadPoolConfig threadPoolConfig;
 
     /**
      * 异步线程池处理
@@ -28,7 +30,7 @@ public class ThreadPoolExecutorConfig {
      * @return
      */
     @Bean(name = "asyncTaskExecutor")
-    public Executor asyncTaskExecutor() {
+    public Executor asyncTaskExecutor(ThreadPoolConfig threadPoolConfig) {
         ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
 
         // 设置线程池参数信息
@@ -61,7 +63,7 @@ public class ThreadPoolExecutorConfig {
     }
 
     @Bean(name = "asyncMessageExecutor")
-    public Executor asyncMessageExecutor() {
+    public Executor asyncMessageExecutor(ThreadPoolConfig threadPoolConfig) {
         ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
 
         // 设置线程池参数信息
@@ -97,5 +99,39 @@ public class ThreadPoolExecutorConfig {
         // 初始化线程池
         taskExecutor.initialize();
         return taskExecutor;
+    }
+
+    @Bean
+    public TaskExecutorCustomizer configTaskExecutorCustomizer() {
+        int machineCpuCore = Runtime.getRuntime().availableProcessors();
+        RejectedExecutionHandler rejectedExecutionHandler = new ThreadPoolExecutor.AbortPolicy();
+
+        return executor -> {
+            executor.setCorePoolSize(machineCpuCore);
+            executor.setMaxPoolSize(machineCpuCore * 10);
+            // executor.setThreadNamePrefix("moon-default-");
+            executor.setRejectedExecutionHandler(
+                    (r, exe) -> {
+                        log.error(
+                                "core: {}, max: {}, queue: {}",
+                                exe.getCorePoolSize(),
+                                exe.getMaximumPoolSize(),
+                                exe.getQueue().size());
+                        rejectedExecutionHandler.rejectedExecution(r, exe);
+                    });
+        };
+    }
+
+    @Bean
+    public TaskExecutorCustomizer monitorTaskExecutorCustomizer() {
+        return executor -> {
+            try {
+                log.info("TaskExecutor - corePoolSize: {}", executor.getCorePoolSize());
+                log.info("TaskExecutor - maxPoolSize: {}", executor.getMaxPoolSize());
+            } catch (Throwable e) {
+                log.error("auditTaskExecutorCustomizer exception", e);
+                throw new RuntimeException(e);
+            }
+        };
     }
 }
