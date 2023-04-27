@@ -1,16 +1,19 @@
 package org.moon.config;
 
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.Signature;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.moon.base.BaseParam;
-import org.moon.base.Result;
-import org.moon.util.JsonUtils;
+import org.aspectj.lang.reflect.MethodSignature;
+import org.moon.annotation.MoonExceptionLog;
+import org.moon.util.RunTimeLogUtil;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
+import java.lang.reflect.Method;
 
 /**
  * runtime monitor aspect: param,result and run time
@@ -49,12 +52,7 @@ public class RunTimeLogAspect {
         String className = proceedingJoinPoint.getTarget().getClass().getName();
         String methodName = proceedingJoinPoint.getSignature().getName();
 
-        String methodInfo = className + "_" + methodName;
-        if (className.contains("Controller")) {
-            log.info("===================================" + methodInfo + ": start");
-        } else {
-            log.info("***********************************" + methodInfo + ": start");
-        }
+        RunTimeLogUtil.logStart(className, methodName);
 
         long beginTime = System.currentTimeMillis();
 
@@ -62,28 +60,13 @@ public class RunTimeLogAspect {
         try {
             // print log
             Object[] args = proceedingJoinPoint.getArgs();
-            for (Object arg : args) {
-                // 入参是否为 user
-                if (arg instanceof BaseParam) {
-                    log.info("{} param -------> {}", methodInfo, JsonUtils.toJson(arg));
-                } else if (arg instanceof Map) {
-                    log.info("{} param -------> {}", methodInfo, JsonUtils.toJson(arg));
-                } else {
-                    log.info("{} param -------> {}", methodInfo, arg);
-                }
-            }
+            RunTimeLogUtil.logParam(className, methodName, args);
 
             // do
             result = proceedingJoinPoint.proceed();
 
             // print log
-            if (result instanceof Result) {
-                log.info("{} result -------> {}", methodInfo, JsonUtils.toJson(result));
-            } else if (result instanceof Map) {
-                log.info("{} result -------> {}", methodInfo, JsonUtils.toJson(result));
-            } else {
-                log.info("{} result -------> {}", methodInfo, result);
-            }
+            RunTimeLogUtil.logResult(className, methodName, result);
 
         } catch (Throwable e) {
             // just log, throw up
@@ -92,14 +75,67 @@ public class RunTimeLogAspect {
         } finally {
             long time = System.currentTimeMillis() - beginTime;
 
-            if (className.contains("Controller")) {
-                log.info("===================================" + className + "_" + methodName + ": " + time);
-            } else {
-                log.info("***********************************" + className + "_" + methodName + ": " + time);
-            }
+            RunTimeLogUtil.logEnd(className, methodName, time);
         }
 
         return result;
     }
 
+    ///////////////////////////////////////exception log by annotation////////////////////////////////////////////////
+    @Pointcut("@annotation(org.moon.annotation.MoonExceptionLog)")
+    public void exceptionLog() {
+
+    }
+
+    /**
+     * test method throw Runtime Exception
+     * @param joinPoint
+     * @param e
+     */
+    @AfterThrowing(value = "exceptionLog()", throwing = "e")
+    public void afterThrowingRuntimeException(JoinPoint joinPoint, RuntimeException e) {
+        Signature signature = joinPoint.getSignature();
+
+        MethodSignature methodSignature = (MethodSignature) signature;
+        Method method = methodSignature.getMethod();
+
+        log.error("runtime exception: ------------------>");
+        // log.error("method {} error, throw runtime exception: ", method.getName(), e);
+    }
+
+    /**
+     * 异常通知
+     * 目标方法所抛出的异常，注意，这个参数必须是目标方法所抛出的异常或者所抛出的异常的父类，只有这样，才会捕获。如果想拦截所有，参数类型声明为 Exception
+     *
+     * @param joinPoint
+     * @param e
+     */
+    @AfterThrowing(value = "exceptionLog()", throwing = "e")
+    public void afterThrowing(JoinPoint joinPoint, Throwable e) throws Throwable {
+        log.error("throwable: ------------------>");
+        Signature signature = joinPoint.getSignature();
+
+        MethodSignature methodSignature = (MethodSignature) signature;
+        Method method = methodSignature.getMethod();
+
+        // handle exception log
+        boolean exceptionLog = method.isAnnotationPresent(MoonExceptionLog.class);
+        if (exceptionLog) {
+            MoonExceptionLog moonExceptionLog = method.getAnnotation(MoonExceptionLog.class);
+            Class<? extends Throwable>[] logException = moonExceptionLog.logFor();
+
+            boolean logFlag = false;
+            if (null != logException) {
+                for (Class<? extends Throwable> exception : logException) {
+                    if (e.getClass().equals(exception)) {
+                        log.error("exception to log: ", e);
+                        logFlag = true;
+                        break;
+                    }
+                }
+            }
+
+            log.info("in log aspect ");
+        }
+    }
 }

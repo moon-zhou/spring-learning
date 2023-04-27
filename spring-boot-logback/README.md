@@ -105,14 +105,14 @@ MDC自定义参数，一般用于在一个请求到达服务端之后，在当�
 
 ### 动态日志
 #### Spring Boot Actuator
-1. 配置依赖
+1. 添加依赖
    ```
    <dependency>
        <groupId>org.springframework.boot</groupId>
        <artifactId>spring-boot-starter-actuator</artifactId>
    </dependency>
    ```
-2. 放开`loggers`的`endpoint`配置
+2. 配置`loggers`的`endpoint`
    ```
    # 开启全部endpoint
    management:
@@ -128,7 +128,8 @@ MDC自定义参数，一般用于在一个请求到达服务端之后，在当�
          exposure:
            include: loggers,health
    ```
-3. 测试
+3. 测试步骤：使用postman导入`postman/log.postman_collection.json`，测试顺序为`001 -> 002 -> 003 -> 004 -> 005 -> 003 -> 004`。默认`DEBUG`，通过005设置为`INFO`。
+4. 测试步骤解析：
    1. `GET http://localhost/actuator`: 返回放开的`endpoint`
    2. `GET http://localhost/actuator/loggers`: 返回当前应用全部的日志级别信息
    3. `GET http://localhost/actuator/loggers/{name}`: 返回{name}的日志级别，也就是`LoggerFactory.getLogger`的name，满足xpath规则。
@@ -139,15 +140,192 @@ MDC自定义参数，一般用于在一个请求到达服务端之后，在当�
           "effectiveLevel": "INFO"
       }
       ```
-   5. 总结：使用postman导入`postman/log.postman_collection.json`，测试顺序为`001 -> 002 -> 003 -> 004 -> 005 -> 003 -> 004`。默认`DEBUG`，通过005设置为`INFO`。
+5. 实现原理（Spring Boot Actuator Log）
+
+从依赖`spring-boot-actuator`中找到我们的`LoggersEndpoint`（所有的Actuator都是这一个路数）：`spring-boot-actuator-2.6.4.jar`--`org.springframework.boot.actuate.logging`。
+
+在在每个`actuator Endpoint`的背后，必然还会存在一个`xxxEndpointAutoConfiguration`来为我们进行`Endpoint`的加载。而这些加载机制就都存放在`spring-boot-actuator-autoconfigure`中，
+我们在其中可以找到`LoggersEndpointAutoConfiguration`用于加载`LoggersEndpoint`的配置类：`spring-boot-actuator-autoconfigure-2.6.4.jar`--`org.springframework.boot.actuate.autoconfigure.logging.LoggersEndpointAutoConfiguration`。
+核心代码：
+```java
+@Bean
+@ConditionalOnBean(LoggingSystem.class)
+@Conditional(OnEnabledLoggingSystemCondition.class)
+@ConditionalOnMissingBean
+public LoggersEndpoint loggersEndpoint(LoggingSystem loggingSystem,
+        ObjectProvider<LoggerGroups> springBootLoggerGroups) {
+    return new LoggersEndpoint(loggingSystem, springBootLoggerGroups.getIfAvailable(LoggerGroups::new));
+}
+```
+- LoggingSystem：一个抽象顶级类
+- springBootLoggerGroups：存储了当前日志分组数据
+
+总结：
+1. 我们依赖了spring-boot-starter-actuator包后，里面依赖了spring-boot-actuator-autoconfigure 
+2. 在启动扫描到spring-boot-actuator-autoconfigure 下的META-INF/spring.factories 时，LoggersEndpointAutoConfiguration会被加载到 
+3. LoggersEndpointAutoConfiguration 内又声明了LoggersEndpoin 并赋值LoggingSystem 和springBootLoggerGroups 作为其参数
+4. 项目启动后我们通过LoggersEndpoint 接口进行日志数据访问
+
+
+#### 分布式配置中心
+1. logback配置文件自动扫描：`<configuration scan="true" scanPeriod="15 seconds">`
+2. 远程配置中心，如Apollo实现级别动态修改（arthas 动态修改）
+```java
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.joran.JoranConfigurator;
+import ch.qos.logback.core.joran.spi.JoranException;
+import ch.qos.logback.core.util.StatusPrinter;
+import com.ctrip.framework.apollo.model.ConfigChangeEvent;
+import com.ctrip.framework.apollo.spring.annotation.ApolloConfigChangeListener;
+import org.apache.commons.lang.StringEscapeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+ 
+import javax.annotation.PostConstruct;
+import java.io.*;
+import java.lang.management.ManagementFactory;
+import java.util.List;
+ 
+@Component
+public class LogBackConfigLoader {
+    /**
+     * logger:日志对象.
+     * @since JDK 1.7
+     */
+    private static Logger logger = LoggerFactory.getLogger(LogBackConfigLoader.class);
+ 
+    @Value("${app.id}")
+    private String appId;
+ 
+    private void load (String externalConfigFileLocation) throws IOException, JoranException{
+    LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+ 
+    File externalConfigFile = new File(externalConfigFileLocation);
+    if(!externalConfigFile.exists()){
+        throw new IOException("Logback配置文件不存在");
+    }else{
+        if(!externalConfigFile.isFile()){
+            throw new IOException("Logback配置文件不正确");
+        }else{
+            if(!externalConfigFile.canRead()){
+                throw new IOException("Logback配置文件不能被读取");
+            }else{
+                JoranConfigurator configurator = new JoranConfigurator();
+                configurator.setContext(lc);
+                lc.reset();
+                configurator.doConfigure(externalConfigFileLocation);
+                StatusPrinter.printInCaseOfErrorsOrWarnings(lc);
+            }
+        }
+    }
+}
+ 
+    @PostConstruct
+    private void  initLog(){
+        try {
+            String pathName = getPathName();
+            String xmlPath = prop2Xml(pathName);
+            load(xmlPath);
+        }catch (Exception e){
+            logger.warn("获取apollo日志logback.xml配置失败，logback使用默认配置！  原因:"+e.getMessage());
+        }
+    }
+ 
+    @ApolloConfigChangeListener("logback.xml")
+    private void anotherOnChange(ConfigChangeEvent changeEvent) {
+        //当logback.xml文件改变的时候动态更新
+        try {
+            String pathName = getPathName();
+            String xmlPath = prop2Xml(pathName);
+            load(xmlPath);
+        }catch (Exception e){
+            logger.warn("apollo日志logback.xml配置热更新失败！  原因:"+e.getMessage());
+        }
+    }
+ 
+    private String getPathName(){
+        String pathName;
+        String system = System.getProperty("os.name");
+        if(system.toLowerCase().startsWith("win")){
+            pathName = "C:/opt/data/"+appId+"/config-cache/";
+        }else {
+            //除了win其他系统路径一样
+            pathName = "/opt/data/"+appId+"/config-cache/";
+        }
+ 
+        String cluster = "";
+        List<String> inputArgs = ManagementFactory.getRuntimeMXBean().getInputArguments();
+        for (String in : inputArgs){
+            if(in.contains("Dapollo") && in.contains("cluster")){
+                String[] clusters = in.split("=");
+                cluster = clusters[1].replaceAll(" ","");
+            }
+        }
+        pathName += appId+"+"+cluster+"+"+"logback.xml.properties";
+        return pathName;
+    }
+ 
+    private String prop2Xml(String path) throws Exception{
+        StringBuffer fileContent = new StringBuffer();
+        File filename = new File(path);
+        InputStreamReader reader = new InputStreamReader(new FileInputStream(filename));
+        BufferedReader br = new BufferedReader(reader);
+        int f = 0;
+        String line = "";
+        line = br.readLine();
+        while(line != null) {
+            if(f>1){
+                //前两行注释不要
+                fileContent.append(line);
+            }
+            line = br.readLine();
+            f++;
+        }
+ 
+        //去掉content=
+        fileContent.replace(0,8,"");
+        //java反转义
+        String outContent = StringEscapeUtils.unescapeJava(fileContent.toString());
+ 
+        //生成xml文件
+        String outPath = path.replaceAll(".properties","");
+        File file=new File(outPath);
+        if(!file.exists()){
+            file.createNewFile();
+        }else {
+            //先删除再重新创建不然会报错
+            file.delete();
+            file.createNewFile();
+        }
+        FileOutputStream out=new FileOutputStream(file,true);
+        out.write(outContent.getBytes("utf-8"));
+        out.close();
+        return outPath;
+    }
+}
+```
+
+### 自定义注解
+#### 自定义需要打印的异常
+1. 自定义日志注解，设计需要打印的异常配置字段，可配置多异常
+   - 自定义注解：`org.moon.annotation.MoonExceptionLog`
+2. AOP拦截，判断配置异常是否与实际发生一致，进行日志打印或者其他策略进行处理
+   - aop切点：`org.moon.config.RunTimeLogAspect.exceptionLog`
+   - aop拦截具体异常：`org.moon.config.RunTimeLogAspect.afterThrowingRuntimeException`
+   - aop拦截最大的异常：`org.moon.config.RunTimeLogAspect.afterThrowing`
 
 ### best practise
-1. logger的name，往往可以采用类路径的方式，因为其支持xpath进行匹配。越精准的类路径名称的logger放在前面，越模糊的放在后面进行兜底，最终没有匹配上的进入root。
-2. 采用动态配置方式，将配置放到**分布式配置中心**中，可以实时调整配置。比如大促时，只保留核心接口的日志，非核心日志需要进行降级比如只保留warn和error日志。
-3. 日志异步
-4. 不同环境使用不同日志路径，通过环境区分不同配置，logback配置文件通过`springProperty`进行使用即可。示例中演示了不通的OS使用不同的配置路径。
+1. 日志格式统一化，可通过`MDC`丰富日志模板的内容，比如用户id，请求线程的流水号等（多线程需要进行上下文必要参数的传递）。
+2. 日志分类：接口业务参数类日志，监控类（耗时，成功率）日志，审计日志等区分文件，方便不同维度的数据监控与展示。
+3. logger的name，往往可以采用类路径的方式，因为其支持xpath进行匹配。越精准的类路径名称的logger放在前面，越模糊的放在后面进行兜底，最终没有匹配上的进入root。
+4. 采用动态配置方式，将配置放到**分布式配置中心**中，可以实时调整配置。比如大促时，只保留核心接口的日志，非核心日志需要进行降级比如只保留warn和error日志。
+5. 日志异步
+6. 不同环境使用不同日志路径，通过环境区分不同配置，logback配置文件通过`springProperty`进行使用即可。示例中演示了不通的OS使用不同的配置路径。
 
 ### 参考
 1. [看完这个不会配置 logback ，请你吃瓜！](https://juejin.cn/post/6844903641535479821)
 2. [springboot+logback 日志输出企业实践（上）](http://t.cn/AigXlD6Q)
 3. [Spring boot+LogBack+MDC实现链路追踪](https://juejin.cn/post/7074461710030995492)
+4. [Spring Boot 系列：日志动态配置详解](https://zhuanlan.zhihu.com/p/266268191)
