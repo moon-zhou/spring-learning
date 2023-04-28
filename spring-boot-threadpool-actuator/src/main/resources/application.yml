@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: spring-boot-threadpool-actuator
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*" # 开启所有的端点
+  endpoint:
+    health:
+      show-details: always # 开启健康监控数据

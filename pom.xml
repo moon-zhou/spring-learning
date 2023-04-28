@@ -12,6 +12,35 @@
 
     <description>spring learning collection</description>
 
+    <developers>
+        <developer>
+            <name>moon zhou</name>
+            <email>ayimin1989@163.com</email>
+        </developer>
+    </developers>
+    <parent>
+        <!--<groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.0.RELEASE</version>-->
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.6.4</version>
+        <!--<type>pom</type>-->
+    </parent>
+
+    <properties>
+        <hutool-all.version>5.8.7</hutool-all.version>
+        <commons-lang3.version>3.10</commons-lang3.version>
+        <commons-collections4.version>4.4</commons-collections4.version>
+        <commons-io.version>2.11.0</commons-io.version>
+        <fastjson.version>1.2.83</fastjson.version>
+        <druid-spring-boot-starter.version>1.1.23</druid-spring-boot-starter.version>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
     <modules>
         <!-- spring ioc 示例 -->
         <module>spring-ioc</module>
@@ -47,6 +76,8 @@
         <module>spring-boot-file</module>
         <!-- springboot threadpool demo -->
         <module>spring-boot-threadpool</module>
+        <!-- springboot threadpool actuator monitor demo -->
+        <module>spring-boot-threadpool-actuator</module>
 
         <!-- springboot 使用http示例 -->
         <module>spring-boot-httputil</module>
@@ -101,35 +132,6 @@
         <module>spring-boot-offline</module>
 
     </modules>
-    <developers>
-        <developer>
-            <name>moon zhou</name>
-            <email>ayimin1989@163.com</email>
-        </developer>
-    </developers>
-
-    <parent>
-        <!--<groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.0.RELEASE</version>-->
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.4</version>
-        <!--<type>pom</type>-->
-    </parent>
-
-    <properties>
-        <hutool-all.version>5.8.7</hutool-all.version>
-        <commons-lang3.version>3.10</commons-lang3.version>
-        <commons-collections4.version>4.4</commons-collections4.version>
-        <commons-io.version>2.11.0</commons-io.version>
-        <fastjson.version>1.2.83</fastjson.version>
-        <druid-spring-boot-starter.version>1.1.23</druid-spring-boot-starter.version>
-
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
 
     <dependencyManagement>
         <dependencies>
