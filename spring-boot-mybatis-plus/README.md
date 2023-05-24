@@ -6,7 +6,8 @@ springboot integrate with mybatis-plus
 mybatis-plus封装了一些最基础的CRUD方法，只需要直接继承mybatis-plus提供的接口，无需编写任何SQL，即可使用。
 
 ### Mapper CRUD接口
-`com.baomidou.mybatisplus.core.mapper.BaseMapper`
+1. `com.baomidou.mybatisplus.core.mapper.BaseMapper`
+2. 使用`@MapperScan`或者`@Mapper`
 
 ### Service CRUD 接口
 ```
