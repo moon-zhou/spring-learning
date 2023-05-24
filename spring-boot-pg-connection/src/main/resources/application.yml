@@ -1,0 +1,13 @@
+# application.yml
+spring:
+  datasource:
+#    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://127.0.0.1:5432/moon?currentSchema=moon_pg_connection
+    username: moon
+    password: moon
+
+mybatis-plus:
+  mapper-locations: classpath*:/sql/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #开启SQL语句打印
