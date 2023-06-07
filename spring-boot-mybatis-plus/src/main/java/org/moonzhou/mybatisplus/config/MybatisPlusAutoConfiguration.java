@@ -1,4 +1,4 @@
-package org.moonzhou.mybatisplus.ocnfig;
+package org.moonzhou.mybatisplus.config;
 
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;

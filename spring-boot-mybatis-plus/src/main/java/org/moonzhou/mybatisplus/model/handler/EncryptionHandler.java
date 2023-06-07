@@ -2,7 +2,7 @@ package org.moonzhou.mybatisplus.model.handler;
 
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
-import org.moonzhou.mybatisplus.ocnfig.MybatisProperties;
+import org.moonzhou.mybatisplus.config.MybatisProperties;
 import org.moonzhou.mybatisplus.util.ApplicationContextUtils;
 import org.moonzhou.mybatisplus.util.EncryptionUtil;
 

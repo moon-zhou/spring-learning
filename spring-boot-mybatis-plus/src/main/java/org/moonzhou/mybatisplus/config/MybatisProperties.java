@@ -1,4 +1,4 @@
-package org.moonzhou.mybatisplus.ocnfig;
+package org.moonzhou.mybatisplus.config;
 
 import lombok.Getter;
 import lombok.Setter;
