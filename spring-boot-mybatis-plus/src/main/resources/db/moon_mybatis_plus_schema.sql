@@ -31,6 +31,18 @@ CREATE TABLE `user` (
 
 SET FOREIGN_KEY_CHECKS = 1;
 
+-- ----------------------------
+-- Table structure for user_code
+-- ----------------------------
+DROP TABLE IF EXISTS `user_code`;
+CREATE TABLE `user_code` (
+                        `id` bigint NOT NULL COMMENT '主键ID',
+                        `name` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '姓名',
+                        `age` int DEFAULT NULL COMMENT '年龄',
+                        `email` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '邮箱',
+                        PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 
 DROP TABLE IF EXISTS `user_info`;
 CREATE TABLE `user_info` (

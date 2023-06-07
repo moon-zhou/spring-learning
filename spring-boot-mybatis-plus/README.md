@@ -7,7 +7,7 @@ mybatis-plus封装了一些最基础的CRUD方法，只需要直接继承mybatis
 
 ### Mapper CRUD接口
 1. `com.baomidou.mybatisplus.core.mapper.BaseMapper`
-2. 使用`@MapperScan`或者`@Mapper`
+2. 使用`@MapperScan`或者`@Mapper`，如果使用了`@MapperScan`，在没有扫描到的目录下使用`@Mapper`是不会生效的。
 
 ### Service CRUD 接口
 ```
