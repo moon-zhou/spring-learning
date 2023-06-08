@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import org.moonzhou.mybatisplus.model.entity.UserCodeDiff;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -23,6 +24,17 @@ public interface UserCodeMapper extends BaseMapper<UserCodeDiff> {
             + "<foreach collection='ids' index='index' item='id' open='(' separator=',' close=')'>#{id}</foreach>"
             + "</script>")
     List<UserCodeDiff> selectUserListByIds(@Param("tableName") String tableName, @Param("ids") Set<Long> ids);
+
+    @Select("<script>"
+            + "select count(*) from ${tableName} where \n"
+            + "<foreach collection='condition.entrySet()' index='key' item='val' separator='and'>"
+            + " ${key} = #{val}"
+            + "</foreach>"
+            + "</script>")
+    int countUserByCondition(@Param("tableName") String tableName, @Param("condition") Map<String, String> condition);
+
+    @Select("select count(*) from ${tableName} where name = #{userCodeDiff.name} and age = #{userCodeDiff.age}")
+    int countUserByEntity(@Param("tableName") String tableName, UserCodeDiff userCodeDiff);
 
     @Insert("<script>"
             + "insert into ${tableName} (id,name,age,email)"

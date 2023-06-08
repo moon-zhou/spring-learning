@@ -41,6 +41,36 @@ public class DynamicTableNameMapperTest {
     }
 
     @Test
+    public void testCountUser() {
+        // condition: entity
+        UserCodeDiff userCodeDiff1 = new UserCodeDiff(null, "Tom", 28, null);
+        UserCodeDiff userCodeDiff2 = new UserCodeDiff(null, "Tom", 29, null);
+
+        int u1 = userCodeMapper.countUserByEntity(TABLE_NAME, userCodeDiff1);
+        Assertions.assertEquals(1, u1);
+
+        int u2 = userCodeMapper.countUserByEntity(TABLE_NAME, userCodeDiff2);
+        Assertions.assertEquals(0, u2);
+
+
+        // condition: map
+        Map<String, String> param1 = new HashMap<>();
+        param1.put("name", "Tom");
+        param1.put("age", "28");
+
+        Map<String, String> param2 = new HashMap<>();
+        param2.put("name", "Tom");
+        param2.put("age", "29");
+
+        int uc1 = userCodeMapper.countUserByCondition(TABLE_NAME, param1);
+        Assertions.assertEquals(1, uc1);
+
+        int uc2 = userCodeMapper.countUserByCondition(TABLE_NAME, param2);
+        Assertions.assertEquals(0, uc2);
+
+    }
+
+    @Test
     public void testSaveBatch() {
         UserCodeDiff userCodeDiff1 = new UserCodeDiff(111L, "moon111", 18, "moon@moon.com");
         UserCodeDiff userCodeDiff2 = new UserCodeDiff(222L, "moon222", 18, "moon@moon.com");
