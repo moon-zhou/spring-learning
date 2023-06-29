@@ -45,6 +45,27 @@ public interface UserCodeMapper extends BaseMapper<UserCodeDiff> {
             + "</script>")
     Long saveBatch(@Param("tableName") String tableName, @Param("userCodeList") List<UserCodeDiff> userCodeList);
 
+    /**
+     * 插入map对象，key为表的列，值为表字段值
+     * @param tableName  动态表名
+     * @param condition  插入数据库的对象
+     * @return  插入成功的数据条数
+     */
+    @Insert("<script>"
+            + "insert into ${tableName} "
+            + "<foreach collection='condition.entrySet()' index='key' item='val' open='(' separator=',' close=')'>"
+            + " ${key}"
+            + "</foreach>"
+            + " values "
+            + "<foreach collection='condition.entrySet()' index='key' item='val' open='(' separator=',' close=')'>"
+            + " #{val}"
+            + "</foreach>"
+            + "</script>")
+    Long dynamicSave(@Param("tableName") String tableName, @Param("condition") Map<String, Object> condition);
+
+    @Delete("delete from ${tableName} where id = #{id}")
+    Long delete(@Param("tableName") String tableName, @Param("id") Long id);
+
     @Delete("<script>"
             + "delete from ${tableName} where id in \n"
             + "<foreach collection='ids' index='index' item='id' open='(' separator=',' close=')'>#{id}</foreach>"

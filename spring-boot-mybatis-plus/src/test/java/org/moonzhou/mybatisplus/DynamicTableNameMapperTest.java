@@ -1,5 +1,6 @@
 package org.moonzhou.mybatisplus;
 
+import lombok.SneakyThrows;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
@@ -9,6 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.beans.BeanInfo;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -88,6 +93,39 @@ public class DynamicTableNameMapperTest {
         Set<Long> ids = userCodeDiffList.stream().map(UserCodeDiff::getId).collect(Collectors.toSet());
         Long deleteNum = userCodeMapper.deleteBatch(TABLE_NAME, ids);
         Assertions.assertEquals(3, deleteNum);
+    }
+
+    @SneakyThrows
+    @Test
+    public void testDynamicSave() {
+        UserCodeDiff userCodeDiff = new UserCodeDiff(111L, "moon111", 18, "moon@moon.com");
+
+        Map<String, Object> map = new HashMap<>();
+
+        // 获取JavaBean的描述器
+        BeanInfo b = Introspector.getBeanInfo(UserCodeDiff.class);
+        // 获取属性描述器
+        PropertyDescriptor[] pds = b.getPropertyDescriptors();
+        // 对属性迭代
+        for (PropertyDescriptor pd : pds) {
+            if (!"class".equals(pd.getName())) {
+                // 属性名称
+                String propertyName = pd.getName();
+                // 属性值,用getter方法获取
+                Method m = pd.getReadMethod();
+                // 用对象执行getter方法获得属性值
+                Object properValue = m.invoke(userCodeDiff);
+                // 把属性名-属性值 存到Map中
+                map.put(propertyName, properValue);
+            }
+        }
+
+        Long result = userCodeMapper.dynamicSave(TABLE_NAME, map);
+        Assertions.assertEquals(1L, result);
+
+        // clear test data
+        Long deleteNum = userCodeMapper.delete(TABLE_NAME, userCodeDiff.getId());
+        Assertions.assertEquals(1, deleteNum);
     }
 
 }
