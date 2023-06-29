@@ -1,0 +1,32 @@
+spring:
+  datasource:
+    # 主数据源
+    primary:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://localhost:3306/moon_jpa?serverTimezone=Asia/Shanghai
+      username: root
+      password:
+      type: com.zaxxer.hikari.HikariDataSource
+    # 次数据源
+    second:
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: jdbc:postgresql://127.0.0.1:5432/moon?currentSchema=moon_jpa
+      username: moon
+      password: moon
+  jpa:
+    # 主jpa配置
+    primary:
+      show-sql: true
+      properties:
+        hibernate:
+          hbm2ddl:
+            auto: update # 不自动创建表结构
+          dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    # 次jpa配置
+    second:
+      show-sql: true
+      properties:
+        hibernate:
+          hbm2ddl:
+            auto: update # 不自动创建表结构
+          dialect: org.hibernate.dialect.PostgreSQLDialect
