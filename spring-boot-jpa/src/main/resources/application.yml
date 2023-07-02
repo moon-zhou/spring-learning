@@ -20,13 +20,13 @@ spring:
       properties:
         hibernate:
           hbm2ddl:
-            auto: update # 不自动创建表结构
-          dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+            auto: update # 每次启动项目时，数据库初始化策略，不自动创建表结构为none
+          dialect: org.hibernate.dialect.MySQL5InnoDBDialect # 指定默认的存储引擎为InnoDB，不配置使用 MyISAM 做表的引擎
     # 次jpa配置
     second:
       show-sql: true
       properties:
         hibernate:
           hbm2ddl:
-            auto: update # 不自动创建表结构
+            auto: update # 每次启动项目时，数据库初始化策略，不自动创建表结构为none
           dialect: org.hibernate.dialect.PostgreSQLDialect

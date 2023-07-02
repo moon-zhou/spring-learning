@@ -20,8 +20,8 @@ public class JpaServiceTest {
          * 使用同一个实例，报错：
          * org.hibernate.PersistentObjectException: detached entity passed to persist
          */
-        User user1 = new User("moon", 18, "1@1.com");
-        User user2 = new User("moon", 18, "1@1.com");
+        User user1 = new User("moon", 18, "1@1.com", "nj");
+        User user2 = new User("moon", 18, "1@1.com", "nj");
 
         /*
          * mysql:
@@ -43,8 +43,8 @@ public class JpaServiceTest {
          * 与保存一样，使用同一个实例，报错：
          * org.hibernate.PersistentObjectException: detached entity passed to persist
          */
-        User user1 = new User(1L, "moon", 19, "1@1.com");
-        User user2 = new User(1L, "moon", 19, "1@1.com");
+        User user1 = new User(1L, "moon", 19, "1@1.com", "nj");
+        User user2 = new User(1L, "moon", 19, "1@1.com", "nj");
 
         userService.update1stUser(user1);
         userService.update2ndUser(user2);

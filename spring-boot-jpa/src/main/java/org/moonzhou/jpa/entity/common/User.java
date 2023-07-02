@@ -29,9 +29,12 @@ public class User implements Serializable {
     private Integer age;
     private String email;
 
-    public User(String name, Integer age, String email) {
+    private String address;
+
+    public User(String name, Integer age, String email, String address) {
         this.name = name;
         this.age = age;
         this.email = email;
+        this.address = address;
     }
 }

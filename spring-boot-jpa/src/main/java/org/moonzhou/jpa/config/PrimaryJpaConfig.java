@@ -20,9 +20,9 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        basePackages = PrimaryJpaConfig.REPOSITORY_PACKAGE,
-        entityManagerFactoryRef = "primaryEntityManagerFactory",
-        transactionManagerRef = "primaryTransactionManager"
+        basePackages = {PrimaryJpaConfig.REPOSITORY_PACKAGE}, // 设置持久层所在位置
+        entityManagerFactoryRef = "primaryEntityManagerFactory", // 配置连接工厂 entityManagerFactory
+        transactionManagerRef = "primaryTransactionManager" // 配置事务管理器  transactionManager
 )
 public class PrimaryJpaConfig {
 
