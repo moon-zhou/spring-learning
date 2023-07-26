@@ -1,0 +1,9 @@
+server:
+  port: 8080
+spring:
+  session: # 设置session存储类型
+    store-type: redis
+  redis: # 配置redis
+    port: 6379
+    host: localhost
+    database: 0

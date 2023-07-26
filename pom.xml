@@ -66,6 +66,7 @@
         <module>spring-boot-jwt</module>
         <!-- springboot mybatis-plus 示例 -->
         <module>spring-boot-mybatis-plus</module>
+        <module>spring-boot-mybatis-plus-advance</module>
         <!-- springboot连接pg，数据库服务断开连接 -->
         <module>spring-boot-pg-connection</module>
         <!-- springboot aspectJ 业务使用示例 -->
@@ -113,6 +114,9 @@
         <!-- spring boot jpa-->
         <module>spring-boot-jpa</module>
 
+        <!-- spring boot 集成 spring session -->
+        <module>spring-boot-session</module>
+
         <!-- Filter Interceptor AOP Advice -->
         <module>spring-boot-fiaa</module>
 
@@ -128,6 +132,8 @@
         <module>spring-boot-pdf</module>
         <!-- springboot jasypt 示例 -->
         <module>spring-boot-jasypt</module>
+        <!-- springboot 集成j2cache -->
+        <module>spring-boot-j2cache</module>
 
         <!-- springboot sql注入 -->
         <module>spring-boot-sql-injection</module>
@@ -140,7 +146,6 @@
 
         <!-- spring boot 下线组件 -->
         <module>spring-boot-offline</module>
-
 
     </modules>
 
