@@ -1,13 +1,32 @@
 # application.yml
 spring:
   datasource:
-#    type: com.zaxxer.hikari.HikariDataSource
+    type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://127.0.0.1:5432/moon?currentSchema=moon_pg_connection
     username: moon
     password: moon
+    hikari: # 时间单位均为ms
+      pool-name: moon-db-pool
+      minimum-idle: 5 # 最小空闲连接，默认值10，小于0或大于maximum-pool-size，都会重置为maximum-pool-size。建议不设置，但如使用idle-timeout，该值需要小于maximum-pool-size
+      maximum-pool-size: 6 # 最大连接数，小于等于0会被重置为默认值10；大于零小于1会被重置为minimum-idle的值。hikari做过测试根据CPU计算最优最大连接池，如下
+      # connections = ((cpu_core_count * 2) + effective_spindle_count)
+      # 如4-Core i7，公式为9 = ((4 * 2) + 1)，最后一个是有效的主核心数
+      auto-commit: true # 默认
+      idle-timeout: 30000 # 空闲连接超时时间，默认值600000（10分钟），大于等于max-lifetime且max-lifetime>0，会被重置为0。该值建议小于max-lifetime
+      max-lifetime: 60000 # 连接最大存活时间，不等于0且小于30秒，会被重置为默认值30分钟。设置应该比mysql设置的超时时间短；单位ms。该值建议小于数据库的连接关闭等待时间，详细的看下面分析
+      connection-timeout: 30000 # 连接超时时间:毫秒，小于250毫秒，会被重置为默认值30秒。默认30s，连接超时会报异常
+      # Connection is not avaitabte, request timed out after 59089ms
+      validation-timeout: 5000 # 支持JDBC4的是isValid超时时间，不支持的是testQuery超时时间
+      connection-test-query: 'SELECT 1' # 支持JDBC4的不建议使用，因为JDBC4的isValid方法效率更高
 
 mybatis-plus:
   mapper-locations: classpath*:/sql/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #开启SQL语句打印
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
