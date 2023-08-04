@@ -635,6 +635,7 @@ Spring-Session的实现就是设计一个过滤器 `SessionRepositoryFilter`，`
 1. 在filter里，通过order（Integer.MIN_VALUE + 50，越小优先级越高），保证其在Filter链中执行较靠前，返回较靠后（责任链）。从而保证session的操作管理能涵盖更大范围。
 2. 后续如果想增强 request 和 response，需要考虑Filter是在该Filter之前还是之后执行，如果之后执行，切记增强的 request 和 response 对应的包装类需要继承 `SessionRepositoryRequestWrapper` 和 `SessionRepositoryResponseWrapper`。
 3. 集成了`OncePerRequestFilter`，确保在一次请求只通过一次filter，而不需要重复执行。（服务端重定向时，没必要再进一次该Filter）
+4. `@EnableRedisHttpSession`的优先级是高于yml中`spring.session`的配置，即使用时二选一，如果不区分环境，使用注解，如果区分环境，则使用yml中`spring.session`配置。
 
 #### 缺陷
 1. 无法做到 Session 的过期以及销毁事件的实时发布(redis的惰性删除，如果长时间无访问或者无操作spring session，session即使过期了也不会删除)

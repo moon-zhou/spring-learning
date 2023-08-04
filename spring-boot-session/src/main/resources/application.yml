@@ -3,6 +3,9 @@ server:
 spring:
   session: # 设置session存储类型
     store-type: redis
+    timeout: 10m
+    redis:
+      namespace: moon:session
   redis: # 配置redis
     port: 6379
     host: localhost
