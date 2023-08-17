@@ -270,6 +270,193 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "multiimpl",
+			"item": [
+				{
+					"name": "detail step 00 approve",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/process/detail/000/00/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"process",
+								"detail",
+								"000",
+								"00",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "detail step 01 approve",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/process/detail/111/01/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"process",
+								"detail",
+								"111",
+								"01",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "detail step 02 approve",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/process/detail/222/02/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"process",
+								"detail",
+								"222",
+								"02",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "detail step 03 approve",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/process/detail/333/03/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"process",
+								"detail",
+								"333",
+								"03",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "approve step 01",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"111\",\n    \"approvalComment\": \"manager approve\",\n    \"approvalAction\": \"01\",\n    \"confirmLastWorkingDay\": \"2023-08-17\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/process/approve/01",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"process",
+								"approve",
+								"01"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "approve step 02",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"111\",\n    \"approvalComment\": \"commissioner approve\",\n    \"approvalAction\": \"01\",\n    \"valuation\": \"good\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/process/approve/02",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"process",
+								"approve",
+								"02"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "approve step 03",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"111\",\n    \"approvalComment\": \"hr manager approve\",\n    \"approvalAction\": \"01\",\n    \"nextCompany\": \"my company\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/process/approve/03",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"process",
+								"approve",
+								"03"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
