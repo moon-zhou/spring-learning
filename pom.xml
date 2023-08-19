@@ -117,6 +117,9 @@
         <!-- spring boot 集成 spring session -->
         <module>spring-boot-session</module>
 
+        <!-- spring boot 集成 spring cache -->
+        <module>spring-boot-cache</module>
+
         <!-- Filter Interceptor AOP Advice -->
         <module>spring-boot-fiaa</module>
 
