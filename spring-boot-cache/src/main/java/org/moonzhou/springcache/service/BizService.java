@@ -3,6 +3,7 @@ package org.moonzhou.springcache.service;
 import lombok.extern.slf4j.Slf4j;
 import org.moonzhou.springcache.dto.BizDto;
 import org.moonzhou.springcache.param.BizParam;
+import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -38,14 +39,31 @@ public class BizService {
         return bizDto;
     }
 
-    @CachePut(cacheNames = "BizDto", key = "#bizParam.id")
-    public void updateById(BizParam bizParam) {
+    @CachePut(cacheNames = "bizDto", key = "#bizParam.id")
+    public BizDto updateById(BizParam bizParam) {
         // 更新数据库中的产品信息
+        log.info("mock biz, update by id...");
+
+        BizDto bizDto = new BizDto();
+        BeanUtils.copyProperties(bizParam, bizDto);
+
+        return bizDto;
     }
 
-    @CacheEvict(cacheNames = "BizDto", key = "#id")
-    public void deleteProduct(String id) {
-        // 从数据库中删除产品信息
+    @CachePut(value = "bizDto", key = "#bizParam.id")
+    public BizDto save(BizParam bizParam) {
+        // 保存数据
+        log.info("mock biz, save data...");
 
+        BizDto bizDto = new BizDto();
+        BeanUtils.copyProperties(bizParam, bizDto);
+
+        return bizDto;
+    }
+
+    @CacheEvict(value = "bizDto", key = "#id", beforeInvocation = true)
+    public void deleteById(Long id) {
+        // 从数据库中删除产品信息
+        log.info("mock biz, delete data...");
     }
 }
