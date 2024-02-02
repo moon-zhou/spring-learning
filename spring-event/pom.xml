@@ -12,7 +12,7 @@
     <artifactId>spring-event</artifactId>
 
     <properties>
-        <spring.version>5.2.9.RELEASE</spring.version>
+        <spring.version>5.2.22.RELEASE</spring.version>
         <junit.version>4.13.2</junit.version>
         <lombok.version>1.18.20</lombok.version>
     </properties>
