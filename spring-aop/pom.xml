@@ -12,7 +12,7 @@
     <artifactId>spring-aop</artifactId>
 
     <properties>
-        <spring.version>5.2.9.RELEASE</spring.version>
+        <spring.version>5.2.22.RELEASE</spring.version>
         <aspectj.version>1.9.6</aspectj.version>
         <junit.version>4.13.2</junit.version>
     </properties>
