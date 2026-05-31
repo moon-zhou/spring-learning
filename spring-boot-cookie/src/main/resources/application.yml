@@ -4,6 +4,11 @@ spring:
 
 server:
   port: 8080
+  ssl:
+    enabled: true
+    key-store: classpath:moon-https-certificate.jks
+    key-store-password: moon123
+    key-store-type: JKS
   servlet:
     session:
       cookie:

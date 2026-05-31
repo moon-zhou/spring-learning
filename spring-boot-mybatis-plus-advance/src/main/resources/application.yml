@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    dynamic:
+      primary: mysql
+      strict: false
+      datasource:
+        mysql:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://localhost:3306/moon_mybatis_plus_advance?serverTimezone=Asia/Shanghai
+          username: root
+          password:
+        postgresql:
+          driver-class-name: org.postgresql.Driver
+          url: jdbc:postgresql://127.0.0.1:5432/moon?currentSchema=moon_mybatis_plus_advance
+          username: moon
+          password: moon
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
